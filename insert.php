@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang='de'>
 <head>
 <meta charset="utf-8">
@@ -14,12 +14,6 @@
   integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
   crossorigin="anonymous"></script>
 
-<style>
-  .description-p{
-    background-color: white;
-  }
-</style>
-
 </head>
 <body>
 <header id="luxbar" class="luxbar-static">
@@ -27,40 +21,45 @@
   <div class="luxbar-menu luxbar-menu-right luxbar-menu-dark">
     <ul class="luxbar-navigation">
       <li class="luxbar-header">
-        <a href="../../index.html" class="luxbar-brand">PHP playground</a>
+        <a href="../index.html" class="luxbar-brand"></a>
           <label class="luxbar-hamburger luxbar-hamburger-spin"
           id="luxbar-hamburger" for="luxbar-checkbox"> <span></span> </label>
       </li>
-      <li class="luxbar-item"><a href="" id="">Multiplication</a></li>
-      <li class="luxbar-item"><a href="" id="">Table</a></li>
-      <li class="luxbar-item"><a href="" id="">Sort</a></li>
+      <li class="luxbar-item"><a href="" id=""></a></li>
     </ul>
   </div>
 </header>
 <div class="container-fluid">
-  <h1>Basic CMS System</h1>
-<p class="description-p">
-<?php
-  require('db_password.php');
-  $con = new mysqli($servername, $username, $password, $dbname);
+  <h1>Thanks for submitting!</h1>
+  <?php
+    $success = False;
+    $title = $_POST['title'];
+    $content = $_POST['content'];
 
-  if ($con->connect_error){
-    die('connection failed');
-  }
+    require('db_password.php');
+    $con = new mysqli($servername, $username, $password, $dbname);
 
-  $query = 'SELECT * FROM feed';
-  $result = $con->query($query);
-
-  if ($result->num_rows > 0){
-    while ($row = $result->fetch_assoc()) {
-      echo $row['id'] . '<br>' . $row['title'] . '<br>' . $row['content'];
+    if ($con->connect_error){
+      die('connection failed');
     }
-  }
-  $con->close();
-?>
-</p>
-<br>
-<a class="btn btn-primary" href='client.php'>Add content</a>
+
+    $query = "INSERT INTO feed (title, content) VALUES ('$title', '$content');";
+
+    if ($con->query($query) === TRUE) {
+      echo "New record created successfully";
+    } else {
+      echo "Error: " . $query. "<br>" . $conn->error;
+    }
+
+    $con->close();
+  ?>
+  <p class="description-p">Your changes have
+    <?php
+
+  ?>
+   been submitted.
+
+  <br><a href="feed.php">Here</a> you can check out your changes.</p>
 </div>
 <footer class='footer navbar-fixed-bottom'>
   2017@Philipp Merz
