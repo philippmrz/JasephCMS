@@ -1,15 +1,29 @@
-html, body {
+@import url(https://fonts.googleapis.com/css?family=Open+Sans|Inconsolata);
+
+html {
+  position: relative;
   padding: 0;
   margin: 0;
-  background: black;
+  background: #000;
   color: #20C20E;
-  font-family: "Open Sans";
+  font-family: "Inconsolata";
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 25px;
 }
 
 #header {
   background: #111;
   height: 25px;
+  width: 100%;
+  position: absolute;
   text-align: center;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  border-bottom: 1px solid #222;
 }
 
 #header a {
@@ -21,12 +35,49 @@ html, body {
   background: #111;
   margin: 50px 20% 50px 20%;
   padding: 30px 2.5% 30px 2.5%;
+  border: 1px solid #222;
+}
+
+.post {
+  background: #111;
+  margin: 30px 10px 30px 10px;
+  padding: 10px;
+  border: 1px solid #222;
+  min-height: 60px;
+}
+
+.postinfo {
+  background: #111;
+  padding: 5px;
+  border: 1px solid #222;
+  float: left;
+  height: 100%;
+}
+
+.posttitle {
+  background: #111;
+  padding: 5px;
+  border: 1px solid #222;
+  font-weight: bold;
+  min-height: 24px;
+  display: flex;
+  position: relative;
+}
+
+.posttext {
+  background: #111;
+  padding: 5px;
+  border: 1px solid #222;
+  min-height: 24px;
+  display: flex;
+  position: relative;
 }
 
 #content {
   background: #111;
   margin: 50px 20% 50px 20%;
   padding: 30px 2.5% 30px 2.5%;
+  border: 1px solid #222;
 }
 
 #footer {
@@ -36,17 +87,23 @@ html, body {
   position: absolute;
   text-align: center;
   bottom: 0;
+  left: 0;
+  overflow: hidden;
+  border-top: 1px solid #222;
 }
 
 #titleField {
-  width: 500px;
+  width: 100%;
   background: #000;
   color: #20C20E;
   border: 1px solid #aaa;
+  font-family: "Open Sans";
 }
 
 #contentArea {
+  width: 100%;
   background: #000;
   color: #20C20E;
   border: 1px solid #aaa;
+  font-family: "Open Sans";
 }

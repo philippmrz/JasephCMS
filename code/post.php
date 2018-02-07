@@ -3,7 +3,6 @@
 <head>
   <link rel="icon" href="../icon_0.png"/>
   <link rel="stylesheet" href="style/normal.css" id="pagestyle"/>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans"/>
   <script src="script/script.js"></script>
   <title>jaseph</title>
 </head>
@@ -11,7 +10,7 @@
   <div id="header">
     <a href="index.php">jaseph</a>
   </div>
-  <div id="content">
+  <div class="content">
     <?php
     // Credentials for this server
     require('credentials.php');
@@ -25,12 +24,12 @@
       $success = false;
     }
 
-    if (!$link = mysqli_connect($servername, $username, $password)) { // Connects to the mysql using above credentials
+    if(!$link = mysqli_connect($servername, $username, $password)) { // Connects to the mysql using above credentials
       echo 'Could not connect to mysql server.<br>';
       $success = false;
     }
 
-    if (!mysqli_select_db($link, $dbname)) { // Selects the $dbname database (in this case jaseph)
+    if(!mysqli_select_db($link, $dbname)) { // Selects the $dbname database (in this case jaseph)
       echo 'Could not select mysql database.<br>';
       $success = false;
     }
@@ -43,15 +42,17 @@
 
     $sql = "INSERT INTO $posttable (userid, title, content) VALUES ('$userid', '$title', '$content')"; // Inserts data into the 'post' database
 
-    if (mysqli_query($link, $sql)) { // Runs mysql query
-        echo "New record created successfully<br>";
+    if(mysqli_query($link, $sql)) { // Runs mysql query
+        echo "New record created successfully.<br>";
     } else {
         echo "Error: $sql<br>" . mysqli_error($link) . '<br>';
     }
 
     mysqli_close($link); // Closes mysql connection
 
-  } else {echo 'failed<br>';}
+  } else {
+    echo 'failed<br>';
+  }
     ?>
     <br>
     <button id="swapper" onclick="swapStyle()">Hacker Mode</button>
