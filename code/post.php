@@ -14,29 +14,28 @@
   <div id="content">
     <?php
     // Credentials for this server
-    $servername = 'localhost';
-    $username   = 'root';
-    $password   = '';
-    $dbname     = 'jaseph';
-    $usertable  = 'user';
-    $posttable  = 'post';
+    require('credentials.php');
+
+    $success = true;
 
     print_r($_POST); // Debug, prints out contents of form
-
+    echo '<br>';
     if(!isset($_POST["title"]) || empty($_POST["title"]) || ctype_space($_POST["title"])) { //Check if the title is not set/empty/only spaces. Exit if true.
-      echo 'Title must not be empty!';
-      goto exit_;//return;
+      echo 'Title must not be empty!<br>';
+      $success = false;
     }
 
     if (!$link = mysqli_connect($servername, $username, $password)) { // Connects to the mysql using above credentials
-      echo 'Could not connect to mysql server';
-      goto exit_;//return;
+      echo 'Could not connect to mysql server.<br>';
+      $success = false;
     }
 
     if (!mysqli_select_db($link, $dbname)) { // Selects the $dbname database (in this case jaseph)
-      echo 'Could not select mysql database.';
-      goto exit_;//return;
+      echo 'Could not select mysql database.<br>';
+      $success = false;
     }
+
+    if($success) {
 
     $userid  = 1; // Temporary userid for sprint
     $title   = $_POST["title"];
@@ -45,13 +44,14 @@
     $sql = "INSERT INTO $posttable (userid, title, content) VALUES ('$userid', '$title', '$content')"; // Inserts data into the 'post' database
 
     if (mysqli_query($link, $sql)) { // Runs mysql query
-        echo "New record created successfully";
+        echo "New record created successfully<br>";
     } else {
-        echo "Error: " . $sql . "<br>" . mysqli_error($link);
+        echo "Error: $sql<br>" . mysqli_error($link) . '<br>';
     }
 
     mysqli_close($link); // Closes mysql connection
-    exit_: ; // Workaround, if 'exit;' was used, it would ignore further actions, such as the following html block.
+
+  } else {echo 'failed<br>';}
     ?>
     <br>
     <button id="swapper" onclick="swapStyle()">Hacker Mode</button>
