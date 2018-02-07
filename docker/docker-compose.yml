@@ -1,0 +1,24 @@
+version: '3.4'
+services:
+  db:
+    image: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+  web:
+    build:
+      context: ../
+      dockerfile: ./docker
+    volumes:
+      - ../code/:/var/www/html/
+      - ./site.conf:/etc/nginx/conf.d/site.conf
+    ports:
+      - '8000:80'
+    depends_on:
+      - db
+  php:
+    image: php:7-fpm
+    volumes:
+      - ../code/:/var/www/html/
+    ports:
+      - '9000:9000'
