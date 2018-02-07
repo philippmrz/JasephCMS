@@ -1,0 +1,52 @@
+html, body {
+  padding: 0;
+  margin: 0;
+  background: #fff;
+  color: #000;
+  font-family: "Open Sans";
+}
+
+#header {
+  background: #ddd;
+  height: 25px;
+  text-align: center;
+}
+
+#header a {
+  text-decoration: none;
+  color: #000;
+}
+
+.continent {
+  background: #ddd;
+  margin: 50px 20% 50px 20%;
+  padding: 30px 2.5% 30px 2.5%;
+}
+
+#content {
+  background: #ddd;
+  margin: 50px 20% 50px 20%;
+  padding: 30px 2.5% 30px 2.5%;
+}
+
+#footer {
+  background: #ddd;
+  height: 25px;
+  width: 100%;
+  position: absolute;
+  text-align: center;
+  bottom: 0;
+}
+
+#titleField {
+  width: 500px;
+  background: #fff;
+  color: #000;
+  border: 1px solid #aaa;
+}
+
+#contentArea {
+  background: #fff;
+  color: #000;
+  border: 1px solid #aaa;
+}
