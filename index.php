@@ -1,10 +1,10 @@
 <!doctype html>
 <html>
 <head>
-  <link rel="icon" href="../icon_0.png"/>
-  <link rel="stylesheet" href="style/normal.css" id="pagestyle"/>
+  <link rel="icon" href="assets/icon_0.png"/>
+  <link rel="stylesheet" href="code/style/normal.css" id="pagestyle"/>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans"/>
-  <script src="script/script.js"></script>
+  <script src="code/script/script.js"></script>
   <title>jaseph</title>
 </head>
 <body>
@@ -12,7 +12,7 @@
     <a href="index.php">jaseph</a>
   </div>
   <div class="continent">
-    <form action="newpost.php"><button>New Post</button></form>
+    <form action="code/newpost.php"><button>New Post</button></form>
   </div>
   <div id="content">
     <?php
@@ -20,7 +20,7 @@
     This doesn't quite work yet. :thinking:
     */
     // Credentials for this server
-    require('credentials.php');
+    require('code/credentials.php');
 
     $success = true;
 
