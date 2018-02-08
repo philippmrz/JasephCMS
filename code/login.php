@@ -3,7 +3,6 @@
 <head>
   <link rel="icon" href="../assets/icon_0.png"/>
   <link rel="stylesheet" href="style/normal.css" id="pagestyle"/>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans"/>
   <script src="script/script.js"></script>
   <title>jaseph</title>
 </head>
