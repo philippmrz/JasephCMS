@@ -50,7 +50,11 @@
     while($row = mysqli_fetch_assoc($result)) {
       foreach($row as $val) {
         if(strtolower($reguser) == strtolower($val)) {
+<<<<<<< HEAD
           echo 'Username exists already.<br>';
+=======
+          echo 'Username exists already.';
+>>>>>>> 3d4bf909077d741963a95a22e5c7b6e0f3307098
           $check = false;
         }
       }
