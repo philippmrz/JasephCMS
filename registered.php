@@ -46,18 +46,22 @@
     }
 
     echo '<br>';
+    $check = true;
     while($row = mysqli_fetch_assoc($result)) {
       foreach($row as $val) {
         if(strtolower($reguser) == strtolower($val)) {
-          echo 'Username exists already.';
-        } else {
-          $sql = "INSERT INTO user (USERNAME, PASSWORD, EMAIL) VALUES ('$reguser', '$userpass', '$email')";
-          if(mysqli_query($link, $sql)) { // Runs mysql query
-            echo "New record created successfully.<br>";
-          } else {
-            echo "Error: $sql<br>" . mysqli_error($link) . '<br>';
-          }
+          echo 'Username exists already.<br>';
+          $check = false;
         }
+      }
+    }
+
+    if($check) {
+      $sql = "INSERT INTO user (USERNAME, PASSWORD, EMAIL) VALUES ('$reguser', '$userpass', '$email')";
+      if(mysqli_query($link, $sql)) { // Runs mysql query
+        echo "New record created successfully.<br>";
+      } else {
+        echo "Error: $sql<br>" . mysqli_error($link) . '<br>';
       }
     }
 
