@@ -79,6 +79,8 @@
     }
     ?>
     <button id="swapper" onclick="swapStyle()">Hacker Mode</button>
+    <!--button onclick="cooCheck()">Check Mate</button>-->
+    <!--<button onclick="deleteAllCookies()">Delete Cookies</button>-->
   </div>
   <div id="footer">
     Created as a school project by Jakob Mainka, Philipp Merz and Sebastian Scheinert
