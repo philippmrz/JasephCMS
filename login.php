@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 <head>
-  <link rel="icon" href="../assets/icon_0.png"/>
+  <link rel="icon" href="assets/icon_0.png"/>
   <link rel="stylesheet" href="style/normal.css" id="pagestyle"/>
   <script src="script/script.js"></script>
   <title>jaseph</title>
