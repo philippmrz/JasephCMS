@@ -16,7 +16,7 @@
   <div class="content">
     <?php
     // Credentials for this server
-    require('credentials.php');
+    require('code/credentials.php');
 
     $success = true;
 
