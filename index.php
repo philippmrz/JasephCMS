@@ -11,12 +11,12 @@
     <a href="index.php">jaseph</a>
   </div>
   <div class="content">
-    <form action="newpost.php"><button>New Post</button></form>
+    <form action="newpost.php" method="POST"><button>New Post</button></form>
   </div>
   <div class="content">
     <?php
     // Credentials for this server
-    require('code/credentials.php');
+    require('credentials.php');
 
     $success = true;
 

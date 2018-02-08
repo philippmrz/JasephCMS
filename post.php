@@ -8,7 +8,7 @@
 </head>
 <body>
   <div id="header">
-    <a href="../index.php">jaseph</a>
+    <a href="index.php">jaseph</a>
   </div>
   <div class="content">
     <?php
