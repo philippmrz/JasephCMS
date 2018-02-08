@@ -31,26 +31,33 @@ body {
   color: #20C20E;
 }
 
-.continent {
+.content {
   background: #111;
   margin: 50px 20% 50px 20%;
   padding: 30px 2.5% 30px 2.5%;
   border: 1px solid #222;
+  border-radius: 5px;
 }
 
 .post {
   background: #111;
-  margin: 30px 10px 30px 10px;
+  margin: 0px 10px 30px 10px;
   padding: 10px;
   border: 1px solid #222;
+  border-radius: 5px;
   min-height: 60px;
+  width: 100%;
+  display: table;
 }
 
 .postinfo {
   background: #111;
   padding: 5px;
   border: 1px solid #222;
-  float: left;
+  border-radius: 5px 0 0 5px;
+  /*float: left;*/
+  width: 100px;
+  display: table-cell;
   height: 100%;
 }
 
@@ -58,6 +65,7 @@ body {
   background: #111;
   padding: 5px;
   border: 1px solid #222;
+  border-radius: 0 5px 0 0;
   font-weight: bold;
   min-height: 24px;
   display: flex;
@@ -68,16 +76,9 @@ body {
   background: #111;
   padding: 5px;
   border: 1px solid #222;
-  min-height: 24px;
-  display: flex;
-  position: relative;
-}
-
-#content {
-  background: #111;
-  margin: 50px 20% 50px 20%;
-  padding: 30px 2.5% 30px 2.5%;
-  border: 1px solid #222;
+  border-radius: 0 0 5px 0;
+  min-height: 40px;
+  display: block;
 }
 
 #footer {
@@ -90,20 +91,21 @@ body {
   left: 0;
   overflow: hidden;
   border-top: 1px solid #222;
+  border-radius: 5px;
 }
 
 #titleField {
   width: 100%;
-  background: #000;
+  background: #111;
   color: #20C20E;
   border: 1px solid #aaa;
-  font-family: "Open Sans";
+  font-family: "Inconsolata";
 }
 
 #contentArea {
   width: 100%;
-  background: #000;
+  background: #111;
   color: #20C20E;
   border: 1px solid #aaa;
-  font-family: "Open Sans";
+  font-family: "Inconsolata";
 }
