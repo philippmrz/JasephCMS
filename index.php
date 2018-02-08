@@ -64,10 +64,10 @@
       echo "$uname<br>$date";
       echo '</div>';
       echo '<div class="posttitle">';
-      echo "$title";
+      echo $title;
       echo '</div>';
       echo '<div class="posttext">';
-      echo "$content";
+      echo nl2br($content);
       echo '</div>';
       echo '</div>';
     }

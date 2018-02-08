@@ -37,8 +37,8 @@
     if($success) {
 
     $userid  = 1; // Temporary userid for sprint
-    $title   = $_POST["title"];
-    $content = $_POST["content"];
+    $title   = mysqli_real_escape_string($link,$_POST["title"]);
+    $content = mysqli_real_escape_string($link,$_POST["content"]);
 
     $sql = "INSERT INTO $posttable (userid, title, content) VALUES ('$userid', '$title', '$content')"; // Inserts data into the 'post' database
 
