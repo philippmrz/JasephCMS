@@ -1,10 +1,8 @@
 <!doctype html>
 <html>
 <head>
-  <link rel="icon" href="assets/icon_0.png"/>
-  <link rel="stylesheet" href="style/normal.css" id="pagestyle"/>
-  <script src="script/script.js"></script>
-  <title>jaseph</title>
+<head>
+  <?php require('head.php');?>
 </head>
 <body>
   <div id="header">
@@ -58,7 +56,7 @@
     <button id="swapper" onclick="swapStyle()">Hacker Mode</button>
   </div>
   <div id="footer">
-    Created as a school project by Jakob Mainka, Philipp Merz and Sebastian Scheinert
+    <a href="https://github.com/phmrz/JasephCMS" title="Check out the main branch of this page on GitHub!">Created as a school project by Jakob Mainka, Philipp Merz and Sebastian Scheinert</a>
   </div>
 </body>
 </html>

@@ -58,5 +58,4 @@ function updateStyle() {
   }
   console.log("Updated style.");
 }
-
 window.onload = updateStyle;

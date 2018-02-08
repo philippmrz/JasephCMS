@@ -11,6 +11,7 @@ html {
 }
 
 body {
+  background: #000;
   margin-bottom: 25px;
   height: 100%;
   overflow-x: hidden;
@@ -100,6 +101,11 @@ body {
   overflow: hidden;
   border-top: 1px solid #222;
   border-radius: 5px;
+}
+
+#footer a {
+  text-decoration: none;
+  color: #20C20E;
 }
 
 #titleField {
