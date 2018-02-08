@@ -50,9 +50,11 @@ function updateStyle() {
   if(getCookie("theme") == "hacker") {
     document.getElementById('swapper').innerHTML = 'Normie Mode';
     document.getElementById('pagestyle').setAttribute('href', 'style/hacker.css');
+    document.getElementById('headerimg').setAttribute('src', 'assets/jaseph_hacker.png');
   } else {
     document.getElementById('swapper').innerHTML = 'Hacker Mode';
     document.getElementById('pagestyle').setAttribute('href', 'style/normal.css');
+    document.getElementById('headerimg').setAttribute('src', 'assets/jaseph_black.png');
   }
   console.log("Updated style.");
 }
