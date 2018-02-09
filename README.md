@@ -1,6 +1,6 @@
 <img src=https://raw.githubusercontent.com/Kaeks/JasephCMS/master/assets/jaseph_black.png width=250px>
 
-Jaseph Content Management System created by <a href=https://github.com/phmrz>phmrz</a>, <a href=https://github.com/Kaeks>Kaeks</a> and z̴̰̦̳͙̹̹̏͆͂͂̄͂̽̉͟͢ͅà̛̘̺̪͎̳̲̭͉̂̅̓̐ͅb̵̨̦͔̮̙̳̭͑͒͂̓̉y̸̛̳̭̻͍̰͕̓̏̐̿͋͒͛̿̉.
+Jaseph Content Management System created by <a href=https://github.com/phmrz>phmrz</a>, <a href=https://github.com/Kaeks>Kaeks</a> and <a href=https://github.com/Zaby0>Zaby0</a>.
 
 This CMS is still in an early stage and does not include **any** security measures regarding user database (passwords).
 
