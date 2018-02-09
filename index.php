@@ -1,19 +1,17 @@
 <!doctype html>
 <html>
 <head>
-  <?php require('head.php');?>
+  <?php require('require/head.php');?>
 </head>
 <body>
-  <div id="header">
-    <a href="index.php" title="jaseph.com"><img id="headerimg" src="assets/jaseph_black.png"/></a>
-  </div>
+  <?php require('require/header.php');?>
   <div class="content">
-    <form action="newpost.php" method="POST"><button>New Post</button></form>
+    <form action="newpost" method="POST"><button>New Post</button></form>
   </div>
   <div class="content">
     <?php
     // Credentials for this server
-    require('credentials.php');
+    require('require/credentials.php');
 
     $success = true;
 
@@ -75,7 +73,6 @@
       echo 'failed<br>';
     }
     ?>
-    <button id="swapper" onclick="swapStyle()">Hacker Mode</button>
     <!--button onclick="cooCheck()">Check Mate</button>-->
     <!--<button onclick="deleteAllCookies()">Delete Cookies</button>-->
   </div>

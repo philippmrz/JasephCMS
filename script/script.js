@@ -1,4 +1,4 @@
-function setCookie(cname, val, time) {
+function setCookie(cname, val, time) { // for time use new Date(years, months, days, hours, minutes, seconds, milliseconds);
   var now = new Date();
   if(time != null) {
     var expiry = new Date(now.getTime() + time);
@@ -38,7 +38,7 @@ function deleteAllCookies() {
 }
 
 function swapStyle() {
-  if(document.getElementById('swapper').innerHTML == 'Normie Mode') {
+  if(getCookie("theme") == "hacker") {
     setCookie("theme", "normal");
   } else {
     setCookie("theme", "hacker");
@@ -48,13 +48,13 @@ function swapStyle() {
 
 function updateStyle() {
   if(getCookie("theme") == "hacker") {
-    document.getElementById('swapper').innerHTML = 'Normie Mode';
     document.getElementById('pagestyle').setAttribute('href', 'style/hacker.css');
     document.getElementById('headerimg').setAttribute('src', 'assets/jaseph_hacker.png');
+    document.getElementById('themeselector').setAttribute('src', 'assets/themes_hacker.png');
   } else {
-    document.getElementById('swapper').innerHTML = 'Hacker Mode';
     document.getElementById('pagestyle').setAttribute('href', 'style/normal.css');
     document.getElementById('headerimg').setAttribute('src', 'assets/jaseph_black.png');
+    document.getElementById('themeselector').setAttribute('src', 'assets/themes_black.png');
   }
   console.log("Updated style.");
 }

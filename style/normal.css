@@ -40,6 +40,14 @@ body {
   margin: 0;
 }
 
+#header #themeselector {
+  position: absolute;
+  right: 0;
+  margin-right: 30px;
+  cursor: pointer;
+  height: 25px;
+}
+
 .content {
   background: #fff;
   margin: 50px 20% 50px 20%;
