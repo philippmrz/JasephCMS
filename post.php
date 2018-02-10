@@ -1,19 +1,14 @@
 <!doctype html>
 <html>
 <head>
-  <link rel="icon" href="assets/icon_0.png"/>
-  <link rel="stylesheet" href="style/normal.css" id="pagestyle"/>
-  <script src="script/script.js"></script>
-  <title>jaseph</title>
+  <?php require('require/head.php');?>
 </head>
 <body>
-  <div id="header">
-    <a href="index.php">jaseph</a>
-  </div>
+  <?php require('require/header.php');?>
   <div class="content">
     <?php
     // Credentials for this server
-    require('credentials.php');
+    require('require/credentials.php');
 
     $success = true;
 
@@ -55,10 +50,9 @@
   }
     ?>
     <br>
-    <button id="swapper" onclick="swapStyle()">Hacker Mode</button>
   </div>
   <div id="footer">
-    Created as a school project by Jakob Mainka, Philipp Merz and Sebastian Scheinert
+    <a href="https://github.com/phmrz/JasephCMS" title="Check out the main branch of this page on GitHub!">Created as a school project by Jakob Mainka, Philipp Merz and Sebastian Scheinert</a>
   </div>
 </body>
 </html>
