@@ -1,2 +1,3 @@
 docker/mysql/*
 !docker/mysql/jaseph
+credentials.php
