@@ -24,6 +24,7 @@
       echo 'Could not select mysql database.<br>';
       $success = false;
     }
+
     if($success) {
 
     $sql = "SELECT * FROM $usertable U, $posttable P WHERE U.USERID = P.USERID ORDER BY DATE DESC";

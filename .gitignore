@@ -1,1 +1,2 @@
-db_password.php
+!docker/mysql/jaseph
+docker/mysql/*
