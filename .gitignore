@@ -1,2 +1,2 @@
-!docker/mysql/jaseph
 docker/mysql/*
+!docker/mysql/jaseph
