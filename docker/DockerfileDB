@@ -1,0 +1,2 @@
+FROM phmrz/jasephdb
+COPY jaseph.sql /docker-entrypoint-initdb.d/jaseph.sql
