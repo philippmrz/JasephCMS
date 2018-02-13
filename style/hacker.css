@@ -1,133 +1,131 @@
-@import url(https://fonts.googleapis.com/css?family=Open+Sans|Inconsolata);
-
 html {
-  position: relative;
-  padding: 0;
-  margin: 0;
-  background: #000;
-  color: #20C20E;
-  font-family: "Inconsolata";
-  min-height: 100%;
+    position: relative;
+    padding: 0;
+    margin: 0;
+    background: #000;
+    color: #20C20E;
+    font-family: "Inconsolata";
+    min-height: 100%;
 }
 
 body {
-  background: #000;
-  margin-bottom: 25px;
-  height: 100%;
-  overflow-x: hidden;
+    background: #000;
+    margin-bottom: 25px;
+    height: 100%;
+    overflow-x: hidden;
 }
 
 #header {
-  background: #111;
-  height: 25px;
-  width: 100%;
-  padding: 10px;
-  position: absolute;
-  text-align: center;
-  top: 0;
-  left: 0;
-  overflow: hidden;
-  border-bottom: 1px solid #222;
+    background: #111;
+    height: 25px;
+    width: 100%;
+    padding: 10px;
+    position: absolute;
+    text-align: center;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    border-bottom: 1px solid #222;
 }
 
 #header a {
-  text-decoration: none;
-  color: #20C20E;
+    text-decoration: none;
+    color: #20C20E;
 }
 
 #header a #headerimg {
-  height: 25px;
-  margin: 0;
+    height: 25px;
+    margin: 0;
 }
 
 #header #themeselector {
-  position: absolute;
-  right: 0;
-  margin-right: 30px;
-  cursor: pointer;
-  height: 25px;
+    position: absolute;
+    right: 0;
+    margin-right: 30px;
+    cursor: pointer;
+    height: 25px;
 }
 
 .content {
-  background: #111;
-  margin: 50px 20% 50px 20%;
-  padding: 30px 2.5% 30px 2.5%;
-  border: 1px solid #222;
-  border-radius: 5px;
+    background: #111;
+    margin: 50px 20% 50px 20%;
+    padding: 30px 2.5% 30px 2.5%;
+    border: 1px solid #222;
+    border-radius: 5px;
 }
 
 .post {
-  background: #111;
-  margin: 0px 10px 30px 10px;
-  padding: 10px;
-  border: 1px solid #222;
-  border-radius: 5px;
-  min-height: 60px;
-  width: 100%;
-  display: table;
+    background: #111;
+    margin: 0px 10px 30px 10px;
+    padding: 10px;
+    border: 1px solid #222;
+    border-radius: 5px;
+    min-height: 60px;
+    width: 100%;
+    display: table;
 }
 
 .postinfo {
-  background: #111;
-  padding: 5px;
-  border: 1px solid #222;
-  border-radius: 5px 0 0 5px;
-  /*float: left;*/
-  width: 100px;
-  display: table-cell;
-  height: 100%;
+    background: #111;
+    padding: 5px;
+    border: 1px solid #222;
+    border-radius: 5px 0 0 5px;
+    /*float: left;*/
+    width: 100px;
+    display: table-cell;
+    height: 100%;
 }
 
 .posttitle {
-  background: #111;
-  padding: 5px;
-  border: 1px solid #222;
-  border-radius: 0 5px 0 0;
-  font-weight: bold;
-  min-height: 24px;
-  display: flex;
-  position: relative;
+    background: #111;
+    padding: 5px;
+    border: 1px solid #222;
+    border-radius: 0 5px 0 0;
+    font-weight: bold;
+    min-height: 24px;
+    display: flex;
+    position: relative;
 }
 
 .posttext {
-  background: #111;
-  padding: 5px;
-  border: 1px solid #222;
-  border-radius: 0 0 5px 0;
-  min-height: 40px;
-  display: block;
+    background: #111;
+    padding: 5px;
+    border: 1px solid #222;
+    border-radius: 0 0 5px 0;
+    min-height: 40px;
+    display: block;
 }
 
 #footer {
-  background: #111;
-  height: 25px;
-  width: 100%;
-  position: absolute;
-  text-align: center;
-  bottom: 0;
-  left: 0;
-  overflow: hidden;
-  border-top: 1px solid #222;
-  border-radius: 5px;
+    background: #111;
+    height: 25px;
+    width: 100%;
+    position: absolute;
+    text-align: center;
+    bottom: 0;
+    left: 0;
+    overflow: hidden;
+    border-top: 1px solid #222;
+    border-radius: 5px;
 }
 
 #footer a {
-  text-decoration: none;
-  color: #20C20E;
+    text-decoration: none;
+    color: #20C20E;
 }
 
 #titleField {
-  width: 100%;
-  background: #111;
-  color: #20C20E;
-  border: 1px solid #aaa;
-  font-family: "Inconsolata";
+    width: 100%;
+    background: #111;
+    color: #20C20E;
+    border: 1px solid #aaa;
+    font-family: "Inconsolata";
 }
 
 #contentArea {
-  width: 100%;
-  background: #111;
-  color: #20C20E;
-  border: 1px solid #aaa;
-  font-family: "Inconsolata";
+    width: 100%;
+    background: #111;
+    color: #20C20E;
+    border: 1px solid #aaa;
+    font-family: "Inconsolata";
 }
