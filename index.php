@@ -24,7 +24,12 @@ if ($mysqli->connect_errno) {
 $query = "SELECT TITLE, CONTENT FROM $posttable";
 
 if ($result = $mysqli->query($query)) {
-    printf("Select returned %d rows.", $result->num_rows);
+
+    while ($row = $result->fetch_assoc()) {
+        echo "Title: ", $row['TITLE'], "<br>", " Content: ", $row["CONTENT"];
+        echo "<br><br>";
+    }
+
 } else {
     echo "Couldn't query database, try again";
 }
