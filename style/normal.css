@@ -1,49 +1,64 @@
-html {
-    position: relative;
+* {
+    box-sizing: border-box;
     padding: 0;
     margin: 0;
-    background: #f1f1f1;
-    color: #000;
-    font-family: "Open Sans";
+}
+
+html {
+    padding: 0;
+    margin: 0;
+    background: white;
+    color: #212121;
+    font-family: "Lato", sans-serif;
     min-height: 100%;
 }
 
 body {
-    background: #f1f1f1;
-    margin-bottom: 25px;
-    height: 100%;
-    overflow-x: hidden;
-}
-
-#header {
-    background: #fff;
-    height: 25px;
-    width: 100%;
-    padding: 10px;
-    position: absolute;
-    text-align: center;
-    top: 0;
-    left: 0;
-    overflow: hidden;
-    border-bottom: 1px solid #e2e2e2;
-}
-
-#header a {
-    text-decoration: none;
-    color: #000;
-}
-
-#header a #headerimg {
-    height: 25px;
+    padding: 0;
     margin: 0;
 }
 
-#header #themeselector {
+#head-wrap {
+    position: relative;
+    width: 100vw;
+    height: 10vh;
+    box-shadow: 0 2px 6px 0 rgba(0, 0, 0, .12), inset 0 -1px 0 0 #dadce0;
+}
+
+#head-logo {
+    width: 10vw;
+    min-width: 100px;
     position: absolute;
-    right: 0;
-    margin-right: 30px;
-    cursor: pointer;
-    height: 25px;
+    left: 3vw;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+#btn-holder {
+    position: absolute;
+    right: 3vw;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.btn {
+    margin: 0 10px;
+    border: none;
+    padding: 5px 10px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+#login {
+    background-color: transparent;
+    color: rgb(255, 118, 20);
+}
+
+#register {
+    background-color: rgb(255, 118, 20);
+    border: 2px solid rgb(255, 118, 20);
+    border-radius: 5px;
+    color: white;
 }
 
 .content {

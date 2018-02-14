@@ -7,6 +7,7 @@
 
 <body>
   <?php require 'require/header.php';?>
+
   <div class="content">
     <form action="newpost" method="POST"><button>New Post</button></form>
   </div>
