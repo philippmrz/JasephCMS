@@ -1,19 +1,19 @@
 function setCookie(cname, val, time) { // for time use new Date(years, months, days, hours, minutes, seconds, milliseconds);
-  var now = new Date();
-  if(time != null) {
-    var expiry = new Date(now.getTime() + time);
-    document.cookie = cname + "=" + val + "; expires=" + expiry.toUTCString() + ";";
-  } else {
-    document.cookie = cname + "=" + val + "; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=";
-  }
-  console.log("Set value of cookie '" + cname + "' to '" + val + "'");
+    var now = new Date();
+    if (time != null) {
+        var expiry = new Date(now.getTime() + time);
+        document.cookie = cname + "=" + val + "; expires=" + expiry.toUTCString() + ";";
+    } else {
+        document.cookie = cname + "=" + val + "; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=";
+    }
+    console.log("Set value of cookie '" + cname + "' to '" + val + "'");
 }
 
 function getCookie(cname) {
     var name = cname + "=";
     var decodedCookie = decodeURIComponent(document.cookie);
     var ca = decodedCookie.split(';');
-    for(var i = 0; i < ca.length; i++) {
+    for (var i = 0; i < ca.length; i++) {
         var c = ca[i];
         while (c.charAt(0) == ' ') {
             c = c.substring(1);
@@ -37,25 +37,38 @@ function deleteAllCookies() {
     console.log("Deleted all cookies.");
 }
 
-function swapStyle() {
-  if(getCookie("theme") == "hacker") {
-    setCookie("theme", "normal");
-  } else {
-    setCookie("theme", "hacker");
-  }
-  updateStyle();
+function updateStyle() {
+    if (getCookie("theme") == "hacker") {
+        setNormalMode();
+        setCookie('theme', 'normal');
+    } else {
+        setHackerMode();
+        setCookie('theme', 'hacker');
+    }
 }
 
-function updateStyle() {
-  if(getCookie("theme") == "hacker") {
-    document.getElementById('pagestyle').setAttribute('href', 'style/hacker.css');
-    document.getElementById('headerimg').setAttribute('src', 'assets/jaseph_hacker.png');
-    document.getElementById('themeselector').setAttribute('src', 'assets/themes_hacker.png');
-  } else {
-    document.getElementById('pagestyle').setAttribute('href', 'style/normal.css');
-    document.getElementById('headerimg').setAttribute('src', 'assets/jaseph_black.png');
-    document.getElementById('themeselector').setAttribute('src', 'assets/themes_black.png');
-  }
-  console.log("Updated style.");
+window.onload = function () {
+    if (getCookie("theme") == "hacker") {
+        setHackerMode();
+    }
+};
+
+function setHackerMode() {
+    document.documentElement.style.setProperty('--background-color', '#212121');
+    document.documentElement.style.setProperty('--accent-color', 'rgb(32,194,14)');
+    document.documentElement.style.setProperty('--color', 'rgb(32,194,14)');
+    document.querySelector("#mask").setAttribute('src', 'assets/mask-white.png');
+    document.querySelector("#head-logo").setAttribute('src', 'assets/jaseph_hacker.png');
+    document.querySelector('#head-wrap').style.boxShadow = 'none';
+    document.querySelector('#head-wrap').style.backgroundColor = 'black';
 }
-window.onload = updateStyle;
+
+function setNormalMode() {
+    document.documentElement.style.setProperty('--background-color', 'white');
+    document.documentElement.style.setProperty('--accent-color', 'rgb(255, 118, 20)');
+    document.documentElement.style.setProperty('--color', '#212121');
+    document.querySelector("#mask").setAttribute('src', 'assets/mask.png');
+    document.querySelector("#head-logo").setAttribute('src', 'assets/jaseph_normal.png');
+    document.querySelector('#head-wrap').style.boxShadow = '0 2px 6px 0 rgba(0, 0, 0, .12), inset 0 -1px 0 0 #dadce0';
+    document.querySelector('#head-wrap').style.backgroundColor = 'white';
+}

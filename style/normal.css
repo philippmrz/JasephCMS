@@ -1,3 +1,10 @@
+:root {
+    --background-color: white;
+    --color: #212121;
+    --font-family: "Lato";
+    --accent-color: rgb(255, 118, 20);
+}
+
 * {
     box-sizing: border-box;
     padding: 0;
@@ -7,9 +14,9 @@
 html {
     padding: 0;
     margin: 0;
-    background: white;
-    color: #212121;
-    font-family: "Lato", sans-serif;
+    background: var(--background-color);
+    color: var(--color);
+    font-family: var(--font-family);
     min-height: 100%;
 }
 
@@ -51,18 +58,23 @@ body {
 
 #login {
     background-color: transparent;
-    color: rgb(255, 118, 20);
+    color: var(--accent-color);
 }
 
 #register {
-    background-color: rgb(255, 118, 20);
-    border: 2px solid rgb(255, 118, 20);
+    background-color: var(--accent-color);
+    border: 2px solid var(--accent-color);
     border-radius: 5px;
-    color: white;
+    color: var(--background-color);
+}
+
+#mask {
+    height: 20px;
+    margin-left: 10px;
 }
 
 .content {
-    background: #fff;
+    background: var(--background-color);
     margin: 50px 20% 50px 20%;
     padding: 30px 2.5% 30px 2.5%;
     border: 1px solid #e2e2e2;
@@ -70,7 +82,7 @@ body {
 }
 
 .post {
-    background: #fff;
+    background: var(--background-color);
     margin: 0px 10px 30px 10px;
     padding: 10px;
     border: 1px solid #e2e2e2;
@@ -81,7 +93,7 @@ body {
 }
 
 .postinfo {
-    background: #fff;
+    background: var(--background-color);
     padding: 5px;
     border: 1px solid #e2e2e2;
     border-radius: 5px 0 0 5px;
@@ -92,7 +104,6 @@ body {
 }
 
 .posttitle {
-    background: #fff;
     padding: 5px;
     border: 1px solid #e2e2e2;
     border-radius: 0 5px 0 0;
@@ -103,7 +114,6 @@ body {
 }
 
 .posttext {
-    background: #fff;
     padding: 5px;
     border: 1px solid #e2e2e2;
     border-radius: 0 0 5px 0;
@@ -112,7 +122,6 @@ body {
 }
 
 #footer {
-    background: #fff;
     height: 25px;
     width: 100%;
     position: absolute;
@@ -126,21 +135,16 @@ body {
 
 #footer a {
     text-decoration: none;
-    color: #000;
 }
 
 #titleField {
     width: 100%;
-    background: #fff;
-    color: #000;
     border: 1px solid #aaa;
     font-family: "Open Sans";
 }
 
 #contentArea {
     width: 100%;
-    background: #fff;
-    color: #000;
     border: 1px solid #aaa;
     font-family: "Open Sans";
 }
