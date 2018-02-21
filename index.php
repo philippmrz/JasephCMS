@@ -12,7 +12,8 @@
     <form action="newpost" method="POST"><button>New Post</button></form>
   </div>
   <div class="content">
-  <?php
+    
+<?php
 // Credentials for this server
 require 'require/credentials.php';
 
