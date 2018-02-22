@@ -26,8 +26,17 @@ $query = "SELECT TITLE, CONTENT FROM $posttable";
 if ($result = $mysqli->query($query)) {
 
     while ($row = $result->fetch_assoc()) {
-        echo "Title: ", $row['TITLE'], "<br>", " Content: ", $row["CONTENT"];
-        echo "<br><br>";
+        echo "<div class='post'>";
+
+        echo "<p class='posttitle'>";
+        echo $row["TITLE"];
+        echo "</p>";
+
+        echo "<p class='posttext'>";
+        echo $row["CONTENT"];
+        echo "</p>";
+
+        echo "</div>";
     }
 
 } else {
@@ -35,9 +44,6 @@ if ($result = $mysqli->query($query)) {
 }
 
 ?>
-  </div>
-  <div id="footer">
-    <a href="https://github.com/phmrz/JasephCMS" title="Check out the main branch of this page on GitHub!">Created as a school project by Jakob Mainka, Philipp Merz and Sebastian Scheinert</a>
   </div>
 </body>
 </html>
