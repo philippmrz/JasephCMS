@@ -62,10 +62,10 @@ $connect->close();
   <input id="password" type="password" name="pword" placeholder="Password"/><br>
   <input id="authbtn" type="submit" name="logbtn" value="Sign In"/><br>
 <?php
-if(!empty($msg)){
-  foreach($msg as $text){
-    echo "<font size=\"2px\" color=\"red\"><i>" .$text . "</font></i><br>";
-  }
+if (!empty($msg)) {
+    foreach ($msg as $text) {
+        echo "<font size=\"2px\" color=\"red\"><i>" . $text . "</font></i><br>";
+    }
 }
 ?>
 <p id="sub">No Account yet? Click <a href="register.php">here</a> to register</p>

@@ -15,14 +15,14 @@ require 'require/credentials.php';
 
 $connect = new mysqli($servername,$username,$password,$dbname);
 
-if($connect->connect_error){
-  die("Connecting to MySQL or database failed:<b><i> ". $connect->connect_error . "</b></i>");
+if ($connect->connect_error) {
+    die("Connecting to MySQL or database failed:<b><i> " . $connect->connect_error . "</b></i>");
 }
 
-if(isset($_POST["regbtn"])){
-  $uname = $_POST["uname"];
-  $pword = $_POST["pword"];
-  $pwordval = $_POST["pwordval"];
+if (isset($_POST["regbtn"])) {
+    $uname = $_POST["uname"];
+    $pword = $_POST["pword"];
+    $pwordval = $_POST["pwordval"];
 
   if(empty($uname)){
     array_push($msg,"Please enter a username");
@@ -50,7 +50,6 @@ if(isset($_POST["regbtn"])){
     else{
       echo "Query error";
     }
-  }
 
 }
 $connect->close();
@@ -70,10 +69,10 @@ $connect->close();
     <input id="authbtn" type="submit" name="regbtn" value="Register"/><br>
 </form>
 <?php
-if(!empty($msg)){
-  foreach($msg as $text){
-    echo "<font size=\"2px\" color=\"red\"><i>" .$text . "</font></i><br>";
-  }
+if (!empty($msg)) {
+    foreach ($msg as $text) {
+        echo "<font size=\"2px\" color=\"red\"><i>" . $text . "</font></i><br>";
+    }
 }
 ?>
 </div>
