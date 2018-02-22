@@ -32,7 +32,7 @@ if (isset($_POST["regbtn"])) {
     array_push($msg,"Please enter a password");
   }
   $result = $connect->query("SELECT * FROM user WHERE USERNAME='$uname'");
-  if($result->num_rows > 0){
+  if($result->num_rows > 0) {
     array_push($msg,"Username already exists");
   }
 
@@ -43,14 +43,13 @@ if (isset($_POST["regbtn"])) {
   if(count($msg) == 0){
     $pword = password_hash($pword,PASSWORD_DEFAULT);
     $result = $connect->query("INSERT INTO user (USERNAME,PASSWORD) VALUES ('$uname','$pword')");
-    if($result){
+    if($result) {
       header("Location: login.php");
       exit;
-    }
-    else{
+    } else {
       echo "Query error";
     }
-
+  }
 }
 $connect->close();
 ?>
