@@ -75,6 +75,17 @@ body {
     cursor: pointer;
 }
 
+#floating-action-button {
+    position: absolute;
+    bottom: 6vh;
+    right: 4vw;
+    transition: all 1000ms ease-in-out;
+}
+
+#floating-action-button:hover {
+    transform: rotate(-360deg);
+}
+
 .content {
     background: var(--background-color);
     margin: 50px 20% 50px 20%;

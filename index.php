@@ -6,13 +6,12 @@
 </head>
 
 <body>
-  <?php require 'require/header.php';?>
-
-  <div class="content">
-    <form action="newpost" method="POST"><button>New Post</button></form>
-  </div>
-  <div class="content">
-  <?php
+    <?php require 'require/header.php';?>
+    <a href="newpost">
+        <img id="floating-action-button" src="assets/action-button.png">
+    </a>
+    <div class="content">
+    <?php
 // Credentials for this server
 require 'require/credentials.php';
 
