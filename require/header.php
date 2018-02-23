@@ -3,6 +3,6 @@
     <div id="btn-holder">
         <a href="login"><button id="login" class="btn">login</button></a>
         <a href="register"><button id="register" class="btn">register</button></a>
-        <img id="mask" src="assets/mask.png" onclick="updateStyle()">
+        <img id="mask" src="assets/mask.png" onclick="swapStyle()">
     </div>
 </div>

@@ -10,6 +10,7 @@
     <a href="newpost">
         <img id="floating-action-button" src="assets/action-button.png">
     </a>
+	<script>applyStyle();</script>
     <div class="content">
     <?php
 // Credentials for this server
@@ -45,5 +46,6 @@ if ($result = $mysqli->query($query)) {
 
 ?>
   </div>
+  <?php require 'require/footer.php';?>
 </body>
 </html>

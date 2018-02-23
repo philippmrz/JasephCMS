@@ -7,9 +7,9 @@
 
 <body>
 
+<?php require 'require/header.php';?>
+<script>applyStyle();</script>
 <?php
-require 'require/header.php';
-
 // Credentials for this server
 require 'require/credentials.php';
 $msg = array();
@@ -72,5 +72,6 @@ if (!empty($msg)) {
 
 </form>
 </div>
+<?php require 'require/footer.php';?>
 </body>
 </html>

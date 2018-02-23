@@ -9,7 +9,7 @@
     box-sizing: border-box;
     padding: 0;
     margin: 0;
-    transition: all 300ms ease-in-out;
+    transition: all 0.3s ease-in-out;
 }
 
 html {
@@ -81,7 +81,7 @@ body {
     position: fixed;
     bottom: 6vh;
     right: 4vw;
-    transition: all 1000ms ease-in-out;
+    transition: all 1s ease-in-out;
 }
 
 #floating-action-button:hover {
@@ -132,8 +132,9 @@ body {
   font-weight: bold;
 }
 
-#sub {
-
+#sub a {
+    text-decoration: underline;
+    color: var(--color)
 }
 
 .postinfo {
@@ -145,7 +146,8 @@ body {
     width: 100px;
     display: table-cell;
     height: 100%;
-  
+}
+
 .post {
     margin-bottom: 8vh;
 }
