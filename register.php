@@ -25,6 +25,7 @@ if (isset($_POST["regbtn"])) {
     $uname = $_POST["uname"];
     $pword = $_POST["pword"];
     $pwordval = $_POST["pwordval"];
+    $msg = [];
 
   if(empty($uname)){
     array_push($msg,"Please enter a username");
