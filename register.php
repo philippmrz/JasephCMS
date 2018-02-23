@@ -61,7 +61,7 @@ $connect->close();
   <form method="POST" action="">
     <?php
     if(isset($uname) && !empty($uname)) {
-      echo '<input id="username" type="text" name="uname" placeholder="Username" value="' . $uname .'/><br>';
+      echo '<input id="username" type="text" name="uname" placeholder="Username" value="' . $uname .'"/><br>';
     } else {
       echo '<input id="username" type="text" name="uname" placeholder="Username"/><br>';
     }
