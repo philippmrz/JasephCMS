@@ -2,7 +2,7 @@ function setCookie(cname, val, time) { // for time use new Date(years, months, d
     var now = new Date();
     if (time != null) {
         var expiry = new Date(now.getTime() + time);
-        document.cookie = cname + "=" + val + "; expires=" + expiry.toUTCString() + ";";
+        document.cookie = cname + "=" + val + "; expires=" + expiry.toUTCString() + "; path=";
     } else {
         document.cookie = cname + "=" + val + "; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=";
     }
@@ -37,7 +37,7 @@ function deleteAllCookies() {
     console.log("Deleted all cookies.");
 }
 
-function updateStyle() {
+function swapStyle() {
     if (getCookie("theme") == "hacker") {
         setNormalMode();
         setCookie('theme', 'normal');
@@ -47,11 +47,13 @@ function updateStyle() {
     }
 }
 
-window.onload = function () {
-    if (getCookie("theme") == "hacker") {
-        setHackerMode();
-    }
-};
+function applyStyle() {
+	if(getCookie("theme") == "hacker") {
+		setHackerMode();
+	}
+}
+
+window.onload = applyStyle();
 
 function setHackerMode() {
     document.documentElement.style.setProperty('--background-color', '#212121');
@@ -59,8 +61,10 @@ function setHackerMode() {
     document.documentElement.style.setProperty('--color', 'rgb(32,194,14)');
     document.querySelector("#mask").setAttribute('src', 'assets/mask-white.png');
     document.querySelector("#head-logo").setAttribute('src', 'assets/jaseph_hacker.png');
-    document.querySelector("#floating-action-button").setAttribute('src', 'assets/action-button-dark.png');
-    document.querySelector('#head-wrap').style.boxShadow = 'none';
+    if(document.querySelector("#floating-action-button")) {
+		document.querySelector("#floating-action-button").setAttribute('src', 'assets/action-button-dark.png');
+    }
+	document.querySelector('#head-wrap').style.boxShadow = 'none';
     document.querySelector('#head-wrap').style.backgroundColor = 'black';
 }
 
@@ -69,7 +73,9 @@ function setNormalMode() {
     document.documentElement.style.setProperty('--accent-color', 'rgb(255, 118, 20)');
     document.documentElement.style.setProperty('--color', '#212121');
     document.querySelector("#mask").setAttribute('src', 'assets/mask.png');
-    document.querySelector("#floating-action-button").setAttribute('src', 'assets/action-button.png');
+    if(document.querySelector("#floating-action-button")) {
+		document.querySelector("#floating-action-button").setAttribute('src', 'assets/action-button.png');
+	}
     document.querySelector("#head-logo").setAttribute('src', 'assets/jaseph_normal.png');
     document.querySelector('#head-wrap').style.boxShadow = '0 2px 6px 0 rgba(0, 0, 0, .12), inset 0 -1px 0 0 #dadce0';
     document.querySelector('#head-wrap').style.backgroundColor = 'white';

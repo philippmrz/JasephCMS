@@ -9,7 +9,9 @@
 
 <?php
 require 'require/header.php';
-
+?>
+<script>applyStyle();</script>
+<?php
 // Credentials for this server
 require 'require/credentials.php';
 
@@ -75,5 +77,6 @@ if (!empty($msg)) {
 }
 ?>
 </div>
+<?php require 'require/footer.php';?>
 </body>
 </html>
