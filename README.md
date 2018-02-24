@@ -5,8 +5,9 @@ Jaseph Content Management System created by <a href=https://github.com/phmrz>phm
 This CMS is still in an early stage and does not include **any** security measures regarding user database (passwords).
 
 #### Installation with docker
-* Clone the repository
-* Run docker-compose inside docker directory
+* Clone repository to local machine
+* Run docker-compose up (if necessary with root permissions) inside docker directory
+* Change `$servername` in `require/credentials.php` from `localhost` to `db`
 * Visit `localhost` with port `8000`
 
 
