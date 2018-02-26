@@ -2,6 +2,7 @@
 <html lang="de">
   <head>
   <title>Jaseph</title>
+  <meta charset="utf-8"/>
   </head>
   <body>
 
@@ -9,7 +10,7 @@
 $server = "localhost";
 $user = "root";
 $pw = "";
-$db = "data";
+$db = "jaseph";
 $msg = array();
 
 $connect = new mysqli($server,$user,$pw,$db);
@@ -19,10 +20,14 @@ if($connect->connect_error){
 }
 
 if(isset($_POST["regbtn"])){
+	setcookie("identifier","",time()-86400*356);
+    setcookie("token","",time()-86400*356);
+
   $uname = $_POST["uname"];
   $pword = $_POST["pword"];
   $pwordval = $_POST["pwordval"];
 
+ //invalid inputs
   if(empty($uname)){
     array_push($msg,"please enter a username");
   }
@@ -30,6 +35,17 @@ if(isset($_POST["regbtn"])){
   if(empty($pword)){
     array_push($msg,"please enter a password");
   }
+
+  if(strlen($pword) < 6){
+    array_push($msg,"password must be at minimum length of 6 letters");
+  }
+  else{
+    if(ctype_upper($pword) || ctype_lower($pword)){
+      array_push($msg,"password must contain at least one lower case and one
+      upper case character");
+    }
+  }
+
   $result = $connect->query("SELECT * FROM user WHERE USERNAME='$uname'");
   if($result->num_rows > 0){
     array_push($msg,"username already exists");
@@ -44,15 +60,18 @@ if(isset($_POST["regbtn"])){
     $result = $connect->query("INSERT INTO user (USERNAME,PASSWORD)
             VALUES ('$uname','$pword')");
     if($result){
-      header("Location: login.php");
+      $reg_msg = "you have been successfully registered";
+      setcookie("registered",$reg_msg,time()+60*3);
+      header("location: login.php");
       exit;
     }
     else{
       echo"query error";
     }
   }
-
 }
+
+
 $connect->close();
 ?>
 
