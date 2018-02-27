@@ -1,16 +1,3 @@
-<!doctype html>
-<html>
-
-<head>
-  <?php require 'require/head.php';?>
-</head>
-
-<body>
-
-<?php
-require 'require/header.php';
-?>
-<script>applyStyle();</script>
 <?php
 // Credentials for this server
 require 'require/credentials.php';
@@ -56,6 +43,20 @@ if (isset($_POST["regbtn"])) {
 }
 $connect->close();
 ?>
+<!doctype html>
+<html>
+
+<head>
+  <?php require 'require/head.php';?>
+</head>
+
+<body>
+
+<?php
+require 'require/header.php';
+?>
+<script>applyStyle();</script>
+
 <div id="auth">
   <p id="title">Register</p>
   <form method="POST" action="">

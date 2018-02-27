@@ -1,14 +1,3 @@
-<!doctype html>
-<html>
-
-<head>
-  <?php require 'require/head.php';?>
-</head>
-
-<body>
-
-<?php require 'require/header.php';?>
-<script>applyStyle();</script>
 <?php
 // Credentials for this server
 require 'require/credentials.php';
@@ -31,7 +20,7 @@ if(isset($_POST["logbtn"])){
     if($result){
       if(password_verify($pword,$db_p)){
         //pass
-      header("location:"/*mainpage*/);
+      header("Location: index");
         exit;
       }
       else{
@@ -49,6 +38,18 @@ if(isset($_POST["logbtn"])){
 }
 $connect->close();
 ?>
+<!doctype html>
+<html>
+
+<head>
+  <?php require 'require/head.php';?>
+</head>
+
+<body>
+
+<?php require 'require/header.php';?>
+<script>applyStyle();</script>
+
 <div id="auth">
 <p id="title">Login</p>
 <form method="POST" action="">

@@ -34,7 +34,7 @@ if ($result = $mysqli->query($query)) {
         echo "</p>";
 
         echo "<p class='posttext'>";
-        echo $row["CONTENT"];
+        echo nl2br($row["CONTENT"]);
         echo "</p>";
 
         echo "</div>";
