@@ -1,10 +1,8 @@
 <!doctype html>
 <html>
-
 <head>
   <?php require 'require/head.php';?>
 </head>
-
 <body>
     <?php require 'require/header.php';?>
     <a href="newpost">
@@ -22,15 +20,22 @@ if ($mysqli->connect_errno) {
     printf("Connect failed: %s\n", $mysqli->connect_error);
     exit();
 }
-$query = "SELECT TITLE, CONTENT FROM $posttable";
 
+$query = "SELECT TITLE, CONTENT, SUBSTRING(DATE, 1, 10) AS DATE FROM $posttable";
+
+//Fetch posts from database and echo them to paragraphs
 if ($result = $mysqli->query($query)) {
-
     while ($row = $result->fetch_assoc()) {
         echo "<div class='post'>";
 
-        echo "<p class='posttitle'>";
+        echo "<p class='post-title-date'>";
+
         echo $row["TITLE"];
+
+        echo "<span class='align-right'>";
+        echo $row["DATE"];
+        echo "</span>";
+
         echo "</p>";
 
         echo "<p class='posttext'>";
