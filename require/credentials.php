@@ -1,7 +1,8 @@
 <?php
 $servername = 'db';
 $username = 'root';
-$password = 'example';
+$password = '';
 $dbname = 'jaseph';
 $usertable = 'user';
 $posttable = 'post';
+?>
