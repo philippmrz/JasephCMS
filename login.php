@@ -75,7 +75,7 @@ if(isset($_POST["logbtn"])){
 		  setcookie("uname",$uname,time()+86400*356);
           }
         }
-        header("location: //mach deine page hier rein");
+        header("location: index");
         exit;
       }
       else{
