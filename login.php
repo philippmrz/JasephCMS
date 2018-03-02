@@ -116,6 +116,7 @@ $connect->close();
   ?>
   <input id="password" type="password" name="pword" placeholder="Password"/><br>
   <input id="authbtn" type="submit" name="logbtn" value="Sign In"/><br>
+  Remember me:<input type="checkbox" name="stay_li"/><br>
 <?php
 if (!empty($msg)) {
     foreach ($msg as $text) {
