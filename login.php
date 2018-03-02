@@ -118,6 +118,11 @@ $connect->close();
   <input id="authbtn" type="submit" name="logbtn" value="Sign In"/><br>
   Remember me:<input type="checkbox" name="stay_li"/><br>
 <?php
+if(isset($_COOKIE["registered"])){
+  echo "<font size=\"2px\" color=\"green\"><i>" .$_COOKIE["registered"] . "</font></i><br>";
+  setcookie("registered","",time()-60*3);
+}
+	
 if (!empty($msg)) {
     foreach ($msg as $text) {
         echo "<font size=\"2px\" color=\"red\"><i>" . $text . "</font></i><br>";
