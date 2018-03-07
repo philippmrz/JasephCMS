@@ -5,9 +5,11 @@
 </head>
 <body>
     <?php require 'require/header.php';?>
+     <?php if (isset($_COOKIE["logcheck"])): ?>
     <a href="newpost">
         <img id="floating-action-button" src="assets/action-button.png">
     </a>
+    <?php endif; ?>
 	<script>applyStyle();</script>
     <div class="content">
     <?php
