@@ -15,40 +15,38 @@
 
     print_r($_POST); // Debug, prints out contents of form
     echo '<br>';
-    if(!isset($_POST["title"]) || empty($_POST["title"]) || ctype_space($_POST["title"])) { //Check if the title is not set/empty/only spaces. Exit if true.
-      echo 'Title must not be empty!<br>';
-      $success = false;
+    if (!isset($_POST["title"]) || empty($_POST["title"]) || ctype_space($_POST["title"])) { //Check if the title is not set/empty/only spaces. Exit if true.
+        echo 'Title must not be empty!<br>';
+        $success = false;
     }
 
-    if(!$link = mysqli_connect($servername, $username, $password)) { // Connects to the mysql using above credentials
-      echo 'Could not connect to mysql server.<br>';
-      $success = false;
+    if (!$link = mysqli_connect($servername, $username, $password)) { // Connects to the mysql using above credentials
+        echo 'Could not connect to mysql server.<br>';
+        $success = false;
     }
 
-    if(!mysqli_select_db($link, $dbname)) { // Selects the $dbname database (in this case jaseph)
-      echo 'Could not select mysql database.<br>';
-      $success = false;
+    if (!mysqli_select_db($link, $dbname)) { // Selects the $dbname database (in this case jaseph)
+        echo 'Could not select mysql database.<br>';
+        $success = false;
     }
 
-    if($success) {
+    if ($success) {
+        $userid  = 1; // Temporary userid for sprint
+        $title   = mysqli_real_escape_string($link, $_POST["title"]);
+        $content = mysqli_real_escape_string($link, $_POST["content"]);
 
-    $userid  = 1; // Temporary userid for sprint
-    $title   = mysqli_real_escape_string($link,$_POST["title"]);
-    $content = mysqli_real_escape_string($link,$_POST["content"]);
+        $sql = "INSERT INTO $posttable (userid, title, content) VALUES ('$userid', '$title', '$content')"; // Inserts data into the 'post' database
 
-    $sql = "INSERT INTO $posttable (userid, title, content) VALUES ('$userid', '$title', '$content')"; // Inserts data into the 'post' database
+        if (mysqli_query($link, $sql)) { // Runs mysql query
+            echo "New record created successfully.<br>";
+        } else {
+            echo "Error: $sql<br>" . mysqli_error($link) . '<br>';
+        }
 
-    if(mysqli_query($link, $sql)) { // Runs mysql query
-        echo "New record created successfully.<br>";
+        mysqli_close($link); // Closes mysql connection
     } else {
-        echo "Error: $sql<br>" . mysqli_error($link) . '<br>';
+        echo 'failed<br>';
     }
-
-    mysqli_close($link); // Closes mysql connection
-
-  } else {
-    echo 'failed<br>';
-  }
     ?>
     <br>
   </div>
