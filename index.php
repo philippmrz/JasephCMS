@@ -60,7 +60,7 @@ if (isset($_COOKIE["identifier"]) && isset($_COOKIE["token"])) {
         die("You're a cheater");
     }
 }
-      $query = "SELECT TITLE, CONTENT, SUBSTRING(DATE, 1, 10) AS DATE FROM $posttable";
+      $query = "SELECT TITLE, CONTENT, SUBSTRING(DATE, 1, 10) AS DATE FROM $posttable ORDER BY POSTID DESC";
 
       //Fetch posts from database and echo them to paragraphs
       if ($result = $mysqli->query($query)) {

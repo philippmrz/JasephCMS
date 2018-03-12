@@ -13,8 +13,9 @@
 
     $success = true;
 
-    print_r($_POST); // Debug, prints out contents of form
-    echo '<br>';
+    ?>
+    <h1>Created new Post</h1>
+    <?php
     if (!isset($_POST["title"]) || empty($_POST["title"]) || ctype_space($_POST["title"])) { //Check if the title is not set/empty/only spaces. Exit if true.
         echo 'Title must not be empty!<br>';
         $success = false;
@@ -44,6 +45,8 @@
         }
 
         mysqli_close($link); // Closes mysql connection
+
+        header("Location: index.php");
     } else {
         echo 'failed<br>';
     }
