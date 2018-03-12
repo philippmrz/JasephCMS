@@ -68,20 +68,22 @@ if (isset($_POST["logbtn"])) {
                     setcookie("token", $token, time()+86400*356);
                     setcookie("uname", $uname, time()+86400*356);
                 }
-            }
             setcookie("logcheck", "true", time()+86400*356);
             header("location: index");
             exit;
         } else {
             //invalid
             array_push($msg, "Invalid password or username");
-        }
+		 }
+		}
+		else{
+			echo "query error";
+		}
     } else {
-        echo"query error";
+        array_push($msg, "Please enter your username and your password");
     }
-} else {
-    array_push($msg, "Please enter your username and your password");
-}
+} 
+
 $connect->close();
 ?>
 <!doctype html>
