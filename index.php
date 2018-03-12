@@ -23,7 +23,7 @@
         exit();
       }
 
-      $query = "SELECT TITLE, CONTENT, SUBSTRING(DATE, 1, 10) AS DATE FROM $posttable";
+      $query = "SELECT TITLE, CONTENT, SUBSTRING(DATE, 1, 10) AS DATE FROM $posttable ORDER BY POSTID DESC";
 
       //Fetch posts from database and echo them to paragraphs
       if ($result = $mysqli->query($query)) {

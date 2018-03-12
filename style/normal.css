@@ -142,7 +142,6 @@ body {
     padding: 5px;
     border: 1px solid #e2e2e2;
     border-radius: 5px 0 0 5px;
-    /*float: left;*/
     width: 100px;
     display: table-cell;
     height: 100%;
@@ -194,14 +193,25 @@ body {
     color: var(--color)
 }
 
+h1 {
+    font-family: "Lato";
+    font-weight: bold;
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
 #titleField {
     width: 100%;
     border: 1px solid #aaa;
-    font-family: "Open Sans";
+    border-radius: 5px;
+    padding: 7px;
+    font-family: "Lato";
 }
 
 #contentArea {
     width: 100%;
     border: 1px solid #aaa;
-    font-family: "Open Sans";
+    border-radius: 5px;
+    padding: 7px;
+    font-family: "Lato";
 }
