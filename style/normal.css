@@ -65,11 +65,22 @@ body {
     color: var(--accent-color);
 }
 
-#register {
+#register, #btnpost {
     background-color: var(--accent-color);
     border: 2px solid var(--accent-color);
     border-radius: 5px;
     color: var(--background-color);
+}
+
+#btnpostwrapper {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+#btnpost {
+    margin: auto;
 }
 
 #mask {
@@ -214,4 +225,8 @@ h1 {
     border-radius: 5px;
     padding: 7px;
     font-family: "Lato";
+}
+
+#titlecharswrapper, #contentcharswrapper {
+  text-align: right;
 }
