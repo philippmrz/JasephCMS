@@ -101,3 +101,13 @@ function setNormalMode() {
     document.querySelector('#head-wrap').style.boxShadow = '0 2px 6px 0 rgba(0, 0, 0, .12), inset 0 -1px 0 0 #dadce0';
     document.querySelector('#head-wrap').style.backgroundColor = 'white';
 }
+
+function updateCharsLeft(maxAmt, type) {
+    if(type == "title") {
+        var cur = document.getElementById("titleField").value.length;
+        document.getElementById("titlecharswrapper").innerHTML = cur + "/" + maxAmt;
+    } else if(type == "content") {
+        var cur = document.getElementById("contentArea").value.length;
+        document.getElementById("contentcharswrapper").innerHTML = cur + "/" + maxAmt;
+    }
+}
