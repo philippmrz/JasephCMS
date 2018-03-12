@@ -49,9 +49,8 @@ if (isset($_POST["regbtn"])) {
         $result = $connect->query("INSERT INTO user (USERNAME,PASSWORD)
             VALUES ('$uname','$pword')");
         if ($result) {
-            $reg_msg = "you have been successfully registered";
-            setcookie("registered", $reg_msg, time()+60*3);
-            header("location: login.php");
+            setcookie("logcheck","true",time()+86400*356);
+            header("location: index");
             exit;
         } else {
             echo "Query error";
