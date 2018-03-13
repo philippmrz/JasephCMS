@@ -160,6 +160,7 @@ body {
 
 .post {
     margin-bottom: 8vh;
+    overflow-wrap: break-word;
 }
 
 .post-title-date {
