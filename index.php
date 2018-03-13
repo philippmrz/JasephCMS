@@ -5,9 +5,12 @@
 </head>
 <body>
   <?php require 'require/header.php';?>
+  <a href="#" onclick="window.scrollTo(0,0);" title="Go to top">
+    <img id="floating-button-gotop" src="assets/gotop-button.png" width="50px"/>
+  </a>
   <?php if (isset($_COOKIE["logcheck"])): ?>
-    <a href="newpost">
-      <img id="floating-action-button" src="assets/action-button.png">
+    <a href="newpost" title="Create a new post">
+      <img id="floating-button-newpost" src="assets/newpost-button.png"/>
     </a>
   <?php endif; ?>
   <script>applyStyle();</script>

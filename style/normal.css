@@ -89,15 +89,26 @@ body {
     cursor: pointer;
 }
 
-#floating-action-button {
+#floating-button-newpost {
     position: fixed;
     bottom: 6vh;
     right: 4vw;
-    transition: all 1s ease-in-out;
+    transition: all 0.5s ease-in-out;
 }
 
-#floating-action-button:hover {
+#floating-button-newpost:hover {
     transform: rotate(-360deg);
+}
+
+#floating-button-gotop {
+    position: fixed;
+    bottom: 12vh;
+    right: 4vw;
+    transition: all 0.5s ease-in-out;
+}
+
+#floating-button-gotop:hover {
+    transform: translateY(-1vh);
 }
 
 .content {
