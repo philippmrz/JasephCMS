@@ -1,3 +1,10 @@
+<!doctype html>
+<html>
+
+<head>
+  <?php require 'require/head.php';?>
+</head>
+
 <?php
 // Credentials for this server
 require 'require/credentials.php';
@@ -27,15 +34,14 @@ if (isset($_POST["regbtn"])) {
     }
 
     if (strlen($pword) < 6) {
-        array_push($msg, "password must be at minimum length of 6 letters");
+        array_push($msg, "Password must be at minimum length of 6 letters");
     } else {
         if (ctype_upper($pword) || ctype_lower($pword)) {
-            array_push($msg, "password must contain at least one lower case and one
-      upper case character");
+            array_push($msg, "Password must contain at least one lowercase and one uppercase character");
         }
     }
 
-    $result = $connect->query("SELECT * FROM user WHERE USERNAME='$uname'");
+    $result = $connect->query("SELECT * FROM $usertable WHERE USERNAME='$uname'");
     if ($result->num_rows > 0) {
         array_push($msg, "Username already exists");
     }
@@ -46,11 +52,12 @@ if (isset($_POST["regbtn"])) {
 
     if (count($msg) == 0) {
         $pword = password_hash($pword, PASSWORD_DEFAULT);
-        $result = $connect->query("INSERT INTO user (USERNAME,PASSWORD)
-            VALUES ('$uname','$pword')");
+        $result = $connect->query("INSERT INTO $usertable (USERNAME,PASSWORD) VALUES ('$uname','$pword')");
         if ($result) {
             setcookie("logcheck","true",time()+86400*356);
-            header("location: index");
+            ?>
+            <script>redirect("index");</script>
+            <?php
             exit;
         } else {
             echo "Query error";
@@ -61,13 +68,6 @@ if (isset($_POST["regbtn"])) {
 
 $connect->close();
 ?>
-<!doctype html>
-<html>
-
-<head>
-  <?php require 'require/head.php';?>
-</head>
-
 <body>
 
 <?php

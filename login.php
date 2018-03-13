@@ -1,3 +1,10 @@
+<!doctype html>
+<html>
+
+<head>
+  <?php require 'require/head.php';?>
+</head>
+
 <?php
 // Credentials for this server
 require 'require/credentials.php';
@@ -23,7 +30,7 @@ function random_string($length) {
 if (isset($_COOKIE["identifier"]) && isset($_COOKIE["token"])) {
     $identifier = $_COOKIE["identifier"];
     $token = $_COOKIE["token"];
-    $result = $connect->query("SELECT TOKEN FROM user WHERE IDENTIFIER='$identifier'");
+    $result = $connect->query("SELECT TOKEN FROM $usertable WHERE IDENTIFIER='$identifier'");
     $row = $result->fetch_assoc();
     $db_token = $row["TOKEN"];
     $hash_token = hash("sha256", $token);
@@ -31,17 +38,17 @@ if (isset($_COOKIE["identifier"]) && isset($_COOKIE["token"])) {
     if ($hash_token == $db_token) {//new token
         $new_token = random_string(32);
         $hash_new_token = hash("sha256", $new_token);
-        $update = $connect->query("UPDATE user SET TOKEN = '$hash_new_token' WHERE IDENTIFIER = '$identifier'");
-        $get_uname = $connect->query("SELECT USERNAME WHERE IDENTIFIER = '$identifier'");
+        $update = $connect->query("UPDATE $usertable SET TOKEN = '$hash_new_token' WHERE IDENTIFIER = '$identifier'");
+        $get_uname = $connect->query("SELECT USERNAME FROM $usertable WHERE IDENTIFIER = '$identifier'");
         $row_u = $get_uname->fetch_assoc();
         $db_uname = $row_u["USERNAME"];
         setcookie("identifier", $identifier, time()+86400*356);
         setcookie("token", $new_token, time()+86400*356);
         setcookie("logcheck", "true", time()+86400*356);
         setcookie("uname", $db_uname, time()+86400*356);
-
-
-        header("location: //mach deine page hier rein");
+        ?>
+        <script>redirect("index");</script>
+        <?php
         exit;
     } else {
         die("You're a cheater");
@@ -52,7 +59,7 @@ if (isset($_POST["logbtn"])) {
     $uname = $_POST["uname"];
     $pword = $_POST["pword"];
     if (!empty($uname) && !empty($pword)) {
-        $result = $connect->query("SELECT PASSWORD,USERNAME FROM user WHERE USERNAME='$uname'");
+        $result = $connect->query("SELECT PASSWORD,USERNAME FROM $usertable WHERE USERNAME='$uname'");
         $row = $result->fetch_assoc();
         $db_p = $row["PASSWORD"];
         if ($result) {
@@ -62,14 +69,16 @@ if (isset($_POST["logbtn"])) {
                     $identifier = random_string(32);
                     $token = random_string(32);
                     $hash_token = hash("sha256", $token);
-                    $reuslt = $connect->query("UPDATE user SET IDENTIFIER = '$identifier', TOKEN = '$hash_token' WHERE USERNAME = '$uname'");
+                    $result = $connect->query("UPDATE $usertable SET IDENTIFIER = '$identifier', TOKEN = '$hash_token' WHERE USERNAME = '$uname'");
 
                     setcookie("identifier", $identifier, time()+86400*356);
                     setcookie("token", $token, time()+86400*356);
                     setcookie("uname", $uname, time()+86400*356);
                 }
             setcookie("logcheck", "true", time()+86400*356);
-            header("location: index");
+            ?>
+            <script>redirect("index");</script>
+            <?php
             exit;
         } else {
             //invalid
@@ -82,17 +91,10 @@ if (isset($_POST["logbtn"])) {
     } else {
         array_push($msg, "Please enter your username and your password");
     }
-} 
+}
 
 $connect->close();
 ?>
-<!doctype html>
-<html>
-
-<head>
-  <?php require 'require/head.php';?>
-</head>
-
 <body>
 
 <?php require 'require/header.php';?>

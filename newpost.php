@@ -7,6 +7,7 @@
   <?php require('require/header.php');?>
   <script>applyStyle();</script>
   <div class="content">
+    <?php if (isset($_COOKIE["logcheck"])): ?>
     <h1>New Post</h1>
     <form action="post" method="POST">
       <div id="titlecharswrapper">0/200</div>
@@ -17,6 +18,10 @@
         <button type="submit" id="btnpost" class="btn">Post</button>
       </div>
     </form>
+    <?php else:;?>
+    <h1>Get Out</h1>
+    <script>redirect('index', 2);</script>
+    <?php endif;?>
   </div>
   <?php require 'require/footer.php';?>
 </body>

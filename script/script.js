@@ -51,11 +51,21 @@ function deleteAllCookies() {
 }
 
 function logout() {
-  deleteCookie("logcheck");
-  deleteCookie("uname");
-  deleteCookie("identifier");
-  deleteCookie("token");
-  location = location;
+    deleteCookie("logcheck");
+    deleteCookie("uname");
+    deleteCookie("identifier");
+    deleteCookie("token");
+    location = location;
+}
+
+function redirect(link, delay) { // Delay in seconds
+    console.log("Redirecting");
+    if (delay == null) {
+      delay = 0;
+    }
+    setTimeout(function() {
+        window.location.replace(link);
+    }, delay*1000);
 }
 
 function swapStyle() {

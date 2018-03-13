@@ -39,7 +39,7 @@
 if (isset($_COOKIE["identifier"]) && isset($_COOKIE["token"])) {
     $identifier = $_COOKIE["identifier"];
     $token = $_COOKIE["token"];
-    $result = $mysqli->query("SELECT TOKEN FROM user WHERE IDENTIFIER='$identifier'");
+    $result = $mysqli->query("SELECT TOKEN FROM $usertable WHERE IDENTIFIER='$identifier'");
     $row = $result->fetch_assoc();
     $db_token = $row["TOKEN"];
     $hash_token = hash("sha256", $token);
@@ -47,18 +47,21 @@ if (isset($_COOKIE["identifier"]) && isset($_COOKIE["token"])) {
     if ($hash_token == $db_token) {//new token
         $new_token = random_string(32);
         $hash_new_token = hash("sha256", $new_token);
-        $update = $mysqli->query("UPDATE user SET TOKEN = '$hash_new_token' WHERE IDENTIFIER = '$identifier'");
-        $get_uname = $mysqli->query("SELECT USERNAME WHERE IDENTIFIER = '$identifier'");
+        $update = $mysqli->query("UPDATE $usertable SET TOKEN = '$hash_new_token' WHERE IDENTIFIER = '$identifier'");
+        $get_uname = $mysqli->query("SELECT USERNAME FROM $usertable WHERE IDENTIFIER = '$identifier'");
+        if (!$get_uname) {
+            echo $mysqli->error;
+        }
         $row_u = $get_uname->fetch_assoc();
         $db_uname = $row_u["USERNAME"];
         setcookie("identifier", $identifier, time()+86400*356);
         setcookie("token", $new_token, time()+86400*356);
         setcookie("logcheck", "true", time()+86400*356);
         setcookie("uname", $db_uname, time()+86400*356);
-
-
-        header("location: //mach deine page hier rein");
-        exit;
+        ?>
+        <!--<script>redirect("index");</script>-->
+        <?php
+        //exit;
     } else {
         die("You're a cheater");
     }

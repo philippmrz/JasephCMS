@@ -22,12 +22,12 @@
     }
 
     if (!$link = mysqli_connect($servername, $username, $password)) { // Connects to the mysql using above credentials
-        echo 'Could not connect to mysql server.<br>';
+        echo 'Could not connect to mysql server, please try again.<br>';
         $success = false;
     }
 
     if (!mysqli_select_db($link, $dbname)) { // Selects the $dbname database (in this case jaseph)
-        echo 'Could not select mysql database.<br>';
+        echo 'Could not select mysql database, please try again.<br>';
         $success = false;
     }
 
@@ -45,8 +45,9 @@
         }
 
         mysqli_close($link); // Closes mysql connection
-
-        header("Location: index.php");
+        ?>
+        <script>redirect("index");</script>
+        <?php
     } else {
         echo 'failed<br>';
     }
