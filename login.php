@@ -73,9 +73,9 @@ if (isset($_POST["logbtn"])) {
 
                     setcookie("identifier", $identifier, time()+86400*356);
                     setcookie("token", $token, time()+86400*356);
-                    setcookie("uname", $uname, time()+86400*356);
                 }
             setcookie("logcheck", "true", time()+86400*356);
+  	    setcookie("uname", $uname, time()+86400*356);
             ?>
             <script>redirect("index");</script>
             <?php
