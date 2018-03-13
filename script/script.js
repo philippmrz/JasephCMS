@@ -51,11 +51,21 @@ function deleteAllCookies() {
 }
 
 function logout() {
-  deleteCookie("logcheck");
-  deleteCookie("uname");
-  deleteCookie("identifier");
-  deleteCookie("token");
-  location = location;
+    deleteCookie("logcheck");
+    deleteCookie("uname");
+    deleteCookie("identifier");
+    deleteCookie("token");
+    location = location;
+}
+
+function redirect(link, delay) { // Delay in seconds
+    console.log("Redirecting");
+    if (delay == null) {
+      delay = 0;
+    }
+    setTimeout(function() {
+        window.location.replace(link);
+    }, delay*1000);
 }
 
 function swapStyle() {
@@ -82,8 +92,11 @@ function setHackerMode() {
     document.documentElement.style.setProperty('--color', 'rgb(32,194,14)');
     document.querySelector("#mask").setAttribute('src', 'assets/mask-white.png');
     document.querySelector("#head-logo").setAttribute('src', 'assets/jaseph_hacker.png');
-    if (document.querySelector("#floating-action-button")) {
-        document.querySelector("#floating-action-button").setAttribute('src', 'assets/action-button-dark.png');
+    if (document.querySelector("#floating-button-newpost")) {
+        document.querySelector("#floating-button-newpost").setAttribute('src', 'assets/newpost-button-dark.png');
+    }
+    if (document.querySelector("#floating-button-gotop")) {
+        document.querySelector("#floating-button-gotop").setAttribute('src', 'assets/gotop-button-dark.png');
     }
     document.querySelector('#head-wrap').style.boxShadow = 'none';
     document.querySelector('#head-wrap').style.backgroundColor = 'black';
@@ -94,8 +107,11 @@ function setNormalMode() {
     document.documentElement.style.setProperty('--accent-color', 'rgb(255, 118, 20)');
     document.documentElement.style.setProperty('--color', '#212121');
     document.querySelector("#mask").setAttribute('src', 'assets/mask.png');
-    if (document.querySelector("#floating-action-button")) {
-        document.querySelector("#floating-action-button").setAttribute('src', 'assets/action-button.png');
+    if (document.querySelector("#floating-button-newpost")) {
+        document.querySelector("#floating-button-newpost").setAttribute('src', 'assets/newpost-button.png');
+    }
+    if (document.querySelector("#floating-button-gotop")) {
+        document.querySelector("#floating-button-gotop").setAttribute('src', 'assets/gotop-button.png');
     }
     document.querySelector("#head-logo").setAttribute('src', 'assets/jaseph_normal.png');
     document.querySelector('#head-wrap').style.boxShadow = '0 2px 6px 0 rgba(0, 0, 0, .12), inset 0 -1px 0 0 #dadce0';
