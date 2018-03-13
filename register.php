@@ -55,6 +55,7 @@ if (isset($_POST["regbtn"])) {
         $result = $connect->query("INSERT INTO $usertable (USERNAME,PASSWORD) VALUES ('$uname','$pword')");
         if ($result) {
             setcookie("logcheck","true",time()+86400*356);
+            setcookie("uname", $uname, time()+86400*356);
             ?>
             <script>redirect("index");</script>
             <?php
