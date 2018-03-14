@@ -90,6 +90,7 @@ function setHackerMode() {
     document.documentElement.style.setProperty('--background-color', '#212121');
     document.documentElement.style.setProperty('--accent-color', 'rgb(32,194,14)');
     document.documentElement.style.setProperty('--color', 'rgb(32,194,14)');
+    document.documentElement.style.setProperty('--title-color', 'rgba(255, 255, 255, .6)');
     document.querySelector("#mask").setAttribute('src', 'assets/mask-white.png');
     document.querySelector("#head-logo").setAttribute('src', 'assets/jaseph_hacker.png');
     if (document.querySelector("#floating-button-newpost")) {
@@ -103,9 +104,10 @@ function setHackerMode() {
 }
 
 function setNormalMode() {
-    document.documentElement.style.setProperty('--background-color', 'white');
+    document.documentElement.style.setProperty('--background-color', '#fff');
     document.documentElement.style.setProperty('--accent-color', 'rgb(255, 118, 20)');
     document.documentElement.style.setProperty('--color', '#212121');
+    document.documentElement.style.setProperty('--title-color', 'rgba(0, 0, 0, .6)');
     document.querySelector("#mask").setAttribute('src', 'assets/mask.png');
     if (document.querySelector("#floating-button-newpost")) {
         document.querySelector("#floating-button-newpost").setAttribute('src', 'assets/newpost-button.png');

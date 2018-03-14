@@ -1,8 +1,11 @@
+@import url("keyframes.css");
+
 :root {
     --background-color: white;
     --color: #212121;
     --font-family: "Lato";
     --accent-color: rgb(255, 118, 20);
+    --title-color: rgba(0, 0, 0, .6);
 }
 
 * {
@@ -159,27 +162,18 @@ body {
     color: var(--color)
 }
 
-.postinfo {
-    background: var(--background-color);
-    padding: 5px;
-    border: 1px solid #e2e2e2;
-    border-radius: 5px 0 0 5px;
-    width: 100px;
-    display: table-cell;
-    height: 100%;
-}
-
 .post {
     margin-bottom: 8vh;
     overflow-wrap: break-word;
 }
 
 .post-title-date {
-    color: rgba(0, 0, 0, .6);
+    color: var(--title-color);
     margin-bottom: 8px;
     font-size: 17px;
     text-transform: uppercase;
     letter-spacing: 1px;
+    overflow: hidden;
 }
 
 .align-right {
