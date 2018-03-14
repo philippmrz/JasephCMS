@@ -127,7 +127,7 @@ body {
     padding: 30px 2.5% 30px 2.5%;
 }
 
-#auth #password, #username {
+#auth .password, #username {
     min-height: 35px;
     min-width: 80%;
     margin: 5px 0 5px 0;

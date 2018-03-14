@@ -16,7 +16,8 @@ if ($connect->connect_error) {
     die("Connecting to MySQL or database failed:<b><i> ". $connect->connect_error . "</b></i>");
 }
 
-function random_string($length) {
+function random_string($length)
+{
     $characters = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!$.";
     $c_length = strlen($characters);
     $string = "";
@@ -45,8 +46,7 @@ if (isset($_COOKIE["identifier"]) && isset($_COOKIE["token"])) {
         setcookie("identifier", $identifier, time()+86400*356);
         setcookie("token", $new_token, time()+86400*356);
         setcookie("logcheck", "true", time()+86400*356);
-        setcookie("uname", $db_uname, time()+86400*356);
-        ?>
+        setcookie("uname", $db_uname, time()+86400*356); ?>
         <script>redirect("index");</script>
         <?php
         exit;
@@ -74,20 +74,19 @@ if (isset($_POST["logbtn"])) {
                     setcookie("identifier", $identifier, time()+86400*356);
                     setcookie("token", $token, time()+86400*356);
                 }
-            setcookie("logcheck", "true", time()+86400*356);
-  	    setcookie("uname", $uname, time()+86400*356);
-            ?>
-            <script>redirect("index");</script>
-            <?php
-            exit;
+                setcookie("logcheck", "true", time()+86400*356);
+                setcookie("uname", $uname, time()+86400*356);
+                ?>
+                <script>redirect("index");</script>
+                <?php
+                exit;
+            } else {
+                //invalid
+                array_push($msg, "Invalid password or username");
+            }
         } else {
-            //invalid
-            array_push($msg, "Invalid password or username");
-		 }
-		}
-		else{
-			echo "query error";
-		}
+            echo "query error";
+        }
     } else {
         array_push($msg, "Please enter your username and your password");
     }

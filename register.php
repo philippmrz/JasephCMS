@@ -86,8 +86,8 @@ require 'require/header.php';
         echo '<input id="username" type="text" name="uname" placeholder="Username"/><br>';
     }
     ?>
-    <input id="password" type="password" name="pword" placeholder="Password"/><br>
-    <input id="password" type="password" name="pwordval" placeholder="Repeat Password"/><br>
+    <input class="password" type="password" name="pword" placeholder="Password"/><br>
+    <input class="password" type="password" name="pwordval" placeholder="Repeat Password"/><br>
     <input id="authbtn" type="submit" name="regbtn" value="Register"/><br>
 </form>
 <?php

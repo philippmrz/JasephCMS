@@ -15,17 +15,17 @@
   <?php endif; ?>
   <script>applyStyle();</script>
   <div class="content">
-    <?php
-      // Credentials for this server
-      require 'require/credentials.php';
+<?php
+// Credentials for this server
+require 'require/credentials.php';
 
-      $mysqli = new mysqli("$servername", "$username", "$password", "$dbname");
+$mysqli = new mysqli("$servername", "$username", "$password", "$dbname");
 
-      if ($mysqli->connect_errno) {
-        printf("Connect failed: %s\n", $mysqli->connect_error);
-        exit();
-      }
-  function random_string($length) {
+if ($mysqli->connect_errno) {
+    printf("Connect failed: %s\n", $mysqli->connect_error);
+    exit();
+}
+function random_string($length) {
     $characters = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!$.";
     $c_length = strlen($characters);
     $string = "";
