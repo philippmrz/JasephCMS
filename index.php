@@ -58,15 +58,11 @@ if (isset($_COOKIE["identifier"]) && isset($_COOKIE["token"])) {
         setcookie("token", $new_token, time()+86400*356);
         setcookie("logcheck", "true", time()+86400*356);
         setcookie("uname", $db_uname, time()+86400*356);
-        ?>
-        <!--<script>redirect("index");</script>-->
-        <?php
-        //exit;
     } else {
         die("You're a cheater");
     }
 }
-      $query = "SELECT TITLE, CONTENT, SUBSTRING(DATE, 1, 10) AS DATE FROM $posttable ORDER BY POSTID DESC";
+      $query = "SELECT TITLE, CONTENT, SUBSTRING(DATE, 1, 10) AS DATE, USERNAME FROM $posttable P, $usertable U WHERE P.USERID = U.USERID ORDER BY POSTID DESC";
 
       //Fetch posts from database and echo them to paragraphs
       if ($result = $mysqli->query($query)) {
@@ -77,6 +73,10 @@ if (isset($_COOKIE["identifier"]) && isset($_COOKIE["token"])) {
 
           echo $row["TITLE"];
 
+          echo "<span class='align-right'>";
+          echo $row["USERNAME"];
+          echo "</span>";
+          echo "<br>";
           echo "<span class='align-right'>";
           echo $row["DATE"];
           echo "</span>";
