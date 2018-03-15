@@ -109,7 +109,7 @@ $connect->close();
       echo '<input id="username" type="text" name="uname" placeholder="Username"/><br>';
   }
   ?>
-  <input id="password" type="password" name="pword" placeholder="Password"/><br>
+  <input class="password" type="password" name="pword" placeholder="Password"/><br>
   <input id="authbtn" type="submit" name="logbtn" value="Sign In"/><br>
   Remember me:<input type="checkbox" name="stay_li"/><br>
 <?php
