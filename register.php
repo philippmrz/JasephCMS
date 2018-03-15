@@ -1,18 +1,19 @@
 <!doctype html>
 <html>
-
 <head>
   <?php require 'require/head.php';?>
 </head>
-
+<body>
+<?php require 'require/header.php';?>
+<script>applyStyle();</script>
 <?php
 // Credentials for this server
 require 'require/credentials.php';
 
-$connect = new mysqli($servername, $username, $password, $dbname);
+$mysqli = new mysqli($servername, $username, $password, $dbname);
 
-if ($connect->connect_error) {
-    die("Connecting to MySQL or database failed:<b><i> " . $connect->connect_error . "</b></i>");
+if ($mysqli->connect_error) {
+    die("Connecting to MySQL or database failed:<b><i> " . $mysqli->connect_error . "</b></i>");
 }
 
 if (isset($_POST["regbtn"])) {
@@ -41,7 +42,7 @@ if (isset($_POST["regbtn"])) {
         }
     }
 
-    $result = $connect->query("SELECT * FROM $usertable WHERE USERNAME='$uname'");
+    $result = $mysqli->query("SELECT * FROM $usertable WHERE USERNAME='$uname'");
     if ($result->num_rows > 0) {
         array_push($msg, "Username already exists");
     }
@@ -52,7 +53,7 @@ if (isset($_POST["regbtn"])) {
 
     if (count($msg) == 0) {
         $pword = password_hash($pword, PASSWORD_DEFAULT);
-        $result = $connect->query("INSERT INTO $usertable (USERNAME,PASSWORD) VALUES ('$uname','$pword')");
+        $result = $mysqli->query("INSERT INTO $usertable (USERNAME,PASSWORD) VALUES ('$uname','$pword')");
         if ($result) {
             setcookie("logcheck","true",time()+86400*356);
             setcookie("uname", $uname, time()+86400*356);
@@ -67,15 +68,8 @@ if (isset($_POST["regbtn"])) {
 }
 
 
-$connect->close();
+$mysqli->close();
 ?>
-<body>
-
-<?php
-require 'require/header.php';
-?>
-<script>applyStyle();</script>
-
 <div id="auth">
   <p id="title">Register</p>
   <form method="POST" action="">
