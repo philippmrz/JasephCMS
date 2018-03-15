@@ -61,7 +61,7 @@ body {
     cursor: pointer;
 }
 
-#login, #logout {
+#login, #logout, #nav-settings {
     background-color: transparent;
     color: var(--accent-color);
 }
