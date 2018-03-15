@@ -1,19 +1,20 @@
 <!doctype html>
 <html>
-
 <head>
   <?php require 'require/head.php';?>
 </head>
-
+<body>
+<?php require 'require/header.php';?>
+<script>applyStyle();</script>
 <?php
 // Credentials for this server
 require 'require/credentials.php';
 $msg = array();
 
-$connect = new mysqli($servername, $username, $password, $dbname);
+$mysqli = new mysqli($servername, $username, $password, $dbname);
 
-if ($connect->connect_error) {
-    die("Connecting to MySQL or database failed:<b><i> ". $connect->connect_error . "</b></i>");
+if ($mysqli->connect_error) {
+    die("Connecting to MySQL or database failed:<b><i> ". $mysqli->connect_error . "</b></i>");
 }
 
 function random_string($length)
@@ -31,7 +32,7 @@ function random_string($length)
 if (isset($_COOKIE["identifier"]) && isset($_COOKIE["token"])) {
     $identifier = $_COOKIE["identifier"];
     $token = $_COOKIE["token"];
-    $result = $connect->query("SELECT TOKEN FROM $usertable WHERE IDENTIFIER='$identifier'");
+    $result = $mysqli->query("SELECT TOKEN FROM $usertable WHERE IDENTIFIER='$identifier'");
     $row = $result->fetch_assoc();
     $db_token = $row["TOKEN"];
     $hash_token = hash("sha256", $token);
@@ -39,8 +40,8 @@ if (isset($_COOKIE["identifier"]) && isset($_COOKIE["token"])) {
     if ($hash_token == $db_token) {//new token
         $new_token = random_string(32);
         $hash_new_token = hash("sha256", $new_token);
-        $update = $connect->query("UPDATE $usertable SET TOKEN = '$hash_new_token' WHERE IDENTIFIER = '$identifier'");
-        $get_uname = $connect->query("SELECT USERNAME FROM $usertable WHERE IDENTIFIER = '$identifier'");
+        $update = $mysqli->query("UPDATE $usertable SET TOKEN = '$hash_new_token' WHERE IDENTIFIER = '$identifier'");
+        $get_uname = $mysqli->query("SELECT USERNAME FROM $usertable WHERE IDENTIFIER = '$identifier'");
         $row_u = $get_uname->fetch_assoc();
         $db_uname = $row_u["USERNAME"];
         setcookie("identifier", $identifier, time()+86400*356);
@@ -59,7 +60,7 @@ if (isset($_POST["logbtn"])) {
     $uname = $_POST["uname"];
     $pword = $_POST["pword"];
     if (!empty($uname) && !empty($pword)) {
-        $result = $connect->query("SELECT PASSWORD,USERNAME FROM $usertable WHERE USERNAME='$uname'");
+        $result = $mysqli->query("SELECT PASSWORD,USERNAME FROM $usertable WHERE USERNAME='$uname'");
         $row = $result->fetch_assoc();
         $db_p = $row["PASSWORD"];
         if ($result) {
@@ -69,7 +70,7 @@ if (isset($_POST["logbtn"])) {
                     $identifier = random_string(32);
                     $token = random_string(32);
                     $hash_token = hash("sha256", $token);
-                    $result = $connect->query("UPDATE $usertable SET IDENTIFIER = '$identifier', TOKEN = '$hash_token' WHERE USERNAME = '$uname'");
+                    $result = $mysqli->query("UPDATE $usertable SET IDENTIFIER = '$identifier', TOKEN = '$hash_token' WHERE USERNAME = '$uname'");
 
                     setcookie("identifier", $identifier, time()+86400*356);
                     setcookie("token", $token, time()+86400*356);
@@ -92,13 +93,8 @@ if (isset($_POST["logbtn"])) {
     }
 }
 
-$connect->close();
+$mysqli->close();
 ?>
-<body>
-
-<?php require 'require/header.php';?>
-<script>applyStyle();</script>
-
 <div id="auth">
 <p id="title">Login</p>
 <form method="POST" action="">
@@ -109,7 +105,7 @@ $connect->close();
       echo '<input id="username" type="text" name="uname" placeholder="Username"/><br>';
   }
   ?>
-  <input id="password" type="password" name="pword" placeholder="Password"/><br>
+  <input class="password" type="password" name="pword" placeholder="Password"/><br>
   <input id="authbtn" type="submit" name="logbtn" value="Sign In"/><br>
   Remember me:<input type="checkbox" name="stay_li"/><br>
 <?php

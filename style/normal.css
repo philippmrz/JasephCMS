@@ -1,11 +1,10 @@
-@import url("keyframes.css");
-
 :root {
     --background-color: white;
     --color: #212121;
     --font-family: "Lato";
     --accent-color: rgb(255, 118, 20);
     --title-color: rgba(0, 0, 0, .6);
+    --head-foot-color: #fff;
 }
 
 * {
@@ -36,6 +35,7 @@ body {
     width: 100%;
     height: 10vh;
     box-shadow: 0 2px 6px 0 rgba(0, 0, 0, .12), inset 0 -1px 0 0 #dadce0;
+    background: var(--head-foot-color);
 }
 
 #head-logo {
@@ -63,7 +63,7 @@ body {
     cursor: pointer;
 }
 
-#login, #logout {
+#login, #logout, #nav-settings {
     background-color: transparent;
     color: var(--accent-color);
 }
@@ -193,7 +193,7 @@ body {
     }
 }
 
-#footer {
+#footer-wrap {
     height: 25px;
     width: 100%;
     position: absolute;
@@ -201,13 +201,13 @@ body {
     bottom: 0;
     left: 0;
     overflow: hidden;
-    border-top: 1px solid #e2e2e2;
-    border-radius: 5px;
+    background: var(--head-foot-color);
+    box-shadow: 0 -2px 6px 0 rgba(0, 0, 0, .18), inset 0 1px 0 0 #dadce0;
 }
 
-#footer a {
+#footer-wrap a {
     text-decoration: none;
-    color: var(--color)
+    color: var(--color);
 }
 
 h1 {
@@ -235,4 +235,57 @@ h1 {
 
 #titlecharswrapper, #contentcharswrapper {
   text-align: right;
+}
+
+#settings-title{
+  color: var(--color);
+  font-size: 200%;
+  font-weight: bold;
+  background: var(--background-color);
+  margin-left: 20%;
+  padding-top: 2%;
+}
+
+#settings{
+    border: 2px solid #e2e2e2;
+    border-radius: 5px;
+    margin-right: 20%;
+    margin-left:20%;
+    padding-left: 2%;
+    margin-bottom:40px;
+}
+
+#settings #btn{
+  margin-top: 5%;
+  margin-left: 10%;
+  min-height: 35px;
+  min-width: 15vh;
+  color: var(--accent-color);
+  background: var(--background-color);
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  border: 3px solid var(--accent-color);
+  border-radius: 5px;
+}
+
+#settings #btn:hover{
+  background: var(--accent-color);
+  color: var(--background-color);
+}
+
+#settings #content{
+  font-family: "Lato";
+  font-weight: bold;
+  font-size: 15px;
+  padding-left: 10%;
+  margin-bottom: 20px;
+}
+
+#settings #input{
+  min-height: 10px;
+  min-width: 10%;
+  border: 1px solid #a0a0a0;
+  margin-left:2%;
+  margin-bottom:20px;
 }

@@ -74,7 +74,7 @@
       <?php endif;?>
     <?php else:?>
     <h1>Get Out</h1>
-    <script>redirect('index', 2);</script>
+    <script>redirect('index');</script>
     <?php endif;?>
   </div>
   <?php require 'require/footer.php';?>
