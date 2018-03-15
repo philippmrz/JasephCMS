@@ -81,26 +81,27 @@ function swapStyle() {
 function applyStyle() {
     if (getCookie("theme") == "hacker") {
         setHackerMode();
+    } else {
+        setNormalMode();
     }
 }
-
-window.onload = applyStyle();
 
 function setHackerMode() {
     document.documentElement.style.setProperty('--background-color', '#212121');
     document.documentElement.style.setProperty('--accent-color', 'rgb(32,194,14)');
     document.documentElement.style.setProperty('--color', 'rgb(32,194,14)');
     document.documentElement.style.setProperty('--title-color', 'rgba(255, 255, 255, .6)');
+    document.documentElement.style.setProperty('--head-foot-color', '#000');
     document.querySelector("#mask").setAttribute('src', 'assets/mask-white.png');
-    document.querySelector("#head-logo").setAttribute('src', 'assets/jaseph_hacker.png');
     if (document.querySelector("#floating-button-newpost")) {
         document.querySelector("#floating-button-newpost").setAttribute('src', 'assets/newpost-button-dark.png');
     }
     if (document.querySelector("#floating-button-gotop")) {
         document.querySelector("#floating-button-gotop").setAttribute('src', 'assets/gotop-button-dark.png');
     }
+    document.querySelector("#head-logo").setAttribute('src', 'assets/jaseph_hacker.png');
     document.querySelector('#head-wrap').style.boxShadow = 'none';
-    document.querySelector('#head-wrap').style.backgroundColor = 'black';
+    document.querySelector('#footer-wrap').style.boxShadow = 'none';
 }
 
 function setNormalMode() {
@@ -108,6 +109,7 @@ function setNormalMode() {
     document.documentElement.style.setProperty('--accent-color', 'rgb(255, 118, 20)');
     document.documentElement.style.setProperty('--color', '#212121');
     document.documentElement.style.setProperty('--title-color', 'rgba(0, 0, 0, .6)');
+    document.documentElement.style.setProperty('--head-foot-color', '#fff');
     document.querySelector("#mask").setAttribute('src', 'assets/mask.png');
     if (document.querySelector("#floating-button-newpost")) {
         document.querySelector("#floating-button-newpost").setAttribute('src', 'assets/newpost-button.png');
@@ -117,7 +119,7 @@ function setNormalMode() {
     }
     document.querySelector("#head-logo").setAttribute('src', 'assets/jaseph_normal.png');
     document.querySelector('#head-wrap').style.boxShadow = '0 2px 6px 0 rgba(0, 0, 0, .12), inset 0 -1px 0 0 #dadce0';
-    document.querySelector('#head-wrap').style.backgroundColor = 'white';
+    document.querySelector('#footer-wrap').style.boxShadow = '0 -2px 6px 0 rgba(0, 0, 0, .18), inset 0 1px 0 0 #dadce0';
 }
 
 function updateCharsLeft(maxAmt, type) {
