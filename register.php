@@ -17,8 +17,8 @@ if ($mysqli->connect_error) {
 }
 
 if (isset($_POST["regbtn"])) {
-    setcookie("identifier", "", time()-86400*356);
-    setcookie("token", "", time()-86400*356);
+    ?><script>deleteCookie("identifier");</script><?php
+    ?><script>deleteCookie("token");</script><?php
 
     $uname = $_POST["uname"];
     $pword = $_POST["pword"];
@@ -55,9 +55,9 @@ if (isset($_POST["regbtn"])) {
         $pword = password_hash($pword, PASSWORD_DEFAULT);
         $result = $mysqli->query("INSERT INTO $usertable (USERNAME,PASSWORD) VALUES ('$uname','$pword')");
         if ($result) {
-            setcookie("logcheck","true",time()+86400*356);
-            setcookie("uname", $uname, time()+86400*356);
-            ?>
+            ?><script>setCookie("logcheck","true");</script><?php
+            ?><script>setCookie("uname",$uname);</script>
+            
             <script>redirect("index");</script>
             <?php
             exit;
