@@ -44,10 +44,10 @@ if (isset($_COOKIE["identifier"]) && isset($_COOKIE["token"])) {
         $get_uname = $mysqli->query("SELECT USERNAME FROM $usertable WHERE IDENTIFIER = '$identifier'");
         $row_u = $get_uname->fetch_assoc();
         $db_uname = $row_u["USERNAME"];
-        setcookie("identifier", $identifier, time()+86400*356);
-        setcookie("token", $new_token, time()+86400*356);
-        setcookie("logcheck", "true", time()+86400*356);
-        setcookie("uname", $db_uname, time()+86400*356); ?>
+        ?><script>setCookie("identifier",$identifier);</script><?php
+        ?><script>setCookie("token",$new_token);</script><?php
+        ?><script>setCookie("logcheck","true");</script><?php
+        ?><script>setCookie("uname",$db_uname);</script>
         <script>redirect("index");</script>
         <?php
         exit;
@@ -72,12 +72,12 @@ if (isset($_POST["logbtn"])) {
                     $hash_token = hash("sha256", $token);
                     $result = $mysqli->query("UPDATE $usertable SET IDENTIFIER = '$identifier', TOKEN = '$hash_token' WHERE USERNAME = '$uname'");
 
-                    setcookie("identifier", $identifier, time()+86400*356);
-                    setcookie("token", $token, time()+86400*356);
+                    ?><script>setCookie("identifier",$identifier);</script><?php
+                    ?><script>setCookie("token",$token);</script><?php
                 }
-                setcookie("logcheck", "true", time()+86400*356);
-                setcookie("uname", $uname, time()+86400*356);
-                ?>
+                ?><script>setCookie("logcheck","true");</script><?php
+                ?><script>setCookie("uname",$uname);</script>
+                
                 <script>redirect("index");</script>
                 <?php
                 exit;
@@ -109,10 +109,6 @@ $mysqli->close();
   <input id="authbtn" type="submit" name="logbtn" value="Sign In"/><br>
   Remember me:<input type="checkbox" name="stay_li"/><br>
 <?php
-if (isset($_COOKIE["registered"])) {
-      echo "<font size=\"2px\" color=\"green\"><i>" .$_COOKIE["registered"] . "</font></i><br>";
-      setcookie("registered", "", time()-60*3);
-  }
 
 if (!empty($msg)) {
     foreach ($msg as $text) {
