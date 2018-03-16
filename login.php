@@ -76,7 +76,7 @@ if (isset($_POST["logbtn"])) {
                     ?><script>setCookie("token",$token);</script><?php
                 }
                 ?><script>setCookie("logcheck","true");</script><?php
-                ?><script>setCookie("uname",$uname);</script>
+                ?><script>setCookie("uname",<?php echo $uname;?>);</script>
                 
                 <script>redirect("index");</script>
                 <?php
