@@ -17,7 +17,7 @@ if ($mysqli->connect_error) {
     die("Connecting to MySQL or database failed:<b><i> ". $mysqli->connect_error . "</b></i>");
 }
 
-$uname = "Username";
+  $uname = ?><script>getCookie("uname");</script><?php
 
 $visibility = true;//evtl setting ob user anonym bleiben will
 $get_admin = $mysqli->query("SELECT ROLE FROM $usertable WHERE USERNAME = '$uname'");
