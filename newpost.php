@@ -55,7 +55,7 @@
             $title   = $mysqli->escape_string($_POST["title"]);
             $content = $mysqli->escape_string($_POST["content"]);
 
-            $insert = $mysqli->query("INSERT INTO $posttable (userid, title, content) VALUES ('$db_uid', '$title', '$content')"); // Inserts data into the post table
+            $insert = $mysqli->query("INSERT INTO $posttable (USERID, TITLE, CONTENT) VALUES ('$db_uid', '$title', '$content')"); // Inserts data into the post table
             if(!$insert) {
                 echo $mysqli->error;
             }

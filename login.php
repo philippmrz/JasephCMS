@@ -72,12 +72,12 @@ if (isset($_POST["logbtn"])) {
                     $hash_token = hash("sha256", $token);
                     $result = $mysqli->query("UPDATE $usertable SET IDENTIFIER = '$identifier', TOKEN = '$hash_token' WHERE USERNAME = '$uname'");
 
-                    ?><script>setCookie("identifier",$identifier);</script><?php
-                    ?><script>setCookie("token",$token);</script><?php
+                    ?><script>setCookie("identifier","<?php echo $identifier;?>");</script><?php
+                    ?><script>setCookie("token","<?php echo $token;?>");</script><?php
                 }
                 ?><script>setCookie("logcheck","true");</script><?php
-                ?><script>setCookie("uname",<?php echo $uname;?>);</script>
-                
+                ?><script>setCookie("uname","<?php echo $uname;?>");</script>
+
                 <script>redirect("index");</script>
                 <?php
                 exit;
