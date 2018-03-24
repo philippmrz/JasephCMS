@@ -100,6 +100,5 @@ $mysqli->close();
       <script>redirect('index');</script>
     </div>
 <?php endif;?>
-<?php require 'require/footer.php';?>
 </body>
 </html>

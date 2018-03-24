@@ -77,6 +77,5 @@
     <script>redirect('index');</script>
     <?php endif;?>
   </div>
-  <?php require 'require/footer.php';?>
 </body>
 </html>

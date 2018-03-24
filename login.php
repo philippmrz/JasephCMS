@@ -120,6 +120,5 @@ if (!empty($msg)) {
 
 </form>
 </div>
-<?php require 'require/footer.php';?>
 </body>
 </html>
