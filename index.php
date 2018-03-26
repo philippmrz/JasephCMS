@@ -2,7 +2,6 @@
 <html>
 <head>
   <?php require 'require/head.php';?>
-
   <link rel="stylesheet" href="style/index.css" id="pagestyle">
 </head>
 <body>
@@ -18,10 +17,7 @@
   <div id='sidebar'></div>
   <div id='content'>
     <?php
-      //Include classes automatically
-      spl_autoload_register(function ($class) {
-        include 'require/' . $class . '.class.php';
-      });
+
       $db = new DatabaseConnection();
       echo $db->postsAusgeben();
     ?>
