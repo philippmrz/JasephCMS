@@ -4,3 +4,9 @@
 <link rel="stylesheet" href="style/general.css" id="pagestyle">
 <script src="script/script.js"></script>
 <title>JasephCMS</title>
+<?php
+//Include classes automatically
+spl_autoload_register(function ($class) {
+  include 'require/' . $class . '.class.php';
+});
+?>
