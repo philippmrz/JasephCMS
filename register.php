@@ -1,11 +1,3 @@
-<!doctype html>
-<html>
-<head>
-  <?php require 'require/head.php';?>
-</head>
-<body>
-<?php require 'require/header.php';?>
-<script>applyStyle();</script>
 <?php
 // Credentials for this server
 require 'require/credentials.php';
@@ -74,30 +66,49 @@ if (isset($_POST["regbtn"])) {
     }
 }
 
-
 $mysqli->close();
 ?>
-<div id="auth">
-  <p id="title">Register</p>
-  <form method="POST" action="">
+
+<!doctype html>
+<html>
+<head>
+  <?php require 'require/head.php';?>
+  <link rel="stylesheet" href="style/login.css" id="pagestyle">
+</head>
+<body>
+
+<div id='grid-wrap'>
+  <?php require 'require/header.php';?>
+  <div id='sidebar'></div>
+  <div id='content'>
+
+    <form id='auth' method="POST" action="">
+    <p id="title">Register</p>
+
+      <?php
+      if (isset($uname) && !empty($uname)) {
+          echo '<input id="username" type="text" name="uname" placeholder="Username" value="' . $uname .'"/>';
+      } else {
+          echo '<input id="username" type="text" name="uname" placeholder="Username"/>';
+      }
+      ?>
+
+      <input class="password" type="password" name="pword" placeholder="Password"/>
+      <input class="password" type="password" name="pwordval" placeholder="Repeat Password"/>
+      <input class='primary-btn' id="authbtn" type="submit" name="regbtn" value="Register"/>
+    </form>
     <?php
-    if (isset($uname) && !empty($uname)) {
-        echo '<input id="username" type="text" name="uname" placeholder="Username" value="' . $uname .'"/><br>';
-    } else {
-        echo '<input id="username" type="text" name="uname" placeholder="Username"/><br>';
+    if (!empty($msg)) {
+      foreach ($msg as $text) {
+        echo "<font size=\"2px\" color=\"red\"><i>" . $text . "</font></i><br>";
+      }
     }
     ?>
-    <input class="password" type="password" name="pword" placeholder="Password"/><br>
-    <input class="password" type="password" name="pwordval" placeholder="Repeat Password"/><br>
-    <input id="authbtn" type="submit" name="regbtn" value="Register"/><br>
-</form>
-<?php
-if (!empty($msg)) {
-        foreach ($msg as $text) {
-            echo "<font size=\"2px\" color=\"red\"><i>" . $text . "</font></i><br>";
-        }
-    }
-?>
+  </div>
+
 </div>
+
+<script>applyStyle();</script>
+
 </body>
 </html>
