@@ -28,8 +28,6 @@ CREATE TABLE `post` (
   `USERID` int(11) NOT NULL,
   `TITLE` varchar(200) NOT NULL,
   `CONTENT` varchar(10000) NOT NULL,
-  `UP` int(11) DEFAULT NULL,
-  `DOWN` int(11) DEFAULT NULL,
   PRIMARY KEY (`POSTID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf16;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -39,9 +37,6 @@ CREATE TABLE `post` (
 --
 
 LOCK TABLES `post` WRITE;
-/*!40000 ALTER TABLE `post` DISABLE KEYS */;
-INSERT INTO `post` VALUES (1,'2018-02-06 20:40:46',1,'Test Post','Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.',NULL,NULL);
-/*!40000 ALTER TABLE `post` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -58,6 +53,10 @@ CREATE TABLE `user` (
   `EMAIL` varchar(100) CHARACTER SET ascii COLLATE ascii_bin DEFAULT NULL,
   `REGISTERED` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `LASTSEEN` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `LASTCHANGED` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `IDENTIFIER` varchar(255) NOT NULL,
+  `TOKEN` varchar(255) NOT NULL,
+  `ROLE` varchar(255) DEFAULT NULL
   PRIMARY KEY (`USERID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf16;
 /*!40101 SET character_set_client = @saved_cs_client */;
