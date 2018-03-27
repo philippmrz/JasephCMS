@@ -94,7 +94,7 @@ $mysqli->close();
 <body>
 <div id='grid-wrap'>
   <?php require 'require/header.php';?>
-  <div id='sidebar'></div>
+  <?php require 'require/sidebar.php';?>
   <div id='content'>
 
     <form id='auth' method="POST" action="">

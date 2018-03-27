@@ -14,10 +14,9 @@
 
 <div id='grid-wrap'>
   <?php require 'require/header.php';?>
-  <div id='sidebar'></div>
+  <?php require 'require/sidebar.php'; ?>
   <div id='content'>
     <?php
-
       $db = new DatabaseConnection();
       echo $db->postsAusgeben();
     ?>
