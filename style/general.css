@@ -151,7 +151,8 @@ button, input[type='submit'] {
   align-items: center;
   color: #202124;
   font-size: 16px;
-  letter-spacing: .25px;
+  letter-spacing: .4px;
+  font-weight: 300;
 }
 
 .sidebar-elem[status='active'] {
