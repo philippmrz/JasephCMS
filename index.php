@@ -6,12 +6,6 @@
 </head>
 <body>
 
-<?php if (isset($_COOKIE["logcheck"])): ?>
-  <a href="newpost" title="Create a new post">
-    <img id="floating-button-newpost" src="assets/newpost-button.png"/>
-  </a>
-<?php endif; ?>
-
 <div id='grid-wrap'>
   <?php require 'require/header.php';?>
   <?php require 'require/sidebar.php'; ?>
