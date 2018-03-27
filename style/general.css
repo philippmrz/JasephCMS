@@ -144,3 +144,15 @@ button, input[type='submit'] {
   justify-content: center;
   align-items: center;
 }
+
+.sidebar-elem {
+  color: #3a3a3a;
+}
+
+.sidebar-elem[status='active'] {
+  box-shadow: none;
+}
+
+.sidebar-elem:hover {
+  color: #ff7614;
+}
