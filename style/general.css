@@ -1,7 +1,7 @@
 * {
   margin: 0;
   padding: 0;
-  color: #212121;
+  color: #202124;
   box-sizing: border-box;
 }
 
@@ -17,7 +17,7 @@ body, html {
 /* Grid configs */
 #grid-wrap {
   display: grid;
-  grid-template-columns: 24% auto;
+  grid-template-columns: 150px auto;
   grid-template-rows: 12vh 88vh;
   height: 100vh;
 }
@@ -149,21 +149,21 @@ button, input[type='submit'] {
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.sidebar-elem {
-  color: #3a3a3a;
+  color: #202124;
+  font-size: 16px;
+  letter-spacing: .25px;
 }
 
 .sidebar-elem[status='active'] {
   box-shadow: none;
+  background-color: initial;
 }
 
 .sidebar-elem[status='active']:hover {
-  color: initial;
+  background-color: initial;
   cursor: initial;
 }
 
 .sidebar-elem:hover {
-  color: #ff7614;
+  background-color: rgba(255, 118, 20, 1);
 }
