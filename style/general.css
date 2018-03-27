@@ -79,6 +79,7 @@ button, input[type='submit'] {
   cursor: pointer;
 }
 
+/* Default buttons */
 .primary-btn {
   background-color: #ff7614;
   color: white;
@@ -94,6 +95,11 @@ button, input[type='submit'] {
   border: 2px solid #ff7614;
   padding: 8px 13px;
   border-radius: 4px;
+}
+
+/* Transforms */
+* {
+  transition: all 200ms linear;
 }
 
 /* Header CSS */
@@ -151,6 +157,11 @@ button, input[type='submit'] {
 
 .sidebar-elem[status='active'] {
   box-shadow: none;
+}
+
+.sidebar-elem[status='active']:hover {
+  color: initial;
+  cursor: initial;
 }
 
 .sidebar-elem:hover {
