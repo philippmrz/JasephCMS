@@ -14,9 +14,6 @@
         <a href='#'>
           <button id='logout' class='secondary-btn' onclick='logout()'>log out</button>
         </a>
-        <a href='settings'>
-          <button id='nav-settings' class ='secondary-btn'>settings</button>
-        </a>
     <?php endif;?>
         <img id='mask' src='assets/mask.png' onclick='swapStyle()' title='Change page theme'>
     </div>
