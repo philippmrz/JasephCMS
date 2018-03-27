@@ -2,12 +2,13 @@
   margin: 0;
   padding: 0;
   color: #212121;
+  box-sizing: border-box;
 }
 
 body, html {
   height: 100%;
   font-size: 20px;
-  font-family: open sans, "Lato", "Slabo";
+  font-family: "Lato", "Slabo";
   margin: 0;
   padding: 0;
   background-color: white;
@@ -127,5 +128,15 @@ button, input[type='submit'] {
 
 /* Sidebar CSS */
 #sidebar {
-  background: linear-gradient(tomato, #ff7614);
+  display: grid;
+  grid-auto-rows: auto;
+}
+
+.sidebar-elem {
+  text-transform: uppercase;
+  box-shadow: rgba(0, 0, 0, 0.12) 2px 1px 6px 0px, rgb(218, 220, 224) -1px 0px 0px 0px inset;
+  font-family: 'Open Sans', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
