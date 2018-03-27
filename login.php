@@ -36,13 +36,12 @@ if (isset($_COOKIE["identifier"]) && isset($_COOKIE["token"])) {
         $get_uname = $mysqli->query("SELECT USERNAME FROM $usertable WHERE IDENTIFIER = '$identifier'");
         $row_u = $get_uname->fetch_assoc();
         $db_uname = $row_u["USERNAME"];
-        ?><script>setCookie("identifier",$identifier);</script><?php
-?><script>setCookie("token",$new_token);</script><?php
-?><script>setCookie("logcheck","true");</script><?php
-?><script>setCookie("uname",$db_uname);</script>
-        <script>redirect("index");</script>
-        <?php
-exit;
+        setcookie("identifier", $identifier);
+        setcookie("token", $new_token);
+        setcookie("logcheck", "true");
+        setcookie("uname", $db_uname);
+        header("Location: index");
+        exit;
     } else {
         die("You're a cheater");
     }
@@ -64,14 +63,12 @@ if (isset($_POST["logbtn"])) {
                     $hash_token = hash("sha256", $token);
                     $result = $mysqli->query("UPDATE $usertable SET IDENTIFIER = '$identifier', TOKEN = '$hash_token' WHERE USERNAME = '$uname'");
 
-                    ?><script>setCookie("identifier","<?php echo $identifier; ?>");</script><?php
-?><script>setCookie("token","<?php echo $token; ?>");</script><?php
+                    setcookie("identifier","$identifier");
+                    setcookie("token","$token");
 }
-                ?><script>setCookie("logcheck","true");</script><?php
-?><script>setCookie("uname","<?php echo $uname; ?>");</script>
-
-                <script>redirect("index");</script>
-                <?php
+setcookie("logcheck","true");
+setcookie("uname","$uname");
+header("Location: index");
 exit;
             } else {
                 //invalid
@@ -106,9 +103,9 @@ $mysqli->close();
 
       <?php
 if (isset($uname) && !empty($uname)) {
-  echo '<input id="username" type="text" name="uname" placeholder="Username" value="' . $uname . '"/><br>';
+    echo '<input id="username" type="text" name="uname" placeholder="Username" value="' . $uname . '"/><br>';
 } else {
-  echo '<input id="username" type="text" name="uname" placeholder="Username"/><br>';
+    echo '<input id="username" type="text" name="uname" placeholder="Username"/><br>';
 }
 ?>
       <input class="password" type="password" name="pword" placeholder="Password"/><br>
@@ -122,9 +119,9 @@ if (isset($uname) && !empty($uname)) {
 
       <?php
 if (!empty($msg)) {
-  foreach ($msg as $text) {
-      echo "<font size=\"2px\" color=\"red\"><i>" . $text . "</font></i><br>";
-  }
+    foreach ($msg as $text) {
+        echo "<font size=\"2px\" color=\"red\"><i>" . $text . "</font></i><br>";
+    }
 }
 ?>
 
