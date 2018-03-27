@@ -45,7 +45,7 @@ body, html {
     grid-area: 1 / 1 / 2 / 2;
   }
 
-  #sidebar {
+  #sidebar, #sidebar * {
     display: none;
   }
 
