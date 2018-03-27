@@ -3,13 +3,17 @@
   width: 70%;
   min-height: 12vh;
   margin: 0 auto;
-  border: 2px solid #ff7614;
+  border: 2px solid #ababab;
   border-radius: 4px;
   margin-top: 3vh;
   padding: 12px 25px 12px 25px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.post:hover {
+  border: 2px solid #ff7614;
 }
 
 .thumbnail {
@@ -65,7 +69,7 @@
   height: 8vh;
   font-size: .8em;
   max-width: 40vw;
-  color: #ababab;
+  color: #555555;
   word-break: break-all;
 }
 
