@@ -19,60 +19,60 @@
             <button type="submit" id="btnpost" class="btn">Post</button>
           </div>
         </form>
-      <?php else:?>
+      <?php else: ?>
         <?php
-        // Credentials for this server
-        require('require/credentials.php');
+// Credentials for this server
+require 'require/credentials.php';
 
-        $success = true;
+$success = true;
 
-        if (!isset($_POST["title"]) || empty($_POST["title"]) || ctype_space($_POST["title"])) { //Check if the title is not set/empty/only spaces. Exit if true.
-            echo 'Something went wrong. Title must not be empty! For some reason submitting an empty input was allowed.<br>';
-            $success = false;
-        }
+if (!isset($_POST["title"]) || empty($_POST["title"]) || ctype_space($_POST["title"])) { //Check if the title is not set/empty/only spaces. Exit if true.
+    echo 'Something went wrong. Title must not be empty! For some reason submitting an empty input was allowed.<br>';
+    $success = false;
+}
 
-        if (!isset($_POST["content"]) || empty($_POST["content"]) || ctype_space($_POST["content"])) { //Check if the content is not set/empty/only spaces. Exit if true.
-            echo 'Something went wrong. Content must not be empty! For some reason submitting an empty input was allowed.<br>';
-            $success = false;
-        }
+if (!isset($_POST["content"]) || empty($_POST["content"]) || ctype_space($_POST["content"])) { //Check if the content is not set/empty/only spaces. Exit if true.
+    echo 'Something went wrong. Content must not be empty! For some reason submitting an empty input was allowed.<br>';
+    $success = false;
+}
 
-        $mysqli = new mysqli("$servername", "$username", "$password", "$dbname");
+$mysqli = new mysqli("$servername", "$username", "$password", "$dbname");
 
-        if ($mysqli->connect_errno) {
-            printf("Connect failed: %s\n", $mysqli->connect_error);
-            exit();
-        }
+if ($mysqli->connect_errno) {
+    printf("Connect failed: %s\n", $mysqli->connect_error);
+    exit();
+}
 
-        if ($success) {
-            $uname   = $_COOKIE["uname"];
-            $get_uid  = $mysqli->query("SELECT USERID FROM $usertable WHERE USERNAME = '$uname'");
-            if(!$get_uid) {
-                echo $mysqli->error;
-            }
-            $row_uid = $get_uid->fetch_assoc();
-            $db_uid = $row_uid["USERID"];
+if ($success) {
+    $uname = $_COOKIE["uname"];
+    $get_uid = $mysqli->query("SELECT USERID FROM $usertable WHERE USERNAME = '$uname'");
+    if (!$get_uid) {
+        echo $mysqli->error;
+    }
+    $row_uid = $get_uid->fetch_assoc();
+    $db_uid = $row_uid["USERID"];
 
-            $title   = $mysqli->escape_string($_POST["title"]);
-            $content = $mysqli->escape_string($_POST["content"]);
+    $title = $mysqli->escape_string($_POST["title"]);
+    $content = $mysqli->escape_string($_POST["content"]);
 
-            $insert = $mysqli->query("INSERT INTO $posttable (USERID, TITLE, CONTENT) VALUES ('$db_uid', '$title', '$content')"); // Inserts data into the post table
-            if(!$insert) {
-                echo $mysqli->error;
-            }
+    $insert = $mysqli->query("INSERT INTO $posttable (USERID, TITLE, CONTENT) VALUES ('$db_uid', '$title', '$content')"); // Inserts data into the post table
+    if (!$insert) {
+        echo $mysqli->error;
+    }
 
-            $mysqli->close();
-            ?>
+    $mysqli->close();
+    ?>
             <h1>Successfully created new post!</h1>
             <script>redirect("index", 5);</script>
             <?php
-        } else {
-            ?>
+} else {
+    ?>
             <h1>Creation of new post failed!</h1>
             <?php
-        }
-        ?>
+}
+?>
       <?php endif;?>
-    <?php else:?>
+    <?php else: ?>
     <h1>Get Out</h1>
     <script>redirect('index');</script>
     <?php endif;?>
