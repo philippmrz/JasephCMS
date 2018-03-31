@@ -1,7 +1,7 @@
-<?php if (!isset($_COOKIE["logcheck"])):
+<?php /*if (!isset($_COOKIE["logcheck"])):
   header('Location: index');
 
-elseif (isset($_POST["title"])):
+else*/if (isset($_POST["title"])):
   require 'require/credentials.php';
   $mysqli = new mysqli("$servername", "$username", "$password", "$dbname");
 
@@ -42,21 +42,24 @@ endif; ?>
 
 <div id='grid-wrap'>
   <?php require 'require/header.php';?>
+  <script>applyStyle();</script>
   <?php require 'require/sidebar.php'; ?>
   <div id='content'>
+    <div id='postwrapper'>
 
-    <form id='newpost' action="" method="POST">
+      <form id='newpost' action="" method="POST">
+        <div id='post-sheet'>
+          <p id="titlecharswrapper">200</p>
+          <input id="titleField" name="title" type="text" placeholder="Title" maxlength="200" oninput="updateCharsLeft(200, 'title')" required autofocus></input>
 
-      <div id='post-sheet'>
-        <p id="titlecharswrapper">0/200</p>
-        <input id="titleField" name="title" type="text" placeholder="Title" maxlength="200" oninput="updateCharsLeft(200, 'title')" required autofocus/>
+          <p id="contentcharswrapper">10000</p>
+          <textarea id="contentArea" name="content" placeholder="Post content" spellcheck="false" maxlength="10000" oninput="updateCharsLeft(10000, 'content')" required></textarea>
+        </div>
 
-        <p id="contentcharswrapper">0/10000</p>
-        <textarea id="contentArea" name="content" placeholder="Post content" spellcheck="false" maxlength="10000" oninput="updateCharsLeft(10000, 'content')" required>Write yout post here...</textarea>
-      </div>
+        <button type="submit" id="btnpost" class="primary-btn">Post</button>
+      </form>
 
-      <button type="submit" id="btnpost" class="primary-btn">Post</button>
-    </form>
+    </div>
   </div>
 </div>
 

@@ -87,11 +87,10 @@ function applyStyle() {
 }
 
 function setHackerMode() {
-    document.documentElement.style.setProperty('--background-color', '#212121');
-    document.documentElement.style.setProperty('--accent-color', 'rgb(32,194,14)');
-    document.documentElement.style.setProperty('--color', 'rgb(32,194,14)');
-    document.documentElement.style.setProperty('--title-color', 'rgba(255, 255, 255, .6)');
-    document.documentElement.style.setProperty('--head-foot-color', '#000');
+    document.documentElement.style.setProperty('--bg-color', '#202124');
+    document.documentElement.style.setProperty('--accent-color', '32,194,14');
+    document.documentElement.style.setProperty('--color', '#e6e6e6');
+    document.documentElement.style.setProperty('--title-color', 'rgba(255, 255, 255, 0.6)');
     document.querySelector("#mask").setAttribute('src', 'assets/mask-white.png');
     if (document.querySelector("#floating-button-newpost")) {
         document.querySelector("#floating-button-newpost").setAttribute('src', 'assets/newpost-button-dark.png');
@@ -100,16 +99,13 @@ function setHackerMode() {
         document.querySelector("#floating-button-gotop").setAttribute('src', 'assets/gotop-button-dark.png');
     }
     document.querySelector("#head-logo").setAttribute('src', 'assets/jaseph_hacker.png');
-    document.querySelector('#head-wrap').style.boxShadow = 'none';
-    document.querySelector('#footer-wrap').style.boxShadow = 'none';
 }
 
 function setNormalMode() {
-    document.documentElement.style.setProperty('--background-color', '#fff');
-    document.documentElement.style.setProperty('--accent-color', 'rgb(255, 118, 20)');
-    document.documentElement.style.setProperty('--color', '#212121');
-    document.documentElement.style.setProperty('--title-color', 'rgba(0, 0, 0, .6)');
-    document.documentElement.style.setProperty('--head-foot-color', '#fff');
+    document.documentElement.style.setProperty('--bg-color', '#fff');
+    document.documentElement.style.setProperty('--accent-color', '255, 118, 20');
+    document.documentElement.style.setProperty('--color', '#202124');
+    document.documentElement.style.setProperty('--title-color', 'rgba(0, 0, 0, 0.6)');
     document.querySelector("#mask").setAttribute('src', 'assets/mask.png');
     if (document.querySelector("#floating-button-newpost")) {
         document.querySelector("#floating-button-newpost").setAttribute('src', 'assets/newpost-button.png');
@@ -118,16 +114,14 @@ function setNormalMode() {
         document.querySelector("#floating-button-gotop").setAttribute('src', 'assets/gotop-button.png');
     }
     document.querySelector("#head-logo").setAttribute('src', 'assets/jaseph_normal.png');
-    document.querySelector('#head-wrap').style.boxShadow = '0 2px 6px 0 rgba(0, 0, 0, .12), inset 0 -1px 0 0 #dadce0';
-    document.querySelector('#footer-wrap').style.boxShadow = '0 -2px 6px 0 rgba(0, 0, 0, .18), inset 0 1px 0 0 #dadce0';
 }
 
 function updateCharsLeft(maxAmt, type) {
     if(type == "title") {
         var cur = document.getElementById("titleField").value.length;
-        document.getElementById("titlecharswrapper").innerHTML = cur + "/" + maxAmt;
+        document.getElementById("titlecharswrapper").innerHTML = maxAmt - cur;
     } else if(type == "content") {
         var cur = document.getElementById("contentArea").value.length;
-        document.getElementById("contentcharswrapper").innerHTML = cur + "/" + maxAmt;
+        document.getElementById("contentcharswrapper").innerHTML = maxAmt - cur;
     }
 }
