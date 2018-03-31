@@ -36,7 +36,7 @@ endif; ?>
 <html>
 <head>
   <?php require 'require/head.php';?>
-  <link rel="stylesheet" href="style/myposts.css" id="pagestyle">
+  <link rel="stylesheet" href="style/newpost.css" id="pagestyle">
 </head>
 <body>
 
@@ -45,14 +45,15 @@ endif; ?>
   <?php require 'require/sidebar.php'; ?>
   <div id='content'>
 
-    <form action="" method="POST">
-      <p>New Post</p>
+    <form id='newpost' action="" method="POST">
 
-      <p id="titlecharswrapper">0/200</p>
-      <input id="titleField" name="title" type="text" placeholder="Title" maxlength="200" oninput="updateCharsLeft(200, 'title')" required/>
+      <div id='post-sheet'>
+        <p id="titlecharswrapper">0/200</p>
+        <input id="titleField" name="title" type="text" placeholder="Title" maxlength="200" oninput="updateCharsLeft(200, 'title')" required autofocus/>
 
-      <p id="contentcharswrapper">0/10000</p>
-      <textarea id="contentArea" name="content" placeholder="Post content" rows="20" cols="100" spellcheck="false" maxlength="10000" oninput="updateCharsLeft(10000, 'content')" required></textarea>
+        <p id="contentcharswrapper">0/10000</p>
+        <textarea id="contentArea" name="content" placeholder="Post content" spellcheck="false" maxlength="10000" oninput="updateCharsLeft(10000, 'content')" required>Write yout post here...</textarea>
+      </div>
 
       <button type="submit" id="btnpost" class="primary-btn">Post</button>
     </form>
