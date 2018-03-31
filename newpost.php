@@ -48,14 +48,14 @@ endif; ?>
     <form action="" method="POST">
       <p>New Post</p>
 
-      <div id="titlecharswrapper">0/200</div>
-      <input id="titleField" name="title" type="text" placeholder="Post title" autocomplete="" maxlength="200" oninput="updateCharsLeft(200, 'title')" required/><br><br>
-      <div id="contentcharswrapper">0/10000</div>
-      <textarea id="contentArea" name="content" placeholder="Post content" rows="20" cols="100" spellcheck="false" maxlength="10000" oninput="updateCharsLeft(10000, 'content')" required></textarea><br>
-      <div id="btnpostwrapper">
-      <button type="submit" id="btnpost" class="btn">Post</button>
-      </div>
-      </form>
+      <p id="titlecharswrapper">0/200</p>
+      <input id="titleField" name="title" type="text" placeholder="Title" maxlength="200" oninput="updateCharsLeft(200, 'title')" required/>
+
+      <p id="contentcharswrapper">0/10000</p>
+      <textarea id="contentArea" name="content" placeholder="Post content" rows="20" cols="100" spellcheck="false" maxlength="10000" oninput="updateCharsLeft(10000, 'content')" required></textarea>
+
+      <button type="submit" id="btnpost" class="primary-btn">Post</button>
+    </form>
   </div>
 </div>
 
