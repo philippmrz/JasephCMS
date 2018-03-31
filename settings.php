@@ -1,9 +1,9 @@
-//Check if User is logged in, if not, kick back to index
+<!--Check if User is logged in, if not, kick back to index-->
 <?php if (!isset($_COOKIE["logcheck"])):?>
   <h1>Get Out</h1>
-  <script>redirect('index');</script>
-
 <?php
+    header("Location: index");
+    endif;
     require 'require/credentials.php';
 
     $mysqli = new mysqli($servername, $username, $password, $dbname);
@@ -56,7 +56,8 @@ $mysqli->close();
 <html>
 <head>
   <?php require 'require/head.php';?>
-  <link rel="stylesheet" href="style/saved.css" id="pagestyle">
+  <script>applyStyle();</script>
+  <link rel="stylesheet" href="style/settings.css" id="pagestyle">
 </head>
 <body>
 
