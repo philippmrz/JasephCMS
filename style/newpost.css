@@ -1,0 +1,22 @@
+#titlecharswrapper {
+  text-align: right;
+}
+
+#contentcharswrapper {
+  text-align: right;
+}
+
+#postwrapper {
+  width: 70%;
+  margin: 0 auto;
+  padding: 6vh 0;
+}
+
+#titleField {
+  width: 70%;
+}
+
+#contentArea {
+  width: 70%;
+  max-width: 100%;
+}

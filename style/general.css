@@ -1,7 +1,13 @@
+:root {
+  --bg-color: white;
+  --color: #202124;
+  --accent-color: #ff7614;
+}
+
 * {
   margin: 0;
   padding: 0;
-  color: #202124;
+  color: var(--color);
   box-sizing: border-box;
 }
 
@@ -11,7 +17,7 @@ body, html {
   font-family: "Lato", "Slabo";
   margin: 0;
   padding: 0;
-  background-color: white;
+  background-color: var(--bg-color);
 }
 
 /* Grid configs */
@@ -32,7 +38,8 @@ body, html {
 
 #content {
   grid-area: 2 / 2 / 3 / 3;
-  overflow: scroll;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 @media (max-width: 900px) {
@@ -58,12 +65,12 @@ body, html {
 /* Reset shitty default browser styles*/
 a {
   text-decoration: none;
-  color: #ff7614;
+  color: var(--accent-color);
   cursor: pointer;
 }
 
 input, textarea {
-  background-color: white;
+  background-color: var(--bg-color);
   border: 2px solid #ababab;
   border-radius: 3px;
   padding: 5px 7px;
@@ -71,7 +78,7 @@ input, textarea {
 }
 
 input:focus, textarea:focus  {
-  border: 2px solid #ff7614;
+  border: 2px solid var(--accent-color);
 }
 
 button, input[type='submit'] {
@@ -81,8 +88,8 @@ button, input[type='submit'] {
 
 /* Default buttons */
 .primary-btn {
-  background-color: #ff7614;
-  color: white;
+  background-color: var(--accent-color);
+  color: var(--bg-color);
   padding: 10px 15px;
   border-radius: 4px;
   font-weight: bold;
@@ -90,9 +97,9 @@ button, input[type='submit'] {
 
 .secondary-btn {
   background-color: transparent;
-  color: #ff7614;
+  color: var(--accent-color);
   font-weight: bold;
-  border: 2px solid #ff7614;
+  border: 2px solid var(--accent-color);
   padding: 8px 13px;
   border-radius: 4px;
 }
@@ -149,7 +156,7 @@ button, input[type='submit'] {
   display: flex;
   justify-content: center;
   align-items: center;
-  color: #202124;
+  color: var(--color);
   font-size: 16px;
   letter-spacing: .4px;
   font-weight: 300;
@@ -166,5 +173,5 @@ button, input[type='submit'] {
 }
 
 .sidebar-elem:hover {
-  background-color: rgba(255, 118, 20, 1);
+  background-color: var(--accent-color);
 }
