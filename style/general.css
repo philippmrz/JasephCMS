@@ -171,7 +171,7 @@ button, input[type='submit'] {
 
 .sidebar-elem {
   text-transform: uppercase;
-  box-shadow: rgba(0, 0, 0, 0.12) 2px 1px 6px 0px, rgb(218, 220, 224) -1px 0px 0px 0px inset;
+  box-shadow: rgba(0, 0, 0, 0.32) 3px 0px 4px 0px;
   font-family: 'Open Sans', sans-serif;
   display: flex;
   justify-content: center;
