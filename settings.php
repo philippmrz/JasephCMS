@@ -1,7 +1,4 @@
-<!--Check if User is logged in, if not, kick back to index-->
-<?php if (!isset($_COOKIE["logcheck"])):?>
-  <h1>Get Out</h1>
-<?php
+<?php if (!isset($_COOKIE["logcheck"])):
     header("Location: index");
     endif;
     require 'require/credentials.php';
