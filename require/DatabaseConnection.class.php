@@ -11,7 +11,7 @@
 
     function postsAusgeben() {
       require('credentials.php');
-      $r = @parent::query("SELECT TITLE, CONTENT, substring(DATE, 1, 10) AS DATE, substring(DATE, 11, 19) AS TIME, USERNAME from $posttable, $usertable WHERE $posttable.USERID = $usertable.USERID ORDER BY DATE DESC");
+      $r = @parent::query("SELECT TITLE, CONTENT, DATE, substring(DATE, 1, 10) AS DAY, substring(DATE, 11, 19) AS TIME, USERNAME from $posttable, $usertable WHERE $posttable.USERID = $usertable.USERID ORDER BY DATE DESC");
       while ($row = $r->fetch_assoc()){
 
         $return .= <<<MYSQL
@@ -24,7 +24,7 @@
               <div class='date-uname'>
                 <a class='username'>$row[USERNAME]</a>
                 <p class='at'>on</p>
-                <p class='date'>$row[DATE] at $row[TIME]</p>
+                <p class='date'>$row[DAY] at $row[TIME]</p>
               </div>
             </div>
             <p class='post-text'>$row[CONTENT]</p>
