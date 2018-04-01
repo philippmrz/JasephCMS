@@ -116,7 +116,7 @@ button, input[type='submit'] {
 }
 
 .secondary-btn {
-  background-color: transparent;
+  background-color: var(--bg-color);
   color: var(--accent-color);
   font-weight: bold;
   border: 2px solid var(--accent-color);
