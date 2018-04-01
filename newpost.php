@@ -45,21 +45,20 @@ endif; ?>
   <script>applyStyle();</script>
   <?php require 'require/sidebar.php'; ?>
   <div id='content'>
-    <div id='postwrapper'>
+    <form id='newpost' action="" method="POST">
 
-      <form id='newpost' action="" method="POST">
-        <div id='post-sheet'>
-          <p id="titlecharswrapper">200</p>
-          <input id="titleField" name="title" type="text" placeholder="Title" maxlength="200" oninput="updateCharsLeft(200, 'title')" required autofocus></input>
+      <div id='post-sheet'>
 
-          <p id="contentcharswrapper">10000</p>
-          <textarea id="contentArea" name="content" placeholder="Post content" spellcheck="false" maxlength="10000" oninput="updateCharsLeft(10000, 'content')" required></textarea>
-        </div>
+        <!-- <p id="titlecharswrapper">200</p> -->
+        <input id="titleField" name="title" type="text" placeholder="Title" maxlength="200" oninput="updateCharsLeft(200, 'title')" autocomplete='off' required autofocus>
 
-        <button type="submit" id="btnpost" class="primary-btn">Post</button>
-      </form>
+        <!-- <p id="contentcharswrapper">10000</p> -->
+        <textarea id="contentArea" name="content" placeholder="Post content" spellcheck="false" maxlength="10000" oninput="updateCharsLeft(10000, 'content')" autocomplete='off' required></textarea>
 
-    </div>
+      </div>
+
+      <button type="submit" id="btnpost" class="primary-btn">&#10003;</button>
+    </form>
   </div>
 </div>
 

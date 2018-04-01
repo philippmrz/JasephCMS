@@ -1,54 +1,39 @@
 #content {
-  background-color: rgba(var(--accent-color), 0.4);
+  background-color: rgba(255, 99, 71, 0.4);
+  padding-top: 6vh;
 }
 
 #newpost{
-  width: 100%;
+  margin: 0 auto;
+  width: 700px;
   height: 100%;
-  padding: 6vh;
+  position: relative;
 }
 
 #post-sheet {
-  height: 80%;
-  width: calc(100% - 12vh);
-  padding: 6vh;
-  text-align: center;
-  background-color: var(--bg-color);
-  box-shadow: rgba(0, 0, 0, 0.12) 0px 0px 6px 3px, rgb(218, 220, 224) 1px 0px 4px 0px inset;
-}
-
-#newpost * {
+  height: 1000px;
   width: 100%;
-}
-
-
-#titlecharswrapper {
-  text-align: right;
-}
-
-#contentcharswrapper {
-  text-align: right;
-}
-
-#postwrapper {
-  width: 70%;
-  margin: 0 auto;
-  padding: 6vh 0;
-}
-
-#titleField {
-  border: none;
-  border-bottom: 2px solid #ababab;
-  border-radius: 0;
-  width: 70%;
+  text-align: center;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 0px 6px 3px, rgb(218, 220, 224) 1px 0px 2px 0px inset;
+  background-color: var(--bg-color);
+  padding: 6vh;
+  display: flex;
+  flex-direction: column;
 }
 
 #contentArea {
-  width: 70%;
-  max-width: 100%;
-  resize: vertical;
+  flex: 1;
+  margin-top: 6vh;
+  resize: none;
+  border: none;
 }
 
 #btnpost {
-  width: initial;
+  position: fixed;
+  bottom: 3vh;
+  right: 50px;
+  padding: 21px 27px;
+  box-shadow: rgba(0, 0, 0, 0.4) 1px 2px 5px 1px;
+  border-radius: 50%;
+  font-size: 18px;
 }
