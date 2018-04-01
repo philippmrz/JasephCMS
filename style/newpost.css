@@ -18,6 +18,7 @@
   box-shadow: rgba(0, 0, 0, 0.12) 0px 0px 6px 3px, rgb(218, 220, 224) 1px 0px 2px 0px inset;
   background-color: var(--bg-color);
   padding: 6vh;
+  margin-bottom: 6vh;
   display: flex;
   flex-direction: column;
 }
