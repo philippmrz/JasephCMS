@@ -1,3 +1,4 @@
+<?php  if (isset($_COOKIE['logcheck'])):?>
 <div id='sidebar'>
   <a class='sidebar-elem' href='index' id='front-page'
       <?= ($_SERVER['REQUEST_URI'] == "/" || $_SERVER['REQUEST_URI'] == "/index") ? "status='active'" : ""?>>
@@ -20,3 +21,4 @@
       new post
   </a>
 </div>
+<?php endif; ?>
