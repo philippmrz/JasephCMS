@@ -1,7 +1,7 @@
-<?php /*if (!isset($_COOKIE["logcheck"])):
+<?php if (!isset($_COOKIE["logcheck"])):
   header('Location: index');
 
-else*/if (isset($_POST["title"])):
+elseif (isset($_POST["title"])):
   require 'require/credentials.php';
   $mysqli = new mysqli("$servername", "$username", "$password", "$dbname");
 
