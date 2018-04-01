@@ -23,11 +23,34 @@
   flex-direction: column;
 }
 
-#contentArea {
+#title-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+#titleField {
+  flex: 1;
+}
+
+#titlecharswrapper {
+  padding-left: 1vh;
+}
+
+#content-wrapper{
   flex: 1;
   margin-top: 6vh;
-  resize: none;
+  display: flex;
+}
+
+#contentArea{
+  height: 100%;
   border: none;
+  resize: none;
+  flex: 1;
+}
+
+.char-counter {
+  color: #ababab;
 }
 
 #btnpost {
@@ -35,7 +58,7 @@
   bottom: 3vh;
   right: 50px;
   padding: 21px 27px;
-  box-shadow: rgba(0, 0, 0, 0.4) 1px 2px 5px 1px;
+  box-shadow: black 1px 2px 5px 1px;
   border-radius: 50%;
   font-size: 18px;
 }

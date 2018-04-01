@@ -49,11 +49,15 @@ endif; ?>
 
       <div id='post-sheet'>
 
-        <!-- <p id="titlecharswrapper">200</p> -->
-        <input id="titleField" name="title" type="text" placeholder="Title" maxlength="200" oninput="updateCharsLeft(200, 'title')" autocomplete='off' required autofocus>
+        <div id='title-wrapper'>
+          <input id="titleField" name="title" type="text" placeholder="Title" maxlength="200" oninput="updateCharsLeft(200, 'title')" autocomplete='off' required autofocus>
+          <p class='char-counter' id="titlecharswrapper">200</p>
+        </div>
 
-        <!-- <p id="contentcharswrapper">10000</p> -->
-        <textarea id="contentArea" name="content" placeholder="Post content" spellcheck="false" maxlength="10000" oninput="updateCharsLeft(10000, 'content')" autocomplete='off' required></textarea>
+        <div id='content-wrapper'>
+          <textarea id="contentArea" name="content" placeholder="Post content" spellcheck="false" maxlength="10000" oninput="updateCharsLeft(10000, 'content')" autocomplete='off' required></textarea>
+          <p class='char-counter' id="contentcharswrapper">10000</p>
+        </div>
 
       </div>
 
