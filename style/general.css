@@ -3,6 +3,7 @@
   --color: #202124;
   --accent-color: #ff7614;
   --accent-color-light: #ff9950;
+  --accent-color-dark: #c2590f;
 }
 
 * {
@@ -171,7 +172,8 @@ button, input[type='submit'] {
 
 .sidebar-elem {
   text-transform: uppercase;
-  box-shadow: rgba(0, 0, 0, 0.32) 3px 0px 4px 0px;
+  box-shadow: #66666640 2px 0px 0px 0px, #ababab72 6px 0px 4px 0px;
+  background-color: white;
   font-family: 'Open Sans', sans-serif;
   display: flex;
   justify-content: center;
