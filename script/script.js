@@ -89,6 +89,7 @@ function applyStyle() {
 function setHackerMode() {
     document.documentElement.style.setProperty('--bg-color', '#202124');
     document.documentElement.style.setProperty('--accent-color', '#20c20e');
+    document.documentElement.style.setProperty('--accent-color-light', '#8FE086');
     document.documentElement.style.setProperty('--color', '#e6e6e6');
     document.documentElement.style.setProperty('--title-color', 'rgba(255, 255, 255, 0.6)');
     document.querySelector("#mask").setAttribute('src', 'assets/mask-white.png');
@@ -104,6 +105,7 @@ function setHackerMode() {
 function setNormalMode() {
     document.documentElement.style.setProperty('--bg-color', '#fff');
     document.documentElement.style.setProperty('--accent-color', '#ff7614');
+    document.documentElement.style.setProperty('--accent-color-light', '#ff9950');
     document.documentElement.style.setProperty('--color', '#202124');
     document.documentElement.style.setProperty('--title-color', 'rgba(0, 0, 0, 0.6)');
     document.querySelector("#mask").setAttribute('src', 'assets/mask.png');

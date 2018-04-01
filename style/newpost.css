@@ -1,10 +1,11 @@
 #content {
-  background-color: rgba(255, 99, 71, 0.4);
+  background-color: var(--accent-color-light);
   padding-top: 6vh;
 }
 
 #newpost{
   margin: 0 auto;
+  opacity: 1;
   width: 700px;
   height: 100%;
   position: relative;
