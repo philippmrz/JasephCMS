@@ -22,7 +22,7 @@
     }
 
     function postsAusgeben($order) {
-      $order = ($order == '') ? 'DESC' : $order;
+      $order = ($order == 'ASC') ? 'DESC' : 'ASC';
       require('credentials.php');
       $r = @parent::query("SELECT TITLE, CONTENT, DATE, substring(DATE, 1, 10) AS DAY, substring(DATE, 11, 19) AS TIME, USERNAME from $posttable, $usertable WHERE $posttable.USERID = $usertable.USERID ORDER BY DATE $order");
       while ($row = $r->fetch_assoc()){
