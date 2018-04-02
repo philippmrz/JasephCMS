@@ -1,4 +1,4 @@
-<?php  if (isset($_COOKIE['logcheck'])):?>
+<?php  if (isLoggedIn()):?>
 <div id='sidebar'>
   <a class='sidebar-elem' href='index' id='front-page'
       <?= ($_SERVER['REQUEST_URI'] == "/" || $_SERVER['REQUEST_URI'] == "/index") ? "status='active'" : ""?>>

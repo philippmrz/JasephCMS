@@ -1,4 +1,4 @@
-<?php if (!isset($_COOKIE["logcheck"])):
+<?php if (!isLoggedIn()):
   header('Location: index');
 
 elseif (isset($_POST["title"])):

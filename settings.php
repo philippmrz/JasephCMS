@@ -1,4 +1,4 @@
-<?php if (!isset($_COOKIE["logcheck"])):
+<?php if (!isLoggedIn()):
     header("Location: index");
     endif;
     require 'require/credentials.php';

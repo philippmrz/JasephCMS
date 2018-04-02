@@ -2,7 +2,7 @@
     <a href='index' title='Go to main page'><img id='head-logo' src='assets/jaseph_normal.png'></a>
     <div id='btn-holder'>
 
-    <?php if(!isset($_COOKIE['logcheck'])):?>
+    <?php if(!isLoggedIn()):?>
         <a href='login'>
           <button id='login' class='secondary-btn'>login</button>
         </a>

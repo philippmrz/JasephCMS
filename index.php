@@ -11,7 +11,7 @@
   <?php require 'require/header.php';?>
   <?php require 'require/sidebar.php'; ?>
   <div id='content'>
-    <?php if (!isset($_COOKIE['logcheck'])): ?>
+    <?php if (!isLoggedIn()): ?>
       <div id='jumbotron'>
         <p>Register to start blogging and to access more features.</p>
         <a id='jumbotron-btn' href='register' class='primary-btn'>register</a>
