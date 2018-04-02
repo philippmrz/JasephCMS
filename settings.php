@@ -19,7 +19,7 @@
         echo $mysqli->error;
     }
     $row_admin = $get_admin->fetch_assoc();
-    if ($row_admin["ROLE"] == "admin") {
+    if ($row_admin["ROLE"] == "ADMIN") {
         $admin = true;
     } else {
         $admin = false;
