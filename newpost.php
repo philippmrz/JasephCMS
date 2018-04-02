@@ -1,4 +1,5 @@
-<?php if (!isLoggedIn()):
+<?php require_once('require/DatabaseConnection.class.php');
+if (!isLoggedIn()):
   header('Location: index');
 
 elseif (isset($_POST["title"])):
