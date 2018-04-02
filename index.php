@@ -20,8 +20,13 @@
 
     <?php
       $db = new DatabaseConnection();
-      echo $db->postsAusgeben();
-    ?>
+      echo $db->postsAusgeben($_GET['sort']);
+
+    if(isLoggedIn()): ?>
+      <div id='right-sidebar'>
+        <a href='index.php?sort=<?= invertSortOrder()?>'>sort <?= getOrderWord() ?></a>
+      </div>
+    <?php endif; ?>
   </div>
 </div>
 
