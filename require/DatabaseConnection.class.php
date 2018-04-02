@@ -8,7 +8,7 @@
   }
 
   function getOrderWord() {
-    return (!$_GET['sort'] or $_GET['sort'] == 'DESC') ? "chronologically" : "reverse chronologically";
+    return (!$_GET['sort'] or $_GET['sort'] == 'DESC') ? "&uarr;" : "&darr;";
   }
 
   class DatabaseConnection extends mysqli {
