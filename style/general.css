@@ -200,7 +200,7 @@ button, input[type='submit'] {
 
 .sidebar-elem {
   text-transform: uppercase;
-  box-shadow: #66666640 2px 0px 0px 0px, #ababab72 6px 0px 4px 0px;
+  box-shadow:  #ababab72 6px 0px 4px 0px, rgb(218, 220, 224) 0px -1px 0px 0px inset;
   background-color: white;
   font-family: 'Open Sans', sans-serif;
   display: flex;
