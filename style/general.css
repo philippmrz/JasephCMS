@@ -125,6 +125,34 @@ button, input[type='submit'] {
   border-radius: 4px;
 }
 
+.floating-action-btn {
+  position: fixed;
+  right: 6vh;;
+  bottom: 6vh;
+  border-radius: 50%;
+  width: 70px;
+  height: 70px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: var(--accent-color);
+  color: var(--bg-color);
+  box-shadow: #666666 0px 1px 6px 1px;
+}
+
+.floating-action-btn:hover {
+  box-shadow: #666666 0px 1px 9px 2px;
+  transform: translateY(-3px);
+}
+
+.floating-action-btn svg {
+  fill: var(--bg-color);
+}
+
+.floating-action-btn svg[rotate='true'] {
+  transform: scale(1, -1);
+}
+
 /* Transforms */
 * {
   transition: all 200ms linear;

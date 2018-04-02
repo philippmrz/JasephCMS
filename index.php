@@ -23,9 +23,9 @@
       echo $db->postsAusgeben($_GET['sort']);
 
     if(isLoggedIn()): ?>
-      <div id='right-sidebar'>
-        <a href='index.php?sort=<?= invertSortOrder()?>'>sort <?= getOrderWord() ?></a>
-      </div>
+      <a title='Sort chronologically or reverse chronologically' class='floating-action-btn' href='index.php?sort=<?= invertSortOrder()?>'>
+        <?= getSortSVG() ?>
+      </a>
     <?php endif; ?>
   </div>
 </div>
