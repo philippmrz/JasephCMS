@@ -1,7 +1,7 @@
 <?php  if (isLoggedIn()):?>
 <div id='sidebar'>
   <a class='sidebar-elem' href='index' id='front-page'
-      <?= ($_SERVER['REQUEST_URI'] == "/" || $_SERVER['REQUEST_URI'] == "/index") ? "status='active'" : ""?>>
+      <?= ($_SERVER['REQUEST_URI'] == "/" || strpos($_SERVER['REQUEST_URI'], "/index") !== false) ? "status='active'" : ""?>>
       frontpage
   </a>
   <a class='sidebar-elem' href='saved' id='saved'
