@@ -1,4 +1,7 @@
-<?php if (!isLoggedIn()):
+<?php
+    require_once('require/DatabaseConnection.class.php');
+
+    if (!isLoggedIn()):
     header("Location: index");
     endif;
     require 'require/credentials.php';
