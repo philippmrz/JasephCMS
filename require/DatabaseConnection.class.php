@@ -24,28 +24,42 @@
     function postsAusgeben($order) {
       $order = ($order == 'ASC') ? 'DESC' : 'ASC';
       require('credentials.php');
-      $r = @parent::query("SELECT substring(TITLE, 1, 50) AS TITLE, substring(CONTENT, 1, 200) AS CONTENT, DATE, substring(DATE, 1, 10) AS DAY, substring(DATE, 11, 19) AS TIME, USERNAME from $posttable, $usertable WHERE $posttable.USERID = $usertable.USERID ORDER BY DATE $order");
+      $r = @parent::query("SELECT POSTID, substring(TITLE, 1, 50) AS TITLE, substring(CONTENT, 1, 200) AS CONTENT, DATE, substring(DATE, 1, 10) AS DAY, substring(DATE, 11, 19) AS TIME, USERNAME from $posttable, $usertable WHERE $posttable.USERID = $usertable.USERID ORDER BY DATE $order");
       while ($row = $r->fetch_assoc()){
 
         $return .= <<<MYSQL
-        <div class='post'>
-          <img class='thumbnail' src='assets/dummy-thumbnail.png'>
+        <a href='onepost.php?id=$row[POSTID]'>
+          <div class='post'>
+            <img class='thumbnail' src='assets/dummy-thumbnail.png'>
 
-          <div class='post-without-tn'>
-            <div class='post-info'>
-              <p class='title'>$row[TITLE]</p>
-              <div class='date-uname'>
-                <a class='username'>$row[USERNAME]</a>
-                <p class='at'>on</p>
-                <p class='date'>$row[DAY] at $row[TIME]</p>
+            <div class='post-without-tn'>
+              <div class='post-info'>
+                <p class='title'>$row[TITLE]</p>
+                <div class='date-uname'>
+                  <a class='username'>$row[USERNAME]</a>
+                  <p class='at'>on</p>
+                  <p class='date'>$row[DAY] at $row[TIME]</p>
+                </div>
               </div>
+              <p class='post-text'>$row[CONTENT]...</p>
             </div>
-            <p class='post-text'>$row[CONTENT]...</p>
           </div>
-        </div>
+        </a>
 MYSQL;
       }
       return $return;
+    }
+
+    function einenPostAusgeben() {
+      require('credentials.php');
+
+      $r = @parent::query("SELECT TITLE, CONTENT, USERNAME from $posttable, $usertable WHERE $posttable.USERID = $usertable.USERID AND POSTID = $_GET[id]");
+
+      $row = $r->fetch_assoc();
+      return <<<RETURN
+      <h1>$row[TITLE]</h1>
+      <p>$row[CONTENT]</p>
+RETURN;
     }
   }
 ?>
