@@ -24,7 +24,7 @@
     function postsAusgeben($order) {
       $order = ($order == 'ASC') ? 'DESC' : 'ASC';
       require('credentials.php');
-      $r = @parent::query("SELECT TITLE, CONTENT, DATE, substring(DATE, 1, 10) AS DAY, substring(DATE, 11, 19) AS TIME, USERNAME from $posttable, $usertable WHERE $posttable.USERID = $usertable.USERID ORDER BY DATE $order");
+      $r = @parent::query("SELECT substring(TITLE, 1, 50) AS TITLE, substring(CONTENT, 1, 200) AS CONTENT, DATE, substring(DATE, 1, 10) AS DAY, substring(DATE, 11, 19) AS TIME, USERNAME from $posttable, $usertable WHERE $posttable.USERID = $usertable.USERID ORDER BY DATE $order");
       while ($row = $r->fetch_assoc()){
 
         $return .= <<<MYSQL
@@ -40,7 +40,7 @@
                 <p class='date'>$row[DAY] at $row[TIME]</p>
               </div>
             </div>
-            <p class='post-text'>$row[CONTENT]</p>
+            <p class='post-text'>$row[CONTENT]...</p>
           </div>
         </div>
 MYSQL;
