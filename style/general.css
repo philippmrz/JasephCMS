@@ -137,11 +137,11 @@ button, input[type='submit'] {
   align-items: center;
   background-color: var(--accent-color);
   color: var(--bg-color);
-  box-shadow: #666666 0px 1px 6px 1px;
+  box-shadow: #666666a7 0px 3px 6px 0px;
 }
 
 .floating-action-btn:hover {
-  box-shadow: #666666 0px 1px 9px 2px;
+  box-shadow: #666666aa 0px 4px 9px 0px;
   transform: translateY(-3px);
 }
 
