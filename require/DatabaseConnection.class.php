@@ -36,7 +36,7 @@
               <div class='post-info'>
                 <p class='title'>$row[TITLE]</p>
                 <div class='date-uname'>
-                  <a class='username'>$row[USERNAME]</a>
+                  <p class='username'>$row[USERNAME]</p>
                   <p class='at'>on</p>
                   <p class='date'>$row[DAY] at $row[TIME]</p>
                 </div>
