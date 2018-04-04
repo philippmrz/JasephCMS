@@ -68,6 +68,7 @@ a {
   text-decoration: none;
   color: var(--accent-color);
   cursor: pointer;
+  outline: none;
 }
 
 input {
