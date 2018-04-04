@@ -1,0 +1,47 @@
+#content {
+  padding: 10vh 22vw;
+}
+
+#post {
+  width: 100%;
+  padding: 2vh;
+  border-right: 2px solid var(--accent-color-light);
+  border-left: 2px solid var(--accent-color-light);
+}
+
+#title {
+  font-size: 3rem;
+  letter-spacing: 3px;
+  margin-bottom: 3vh;
+}
+
+#post-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: .9em;
+}
+
+#date {
+  display: flex;
+  align-items: center;
+}
+
+#post span {
+  color: grey;
+  margin-right: 1.5vh;
+}
+
+#date span {
+  margin-left: 1.5vh;
+}
+
+#post-text {
+  margin-top: 6vh;
+  line-height: 29px;
+}
+
+#username-bottom {
+  margin-top: 6vh;
+  font-size: .9em;
+}

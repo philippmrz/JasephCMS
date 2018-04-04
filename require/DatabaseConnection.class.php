@@ -53,12 +53,23 @@ MYSQL;
     function einenPostAusgeben() {
       require('credentials.php');
 
-      $r = @parent::query("SELECT TITLE, CONTENT, USERNAME from $posttable, $usertable WHERE $posttable.USERID = $usertable.USERID AND POSTID = $_GET[id]");
+      $r = @parent::query("SELECT TITLE, CONTENT, substring(DATE, 1, 10) AS DAY, substring(DATE, 11, 19) AS TIME, USERNAME from $posttable, $usertable WHERE $posttable.USERID = $usertable.USERID AND POSTID = $_GET[id]");
 
       $row = $r->fetch_assoc();
       return <<<RETURN
-      <h1>$row[TITLE]</h1>
-      <p>$row[CONTENT]</p>
+      <div id='post'>
+        <p id='title'>$row[TITLE]</p>
+        <div id='post-info'>
+          <p id='username-top'>
+            <span>posted by</span> $row[USERNAME]
+          </p>
+          <p id='date'>
+            <span>on</span> $row[DAY] <span>at</span> $row[TIME]
+          </p>
+        </div>
+        <p id='post-text'>$row[CONTENT]</p>
+        <p id='username-bottom'><span>posted by</span>$row[USERNAME]</p>
+      </div>
 RETURN;
     }
   }
