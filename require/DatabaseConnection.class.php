@@ -68,7 +68,6 @@ MYSQL;
           </p>
         </div>
         <p id='post-text'>$row[CONTENT]</p>
-        <p id='username-bottom'><span>posted by</span>$row[USERNAME]</p>
       </div>
 RETURN;
     }
