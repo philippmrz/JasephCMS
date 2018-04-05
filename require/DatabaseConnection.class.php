@@ -71,5 +71,14 @@ MYSQL;
       </div>
 RETURN;
     }
+
+    function getUserRole() {
+      return @parent::query("SELECT ROLE FROM user WHERE USERNAME = '$_COOKIE[uname]'")->fetch_assoc()[ROLE];
+    }
+
+    function deletePost() {
+      @parent::query("DELETE FROM post WHERE POSTID = $_GET[id]");
+      header('Location: index');
+    }
   }
 ?>
