@@ -148,6 +148,7 @@ button, input[type='submit'] {
 
 .floating-action-btn svg {
   fill: var(--bg-color);
+  height: 50%;
 }
 
 .floating-action-btn svg[rotate='true'] {
