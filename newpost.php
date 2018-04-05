@@ -62,7 +62,7 @@ endif; ?>
 
       </div>
 
-      <button type="submit" id="btnpost" class="primary-btn">&#10003;</button>
+      <button type="submit" id="btnpost" class="floating-action-btn">&#10003;</button>
     </form>
   </div>
 </div>
