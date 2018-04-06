@@ -32,10 +32,12 @@ if (isset($_POST["regbtn"])) {
             array_push($msg, "Password must contain at least one lowercase and one uppercase character");
         }
     }
-
-    $result = $mysqli->query("SELECT * FROM $usertable WHERE USERNAME='$uname'");
-    if ($result->num_rows > 0) {
-        array_push($msg, "Username already exists");
+    
+    $result = $mysqli->query("SELECT USERNAME FROM $usertable WHERE UPPER(USERNAME) = UPPER('$uname')");
+    if($result){
+        if ($result->num_rows > 0) {
+            array_push($msg, "Username already exists");
+        }
     }
 
     if ($pword != $pwordval) {
