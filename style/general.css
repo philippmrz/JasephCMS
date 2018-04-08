@@ -227,3 +227,7 @@ button, input[type='submit'] {
 .sidebar-elem:hover {
   background-color: var(--accent-color);
 }
+
+.md {
+  
+}

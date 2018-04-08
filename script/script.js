@@ -127,3 +127,13 @@ function updateCharsLeft(maxAmt, type) {
         document.getElementById("contentcharswrapper").innerHTML = maxAmt - cur;
     }
 }
+
+function updateMD() {
+    for (var i = 0; i < x.length; i++) {
+      parseMD(document.getElementsByClassName("md")[i]);
+    }
+}
+
+function parseMD() {
+    //TODO regex(?) checks for each part of md formatting
+}
