@@ -32,7 +32,6 @@ if(isset($_POST["confbtn"])){
   $countu = $mysqli->query("SELECT COUNT(USERNAME) FROM $usertable");
   $row = $countu->fetch_assoc();
   $usercount = $row["COUNT(USERNAME)"];
-  $new_role = "";
   //check every user
   for($i=0;$i<$usercount;$i++){
     if(isset($_POST["chkusers$i"])){
