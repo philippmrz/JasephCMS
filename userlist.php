@@ -64,12 +64,12 @@ if (isset($_POST["confbtn"])) {
             break;
         }
         //change table, get re:message
-        if (isset($new_role)) {
-          $role = $mysqli->query("UPDATE $usertable SET ROLE = '$new_role' WHERE USERID = $id");
-          $get_uname = $mysqli->query("SELECT USERNAME FROM $usertable WHERE USERID = $id");
-          $urow = $get_uname->fetch_assoc();
+        if (isset($newRole)) {
+          $role = $mysqli->query("UPDATE $usertable SET ROLE = '$newRole' WHERE USERID = $id");
+          $getUname = $mysqli->query("SELECT USERNAME FROM $usertable WHERE USERID = $id");
+          $urow = $getUname->fetch_assoc();
           $uname = $urow["USERNAME"];
-          if ($role && $get_uname) {
+          if ($role && $getUname) {
             array_push($msg, "Changed Role of $uname to $newRole");
           } else {
             array_push($msg, "Couldn't carry out changes (db query failed)");
