@@ -30,13 +30,15 @@ if(isset($_POST["canclbtn"])){ ?>
 if(isset($_POST["confbtn"])){
   $msg = [];
   $userlist = $mysqli->query("SELECT USERNAME FROM $usertable");
-  $row = $userlist->fetch_assoc();
+  while($row = $userlist->fetch_assoc()){
   //check every user
   foreach($row as $user){
+	echo $user;
 	$getUserID = $mysqli->query("SELECT USERID FROM $usertable WHERE USERNAME = '$user'");
 	$idRow = $getUserID->fetch_assoc();
-    if(isset($_POST["chkusers$idRow['USERID']"])){
-      switch($_POST["chkusers$idRow['USERID']"]){
+	$id = $idRow["USERID"];
+    if(isset($_POST["chkusers$id"])){
+      switch($_POST["chkusers$id"]){
         case "admin":
           $new_role = "ADMIN";
           break;
@@ -50,9 +52,9 @@ if(isset($_POST["confbtn"])){
           break;
 
         case "delete":
-          $delete = $mysqli->query("DELETE FROM $usertable WHERE USERID = $i");
+          $delete = $mysqli->query("DELETE FROM $usertable WHERE USERID = $id");
           if($delete){
-            array_push($msg,"Successfully deleted User no.$i");
+            array_push($msg,"Successfully deleted User no.$id");
           }
           else{
             array_push($msg,"Couldn't carry out changes (db query failed)");
@@ -61,8 +63,8 @@ if(isset($_POST["confbtn"])){
       }
       //change table, get re:message
       if(isset($new_role)){
-        $role = $mysqli->query("UPDATE $usertable SET ROLE = '$new_role' WHERE USERID = $i");
-        $get_uname = $mysqli->query("SELECT USERNAME FROM $usertable WHERE USERID = $i");
+        $role = $mysqli->query("UPDATE $usertable SET ROLE = '$new_role' WHERE USERID = $id");
+        $get_uname = $mysqli->query("SELECT USERNAME FROM $usertable WHERE USERID = $id");
         $urow = $get_uname->fetch_assoc();
         $uname = $urow["USERNAME"];
         if($role && $get_uname){
@@ -75,6 +77,7 @@ if(isset($_POST["confbtn"])){
 	 }
    }
  }
+}
 ?>
 
 <!doctype html>
