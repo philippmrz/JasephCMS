@@ -38,6 +38,7 @@ endif; ?>
 <head>
   <?php require 'require/head.php';?>
   <link rel="stylesheet" href="style/newpost.css" id="pagestyle">
+  <script src="script/newpost.js"></script>
 </head>
 <body>
 

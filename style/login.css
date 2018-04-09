@@ -1,6 +1,6 @@
 #title {
   text-transform: uppercase;
-  color: rgba(0, 0, 0, .7);
+  color: var(--color);
 }
 
 #content {
@@ -15,7 +15,7 @@
   flex-direction: column;
   justify-content: space-around;
   text-align: center;
-  border: 2px solid #ffc085;
+  border: 2px solid var(--accent-color-verylight);
   border-radius: 3px;
   padding: 45px 60px;
 }
@@ -23,13 +23,13 @@
 #remember-me {
   display: flex;
   justify-content: center;
-  border: 2px solid #ffc085;
+  border: 2px solid var(--accent-color-verylight);
   border-radius: 3px;
   padding: 10px 15px;
 }
 
 #remember-me p {
-  color: rgba(0, 0, 0, .5);
+  color: var(--color);
   font-size: 80%;
   margin-right: 1vw;
 }

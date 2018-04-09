@@ -89,7 +89,9 @@ function applyStyle() {
 function setHackerMode() {
     document.documentElement.style.setProperty('--bg-color', '#202124');
     document.documentElement.style.setProperty('--accent-color', '#20c20e');
-    document.documentElement.style.setProperty('--accent-color-light', '#8FE086');
+    document.documentElement.style.setProperty('--accent-color-light', '#8fe086');
+    document.documentElement.style.setProperty('--accent-color-verylight', '#77ff88');
+    document.documentElement.style.setProperty('--accent-color-dark', '#009900');
     document.documentElement.style.setProperty('--color', '#e6e6e6');
     document.documentElement.style.setProperty('--title-color', 'rgba(255, 255, 255, 0.6)');
     document.querySelector("#mask").setAttribute('src', 'assets/mask-white.png');
@@ -106,6 +108,8 @@ function setNormalMode() {
     document.documentElement.style.setProperty('--bg-color', '#fff');
     document.documentElement.style.setProperty('--accent-color', '#ff7614');
     document.documentElement.style.setProperty('--accent-color-light', '#ff9950');
+    document.documentElement.style.setProperty('--accent-color-verylight', '#ffbe90');
+    document.documentElement.style.setProperty('--accent-color-dark', '#c2590f');
     document.documentElement.style.setProperty('--color', '#202124');
     document.documentElement.style.setProperty('--title-color', 'rgba(0, 0, 0, 0.6)');
     document.querySelector("#mask").setAttribute('src', 'assets/mask.png');
@@ -118,12 +122,12 @@ function setNormalMode() {
     document.querySelector("#head-logo").setAttribute('src', 'assets/jaseph_normal.png');
 }
 
-function updateCharsLeft(maxAmt, type) {
-    if(type == "title") {
-        var cur = document.getElementById("titleField").value.length;
-        document.getElementById("titlecharswrapper").innerHTML = maxAmt - cur;
-    } else if(type == "content") {
-        var cur = document.getElementById("contentArea").value.length;
-        document.getElementById("contentcharswrapper").innerHTML = maxAmt - cur;
+function updateMD() {
+    for (var i = 0; i < x.length; i++) {
+      parseMD(document.getElementsByClassName("md")[i]);
     }
+}
+
+function parseMD() {
+    //TODO regex(?) checks for each part of md formatting
 }
