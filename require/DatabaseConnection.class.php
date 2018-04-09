@@ -11,6 +11,16 @@
     return (!$_GET['sort'] or $_GET['sort'] == 'DESC') ? '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M3 18h6v-2H3v2zM3 6v2h18V6H3zm0 7h12v-2H3v2z"/></svg>' : '<svg rotate="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M3 18h6v-2H3v2zM3 6v2h18V6H3zm0 7h12v-2H3v2z"/></svg>';
   }
 
+  function randomString($length) {
+      $characters = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!$.";
+      $c_length = strlen($characters);
+      $string = "";
+      for ($i = 0; $i < $length; $i++) {
+          $string .= $characters[rand(0, $c_length - 1)];
+      }
+      return $string;
+  }
+
   class DatabaseConnection extends mysqli {
     function __construct() {
       require('credentials.php');
