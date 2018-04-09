@@ -13,16 +13,23 @@
     }
     $uname = $_COOKIE["uname"];
 
-    $visibility = true; //evtl setting ob user anonym bleiben will
-    $get_admin = $mysqli->query("SELECT ROLE FROM $usertable WHERE USERNAME = '$uname'");
-    if (!$get_admin) {
+    $getAdmin = $mysqli->query("SELECT ROLE FROM $usertable WHERE USERNAME = '$uname'");
+    if (!$getAdmin) {
         echo $mysqli->error;
     }
-    $row_admin = $get_admin->fetch_assoc();
-    if ($row_admin["ROLE"] == "ADMIN") {
+    $rowAdmin = $getAdmin->fetch_assoc();
+    if ($rowAdmin["ROLE"] == "ADMIN") {
         $admin = true;
     } else {
         $admin = false;
+    }
+
+    if(!isset ($_COOKIE["visibility"])){
+      $visibility = true;
+      setcookie("visibility","true",time() + 86400 * 365);
+    }
+    else{
+      $visibility = $_COOKIE["visibility"];
     }
 
     if (isset($_POST["cancelbtn"])) {
@@ -30,24 +37,37 @@
     }
 
     if (isset($_POST["savebtn"])) {
-        if (isset($_POST["new_uname"])) {
-            $new_uname = $_POST["new_uname"];
-            if ($new_uname != $uname) {
+        $msg = [];
+        if (isset($_POST["newUname"])) {
+            $newUname = $_POST["newUname"];
+            if ($newUname != $uname) {
 
-                $result = $mysqli->query("UPDATE $usertable SET USERNAME = '$new_uname' WHERE USERNAME = '$uname'");
+              $checkExist = $mysqli->query("SELECT USERNAME FROM $usertable WHERE UPPER(USERNAME) = UPPER('$newUname')");
+              if($checkExist){
+                  if ($result->num_rows > 0) {
+                      array_push($msg, "Username already exists");
+                  }
+              }
+              if(empty($msg)){
+                $result = $mysqli->query("UPDATE $usertable SET USERNAME = '$newUname' WHERE USERNAME = '$uname'");
                 if ($result) {
-                    $uname = $new_uname;
-                    setcookie("uname", $uname, time() + 86400 * 365);
+                    $uname = $newUname;
+                    setcookie("uname", $uname);
                 }
+              }
             }
         }
-        if (isset($_POST["v"])) {
+        if ($_POST["visibility"] == "v") {
             $visibility = true;
-        } else if (isset($_POST["inv"])) {
+            setcookie("visibility","true",time() + 86400 * 365);
+        } else if ($_POST["visibility"] == "inv") {
         $visibility = false;
-    }
+        setcookie("visibility","false",time() + 86400 * 365);
+        }
+
     ?><script>redirect("settings.php");</script><?php
 }
+
 
 $mysqli->close();
 ?>
@@ -74,7 +94,14 @@ $mysqli->close();
         <h1>ACCOUNT</h1></br>
         <div id="content">
           <p>Username: </p>
-          <input id="input" type"text" name="new_uname" <?php echo "value=\"" . $uname . "\""; ?>/>
+          <input id="input" type"text" name="newUname" <?php echo "value=\"" . $uname . "\""; ?>/>
+          <p><?php
+          if (!empty($msg)) {
+            foreach ($msg as $text) {
+              echo "<font size=\"2px\" color=\"red\"><i>" . $text . "</font></i><br>";
+            }
+          }
+          ?></p>
           <p>Change Password?</p>
         </div>
 
@@ -86,7 +113,7 @@ $mysqli->close();
           <p>Not Visible (The author of your posts is set to anonymous)</p>
         </div>
 
-        <?php //wenn user admin is kann er neue admins/moderators machen ($admin vll mit was anderem austauschen)
+        <?php
         if ($admin): ?>
 
         <h1>ADMINISTRATION</h1>
