@@ -35,8 +35,8 @@ if(isset($_POST["confbtn"])){
   foreach($row as $user){
 	$getUserID = $mysqli->query("SELECT USERID FROM $usertable WHERE USERNAME = '$user'");
 	$idRow = $getUserID->fetch_assoc();
-    if(isset($_POST["chkusers$idRow["USERID"]"])){
-      switch($_POST["chkusers$idRow["USERID"]"]){
+    if(isset($_POST["chkusers$idRow['USERID']"])){
+      switch($_POST["chkusers$idRow['USERID']"]){
         case "admin":
           $new_role = "ADMIN";
           break;
