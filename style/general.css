@@ -3,6 +3,7 @@
   --color: #202124;
   --accent-color: #ff7614;
   --accent-color-light: #ff9950;
+  --accent-color-verylight: #ffbe90;
   --accent-color-dark: #c2590f;
 }
 
@@ -229,5 +230,5 @@ button, input[type='submit'] {
 }
 
 .md {
-  
+
 }
