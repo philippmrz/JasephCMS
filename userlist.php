@@ -43,42 +43,61 @@ if (isset($_POST["confbtn"])) {
       if (isset($_POST["chkusers$id"])) {
         switch ($_POST["chkusers$id"]) {
           case "admin":
+            $roleChange = "true";
             $newRole = "ADMIN";
             break;
 
           case "mod":
+            $roleChange = "true";
             $newRole = "MOD";
             break;
 
           case "block":
+            $roleChange = "true";
             $newRole = "BLOCKED";
             break;
 
           case "delete":
-            $delete = $mysqli->query("DELETE FROM $usertable WHERE USERID = $id");
-            if ($delete) {
-              array_push($msg, "Successfully deleted User no.$id");
-            } else {
-              array_push($msg, "Couldn't carry out changes (db query failed)");
+            $roleChange = "false";
+            $newRole = "";
+            $getUname = $mysqli->query("SELECT USERNAME FROM $usertable WHERE USERID = $id");
+            $urow = $getUname->fetch_assoc();
+            $uname = $urow["USERNAME"];
+            if($uname != $_COOKIE["uname"]){
+              $delete = $mysqli->query("DELETE FROM $usertable WHERE USERID = $id");
+              if ($delete) {
+                array_push($msg, "Successfully deleted User no.$id");
+              } else {
+                array_push($msg, "Couldn't carry out changes (db query failed)");
+              }
+            }
+            else{
+              array_push($msg, "Couldn't carry out changes (invalid selection)");
             }
             break;
         }
         //change table, get re:message
-        if (isset($newRole)) {
-          $role = $mysqli->query("UPDATE $usertable SET ROLE = '$newRole' WHERE USERID = $id");
+        if ($roleChange){
           $getUname = $mysqli->query("SELECT USERNAME FROM $usertable WHERE USERID = $id");
           $urow = $getUname->fetch_assoc();
           $uname = $urow["USERNAME"];
-          if ($role && $getUname) {
-            array_push($msg, "Changed Role of $uname to $newRole");
-          } else {
-            array_push($msg, "Couldn't carry out changes (db query failed)");
+          if($uname != $_COOKIE["uname"]){
+            $role = $mysqli->query("UPDATE $usertable SET ROLE = '$newRole' WHERE USERID = $id");
+            if ($role && $getUname) {
+              array_push($msg, "Changed Role of $uname to $newRole");
+            } else {
+              array_push($msg, "Couldn't carry out changes (db query failed)");
+            }
+          }
+          else{
+            array_push($msg, "Couldn't carry out changes (invalid selection)");
           }
         }
       }
     }
   }
 }
+
 ?>
 
 <!doctype html>
