@@ -1,6 +1,7 @@
 <?php
 // Credentials for this server
 require 'require/credentials.php';
+require_once('require/DatabaseConnection.class.php');
 $msg = array();
 
 $mysqli = new mysqli($servername, $username, $password, $dbname);
@@ -9,62 +10,24 @@ if ($mysqli->connect_error) {
     die("Connecting to MySQL or database failed:<b><i> " . $mysqli->connect_error . "</b></i>");
 }
 
-function random_string($length)
-{
-    $characters = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!$.";
-    $c_length = strlen($characters);
-    $string = "";
-    for ($i = 0; $i < $length; $i++) {
-        $string .= $characters[rand(0, $c_length - 1)];
-    }
-    return $string;
-}
-
-//if revisit when "stay logged in" was checked before
-if (isset($_COOKIE["identifier"]) && isset($_COOKIE["token"])) {
-    $identifier = $_COOKIE["identifier"];
-    $token = $_COOKIE["token"];
-    $result = $mysqli->query("SELECT TOKEN FROM $usertable WHERE IDENTIFIER='$identifier'");
-    $row = $result->fetch_assoc();
-    $db_token = $row["TOKEN"];
-    $hash_token = hash("sha256", $token);
-
-    if ($hash_token == $db_token) { //new token
-        $new_token = random_string(32);
-        $hash_new_token = hash("sha256", $new_token);
-        $update = $mysqli->query("UPDATE $usertable SET TOKEN = '$hash_new_token' WHERE IDENTIFIER = '$identifier'");
-        $get_uname = $mysqli->query("SELECT USERNAME FROM $usertable WHERE IDENTIFIER = '$identifier'");
-        $row_u = $get_uname->fetch_assoc();
-        $db_uname = $row_u["USERNAME"];
-        setcookie("identifier", $identifier);
-        setcookie("token", $new_token);
-        setcookie("logcheck", "true");
-        setcookie("uname", $db_uname);
-        header("Location: index");
-        exit;
-    } else {
-        die("You're a cheater");
-    }
-}
-
 if (isset($_POST["logbtn"])) {
     $uname = $_POST["uname"];
     $pword = $_POST["pword"];
     if (!empty($uname) && !empty($pword)) {
         $result = $mysqli->query("SELECT PASSWORD,USERNAME FROM $usertable WHERE USERNAME='$uname'");
         $row = $result->fetch_assoc();
-        $db_p = $row["PASSWORD"];
+        $dbP = $row["PASSWORD"];
         if ($result) {
-            if (password_verify($pword, $db_p)) {
+            if (password_verify($pword, $dbP)) {
                 //pass
                 if (isset($_POST["stay_li"])) { //when checking "RM"
-                    $identifier = random_string(32);
-                    $token = random_string(32);
-                    $hash_token = hash("sha256", $token);
-                    $result = $mysqli->query("UPDATE $usertable SET IDENTIFIER = '$identifier', TOKEN = '$hash_token' WHERE USERNAME = '$uname'");
+                    $identifier = randomString(32);
+                    $token = randomString(32);
+                    $hashToken = hash("sha256", $token);
+                    $result = $mysqli->query("UPDATE $usertable SET IDENTIFIER = '$identifier', TOKEN = '$hashToken' WHERE USERNAME = '$uname'");
 
-                    setcookie("identifier","$identifier");
-                    setcookie("token","$token");
+                    setcookie("identifier","$identifier",time() + 86400 * 365);
+                    setcookie("token","$token",time() + 86400 * 365);
 }
 setcookie("logcheck","true");
 setcookie("uname","$uname");
