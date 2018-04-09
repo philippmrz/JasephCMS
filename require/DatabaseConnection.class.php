@@ -11,7 +11,8 @@
     return (!$_GET['sort'] or $_GET['sort'] == 'DESC') ? '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M3 18h6v-2H3v2zM3 6v2h18V6H3zm0 7h12v-2H3v2z"/></svg>' : '<svg rotate="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M3 18h6v-2H3v2zM3 6v2h18V6H3zm0 7h12v-2H3v2z"/></svg>';
   }
 
-  function randomString($length) {
+  function randomString($length)
+  {
       $characters = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!$.";
       $c_length = strlen($characters);
       $string = "";
@@ -31,11 +32,16 @@
       }
     }
 
-    function postsAusgeben($order) {
+    function postsAusgeben($order,$userID) {
       $order = ($order == 'ASC') ? 'DESC' : 'ASC';
       require('credentials.php');
       $return = "";
-      $r = @parent::query("SELECT POSTID, substring(TITLE, 1, 50) AS TITLE, substring(CONTENT, 1, 200) AS CONTENT, DATE, substring(DATE, 1, 10) AS DAY, substring(DATE, 11, 19) AS TIME, USERNAME from $posttable, $usertable WHERE $posttable.USERID = $usertable.USERID ORDER BY DATE $order");
+      if(basename($_SERVER['PHP_SELF']) == "myposts.php"){
+        $r = @parent::query("SELECT POSTID, substring(TITLE, 1, 50) AS TITLE, substring(CONTENT, 1, 200) AS CONTENT, DATE, substring(DATE, 1, 10) AS DAY, substring(DATE, 11, 19) AS TIME, USERNAME from $posttable, $usertable WHERE $posttable.USERID = $usertable.USERID AND $posttable.USERID = $userID ORDER BY DATE $order");
+      }
+      else{
+        $r = @parent::query("SELECT POSTID, substring(TITLE, 1, 50) AS TITLE, substring(CONTENT, 1, 200) AS CONTENT, DATE, substring(DATE, 1, 10) AS DAY, substring(DATE, 11, 19) AS TIME, USERNAME from $posttable, $usertable WHERE $posttable.USERID = $usertable.USERID ORDER BY DATE $order");
+      }
       while ($row = $r->fetch_assoc()){
         $return .= <<<MYSQL
         <a href='onepost.php?id=$row[POSTID]'>
@@ -92,3 +98,4 @@ RETURN;
     }
   }
 ?>
+
