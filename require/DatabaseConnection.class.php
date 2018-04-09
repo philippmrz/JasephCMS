@@ -32,16 +32,20 @@
       }
     }
 
-    function postsAusgeben($order,$userID) {
-      $order = ($order == 'ASC') ? 'DESC' : 'ASC';
+    function postsAusgeben($order) {
       require('credentials.php');
+
+      $order = ($order == 'ASC') ? 'DESC' : 'ASC';
+
+      if (basename($_SERVER['PHP_SELF']) == "myposts.php")
+        $rsqlQuery = "SELECT POSTID, substring(TITLE, 1, 50) AS TITLE, substring(CONTENT, 1, 200) AS CONTENT, DATE, substring(DATE, 1, 10) AS DAY, substring(DATE, 11, 19) AS TIME, USERNAME from $posttable, $usertable WHERE $posttable.USERID = $usertable.USERID AND $posttable.USERID = $userID ORDER BY DATE $order";
+
+      else
+        $sqlQuery = "SELECT POSTID, substring(TITLE, 1, 50) AS TITLE, substring(CONTENT, 1, 200) AS CONTENT, DATE, substring(DATE, 1, 10) AS DAY, substring(DATE, 11, 19) AS TIME, USERNAME from $posttable, $usertable WHERE $posttable.USERID = $usertable.USERID ORDER BY DATE $order";
+
+      $r = @parent::query($sqlQuery);
+
       $return = "";
-      if(basename($_SERVER['PHP_SELF']) == "myposts.php"){
-        $r = @parent::query("SELECT POSTID, substring(TITLE, 1, 50) AS TITLE, substring(CONTENT, 1, 200) AS CONTENT, DATE, substring(DATE, 1, 10) AS DAY, substring(DATE, 11, 19) AS TIME, USERNAME from $posttable, $usertable WHERE $posttable.USERID = $usertable.USERID AND $posttable.USERID = $userID ORDER BY DATE $order");
-      }
-      else{
-        $r = @parent::query("SELECT POSTID, substring(TITLE, 1, 50) AS TITLE, substring(CONTENT, 1, 200) AS CONTENT, DATE, substring(DATE, 1, 10) AS DAY, substring(DATE, 11, 19) AS TIME, USERNAME from $posttable, $usertable WHERE $posttable.USERID = $usertable.USERID ORDER BY DATE $order");
-      }
       while ($row = $r->fetch_assoc()){
         $return .= <<<MYSQL
         <a href='onepost.php?id=$row[POSTID]'>
@@ -96,6 +100,11 @@ RETURN;
       @parent::query("DELETE FROM post WHERE POSTID = $_GET[id]");
       header('Location: index');
     }
+
+    function getUserID() {
+      $getUserID = $mysqli->query("SELECT USERID FROM $usertable WHERE USERNAME = '$_COOKIE[uname]'");
+      $row = $getUserID->fetch_assoc();
+      return $row["USERID"];
+    }
   }
 ?>
-
