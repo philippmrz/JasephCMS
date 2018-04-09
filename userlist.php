@@ -29,13 +29,14 @@ if(isset($_POST["canclbtn"])){ ?>
 <?php }
 if(isset($_POST["confbtn"])){
   $msg = [];
-  $countu = $mysqli->query("SELECT COUNT(USERNAME) FROM $usertable");
-  $row = $countu->fetch_assoc();
-  $usercount = $row["COUNT(USERNAME)"];
+  $userlist = $mysqli->query("SELECT USERNAME FROM $usertable");
+  $row = $userlist->fetch_assoc();
   //check every user
-  for($i=0;$i<$usercount;$i++){
-    if(isset($_POST["chkusers$i"])){
-      switch($_POST["chkusers$i"]){
+  foreach($row as $user){
+	$getUserID = $mysqli->query("SELECT USERID FROM $usertable WHERE USERNAME = '$user'");
+	$idRow = $getUserID->fetch_assoc();
+    if(isset($_POST["chkusers$idRow["USERID"]"])){
+      switch($_POST["chkusers$idRow["USERID"]"]){
         case "admin":
           $new_role = "ADMIN";
           break;
@@ -71,10 +72,9 @@ if(isset($_POST["confbtn"])){
           array_push($msg,"Couldn't carry out changes (db query failed)");
         }
       }
-
-      }
-    }
-  }
+	 }
+   }
+ }
 ?>
 
 <!doctype html>
@@ -135,5 +135,7 @@ else{echo "nah";}
 $mysqli->close();
  ?>
 
+
+<?php//require 'require/footer.php';?>
 </body>
 </html>
