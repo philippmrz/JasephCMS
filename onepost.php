@@ -1,7 +1,11 @@
 <?php
 require_once 'require/DatabaseConnection.class.php';
 $dbConnection = new DatabaseConnection();
-if ($_GET['del'] == 1 && $dbConnection->getUserRole() == 'ADMIN') $dbConnection->deletePost(); ?>
+if (isset($_GET['del'])) {
+  if ($_GET['del'] == 1 && $dbConnection->getUserRole() == 'ADMIN') {
+    $dbConnection->deletePost();
+  }
+} ?>
 <!doctype html>
 <html>
 <head>
