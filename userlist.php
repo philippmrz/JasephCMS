@@ -11,22 +11,21 @@ if ($mysqli->connect_error) {
 $uname = $_COOKIE["uname"];
 
 //check for admin/mod
-$get_admin = $mysqli->query("SELECT ROLE FROM $usertable WHERE USERNAME = '$uname'");
-if (!$get_admin) {
+$getAdmin = $mysqli->query("SELECT ROLE FROM $usertable WHERE USERNAME = '$uname'");
+if (!$getAdmin) {
     echo $mysqli->error;
 }
-$row_admin = $get_admin->fetch_assoc();
-if ($row_admin["ROLE"] == "COMMON" || $row_admin["ROLE"] == "BLOCKED" || !isset($_COOKIE["logcheck"])) {
+$rowAdmin = $getAdmin->fetch_assoc();
+if ($rowAdmin["ROLE"] != "ADMIN" || !isset($_COOKIE["logcheck"])) {
   ?>
   <div class="content">
     <h1>Get Out</h1>
     <script>redirect('index');</script>
   </div>
   <?php
-} elseif ($row_admin["ROLE"] == "ADMIN") {
+}
+else{
     $admin = true;
-} else {
-    $admin = false;
 }
 
 if (isset($_POST["canclbtn"])) {
@@ -44,15 +43,15 @@ if (isset($_POST["confbtn"])) {
       if (isset($_POST["chkusers$id"])) {
         switch ($_POST["chkusers$id"]) {
           case "admin":
-            $new_role = "ADMIN";
+            $newRole = "ADMIN";
             break;
 
           case "mod":
-            $new_role = "MOD";
+            $newRole = "MOD";
             break;
 
           case "block":
-            $new_role = "BLOCKED";
+            $newRole = "BLOCKED";
             break;
 
           case "delete":
@@ -71,7 +70,7 @@ if (isset($_POST["confbtn"])) {
           $urow = $get_uname->fetch_assoc();
           $uname = $urow["USERNAME"];
           if ($role && $get_uname) {
-            array_push($msg, "Changed Role of $uname to $new_role");
+            array_push($msg, "Changed Role of $uname to $newRole");
           } else {
             array_push($msg, "Couldn't carry out changes (db query failed)");
           }
@@ -122,12 +121,7 @@ if (isset($_POST["confbtn"])) {
                     echo "<th>".$elem."</th>";
                   }
                   ?>
-                  <th>Delete</th><th>Block</th>
-                  <?php
-                  if ($admin) {
-                    echo "<th>Mod</th><th>Admin</th>";
-                  }
-                  ?>
+                  <th>Delete</th><th>Block</th><th>Mod</th><th>Admin</th>
                 </tr>
                 <?php
               }
@@ -140,19 +134,13 @@ if (isset($_POST["confbtn"])) {
                 ?>
                 <td><input type="radio" name="chkusers<?php echo $row["USERID"]; ?>" value="delete"/></td>
                 <td><input type="radio" name="chkusers<?php echo $row["USERID"]; ?>" value="block"/></td>
-                <?php
-                if ($admin):
-                  ?>
-                  <td><input type="radio" name="chkusers<?php echo $row["USERID"]; ?>" value="mod"/></td>
-                  <td><input type="radio" name="chkusers<?php echo $row["USERID"]; ?>" value="admin"/></td>
-                  <?php
-                endif;
-                ?>
+                <td><input type="radio" name="chkusers<?php echo $row["USERID"]; ?>" value="mod"/></td>
+                <td><input type="radio" name="chkusers<?php echo $row["USERID"]; ?>" value="admin"/></td>
               </tr>
               <?php
             }
           } else {
-            echo "nah";
+            echo "query error";
           }
           ?>
         </table>
