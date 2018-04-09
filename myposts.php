@@ -21,12 +21,8 @@ if ($mysqli->connect_error) {
   <?php require 'require/sidebar.php'; ?>
   <div id='content'>
     <?php
-      $uname = $_COOKIE["uname"];
-      $getUserID = $mysqli->query("SELECT USERID FROM $usertable WHERE USERNAME = '$uname'");
-      $row = $getUserID->fetch_assoc();
-      $userID = $row["USERID"];
       $db = new DatabaseConnection();
-      echo $db->postsAusgeben($_GET['sort'],$userID);
+      echo $db->postsAusgeben($_GET['sort']);
 
     if(isLoggedIn()): ?>
       <a title='Sort chronologically or reverse chronologically' class='floating-action-btn' href='index.php?sort=<?= invertSortOrder()?>'>
