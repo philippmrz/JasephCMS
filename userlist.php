@@ -33,7 +33,6 @@ if(isset($_POST["confbtn"])){
   while($row = $userlist->fetch_assoc()){
   //check every user
   foreach($row as $user){
-	echo $user;
 	$getUserID = $mysqli->query("SELECT USERID FROM $usertable WHERE USERNAME = '$user'");
 	$idRow = $getUserID->fetch_assoc();
 	$id = $idRow["USERID"];
