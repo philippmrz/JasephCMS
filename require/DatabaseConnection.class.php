@@ -37,8 +37,9 @@
 
       $order = ($order == 'ASC') ? 'DESC' : 'ASC';
 
+      $userID = self::getUserID();
       if (basename($_SERVER['PHP_SELF']) == "myposts.php")
-        $rsqlQuery = "SELECT POSTID, substring(TITLE, 1, 50) AS TITLE, substring(CONTENT, 1, 200) AS CONTENT, DATE, substring(DATE, 1, 10) AS DAY, substring(DATE, 11, 19) AS TIME, USERNAME from $posttable, $usertable WHERE $posttable.USERID = $usertable.USERID AND $posttable.USERID = $userID ORDER BY DATE $order";
+        $sqlQuery = "SELECT POSTID, substring(TITLE, 1, 50) AS TITLE, substring(CONTENT, 1, 200) AS CONTENT, DATE, substring(DATE, 1, 10) AS DAY, substring(DATE, 11, 19) AS TIME, USERNAME from $posttable, $usertable WHERE $posttable.USERID = $usertable.USERID AND $posttable.USERID = $userID ORDER BY DATE $order";
 
       else
         $sqlQuery = "SELECT POSTID, substring(TITLE, 1, 50) AS TITLE, substring(CONTENT, 1, 200) AS CONTENT, DATE, substring(DATE, 1, 10) AS DAY, substring(DATE, 11, 19) AS TIME, USERNAME from $posttable, $usertable WHERE $posttable.USERID = $usertable.USERID ORDER BY DATE $order";
@@ -102,7 +103,7 @@ RETURN;
     }
 
     function getUserID() {
-      $getUserID = $mysqli->query("SELECT USERID FROM $usertable WHERE USERNAME = '$_COOKIE[uname]'");
+      $getUserID = @parent::query("SELECT USERID FROM user WHERE USERNAME = '$_COOKIE[uname]'");
       $row = $getUserID->fetch_assoc();
       return $row["USERID"];
     }
