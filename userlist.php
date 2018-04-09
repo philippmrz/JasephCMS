@@ -136,7 +136,5 @@ else{echo "nah";}
 $mysqli->close();
  ?>
 
-
-<?php//require 'require/footer.php';?>
 </body>
 </html>
