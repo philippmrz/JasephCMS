@@ -6,7 +6,7 @@ function setCookie(cname, val, time) { // for time use new Date(years, months, d
     } else {
         document.cookie = cname + "=" + val + "; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=";
     }
-    console.log("Set value of cookie '" + cname + "' to '" + val + "'");
+    //DEBUG console.log("Set value of cookie '" + cname + "' to '" + val + "'");
 }
 
 function getCookie(cname) {
@@ -47,7 +47,7 @@ function deleteAllCookies() {
         var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
         document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
     }
-    console.log("Deleted all cookies.");
+    //DEBUG console.log("Deleted all cookies.");
 }
 
 function logout() {
