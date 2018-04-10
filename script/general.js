@@ -94,14 +94,13 @@ function setHackerMode() {
     document.documentElement.style.setProperty('--accent-color-dark', '#009900');
     document.documentElement.style.setProperty('--color', '#e6e6e6');
     document.documentElement.style.setProperty('--title-color', 'rgba(255, 255, 255, 0.6)');
-    document.querySelector("#mask").setAttribute('src', 'assets/mask-white.png');
-    if (document.querySelector("#floating-button-newpost")) {
-        document.querySelector("#floating-button-newpost").setAttribute('src', 'assets/newpost-button-dark.png');
+    var x;
+    if(x = document.querySelector("#mask")) {
+      x.setAttribute('src', 'assets/mask-white.png');
     }
-    if (document.querySelector("#floating-button-gotop")) {
-        document.querySelector("#floating-button-gotop").setAttribute('src', 'assets/gotop-button-dark.png');
+    if(x = document.querySelector("#head-logo")) {
+      x.setAttribute('src', 'assets/jaseph_hacker.png');
     }
-    document.querySelector("#head-logo").setAttribute('src', 'assets/jaseph_hacker.png');
 }
 
 function setNormalMode() {
@@ -112,14 +111,13 @@ function setNormalMode() {
     document.documentElement.style.setProperty('--accent-color-dark', '#c2590f');
     document.documentElement.style.setProperty('--color', '#202124');
     document.documentElement.style.setProperty('--title-color', 'rgba(0, 0, 0, 0.6)');
-    document.querySelector("#mask").setAttribute('src', 'assets/mask.png');
-    if (document.querySelector("#floating-button-newpost")) {
-        document.querySelector("#floating-button-newpost").setAttribute('src', 'assets/newpost-button.png');
+    var x;
+    if(x = document.querySelector("#mask")) {
+      x.setAttribute('src', 'assets/mask.png');
     }
-    if (document.querySelector("#floating-button-gotop")) {
-        document.querySelector("#floating-button-gotop").setAttribute('src', 'assets/gotop-button.png');
+    if(x = document.querySelector("#head-logo")) {
+      x.setAttribute('src', 'assets/jaseph_normal.png');
     }
-    document.querySelector("#head-logo").setAttribute('src', 'assets/jaseph_normal.png');
 }
 
 function updateMD() {
