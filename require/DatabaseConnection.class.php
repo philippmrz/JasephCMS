@@ -103,9 +103,7 @@ RETURN;
     }
 
     function getUserID() {
-      $getUserID = @parent::query("SELECT USERID FROM user WHERE USERNAME = '$_COOKIE[uname]'");
-      $row = $getUserID->fetch_assoc();
-      return $row["USERID"];
+      return @parent::query("SELECT USERID FROM user WHERE USERNAME = '$_COOKIE[uname]'")->fetch_assoc()['USERID'];
     }
   }
 ?>
