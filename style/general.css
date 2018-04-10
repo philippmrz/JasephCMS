@@ -232,3 +232,7 @@ button, input[type='submit'] {
 .md {
 
 }
+
+.md p {
+    margin-bottom: 10px;
+}

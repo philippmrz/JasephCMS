@@ -57,10 +57,14 @@ endif; ?>
         </div>
 
         <div id='content-wrapper'>
-          <textarea id="contentArea" name="content" placeholder="Post content" spellcheck="false" maxlength="10000" oninput="updateCharsLeft(10000, 'content')" autocomplete='off' required></textarea>
+          <textarea id="contentArea" name="content" placeholder="Post content" spellcheck="false" maxlength="10000" oninput="refreshContentArea()" autocomplete='off' required></textarea>
           <p class='char-counter' id="contentcharswrapper">10000</p>
         </div>
 
+      </div>
+
+      <div id='preview-sheet'>
+        <span id="preview" class="md"><p></p></span>
       </div>
 
       <button type="submit" id="btnpost" class="floating-action-btn">&#10003;</button>

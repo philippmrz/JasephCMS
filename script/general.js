@@ -128,13 +128,14 @@ function updateMD() {
 }
 
 function parseMD(element) {
-    var bold = /\*\*[^\*]+?\*\*/g;
+    //var bold = /\*\*[^\*]+?\*\*/g;
+    var bold = /\*{2}.+?\*{2}\*?/g
     var italic = /\*[^\*]+?\*/g;
+    var paragraph = /\n{2,}/g;
+    var newline = /[^\S\n]{2}\n/g;
     //TODO REDO: var multilinecode = /(?<!\\)(?<!`)`{3}(?!`)/g;
     /*TODO
     code (`foo`)
-    paragraph (double enter)
-    newline (double space then enter)
     */
     var out;
     while ((out = bold.exec(element.innerHTML)) != null) {
@@ -142,21 +143,41 @@ function parseMD(element) {
         var index = out['index'];
         var input = out['input'];
         var converted = convertMD(word, index, 'bold');
-        //DEBUG console.log("Converted: " + converted);
+        console.log("Converted: " + converted);
         element.innerHTML = input.substr(0, index) + converted + input.substr(index + word.length, input.length);
     }
+    var out = null;
     while ((out = italic.exec(element.innerHTML)) != null) {
         var word = out[0];
         var index = out['index'];
         var input = out['input'];
         var converted = convertMD(word, index, 'italic');
-        //DEBUG console.log("Converted: " + converted);
+        console.log("Converted: " + converted);
         element.innerHTML = input.substr(0, index) + converted + input.substr(index + word.length, input.length);
     }
+    var out = null;
+    while ((out = paragraph.exec(element.innerHTML)) != null) {
+        var word = out[0];
+        var index = out['index'];
+        var input = out['input'];
+        var converted = convertMD(word, index, 'paragraph');
+        console.log("Converted: " + converted);
+        element.innerHTML = input.substr(0, index) + converted + input.substr(index + word.length, input.length);
+    }
+    var out = null;
+    while ((out = newline.exec(element.innerHTML)) != null) {
+        var word = out[0];
+        var index = out['index'];
+        var input = out['input'];
+        var converted = convertMD(word, index, 'newline');
+        console.log("Converted: " + converted);
+        element.innerHTML = input.substr(0, index) + converted + input.substr(index + word.length, input.length);
+    }
+    console.log(element.innerHTML);
 }
 
 function convertMD(word, index, type) {
-    //DEBUG console.log("(convertMD): Got it! (" + word + ", " + index + ", " + type + ")");
+    console.log("(convertMD): Got it! (" + word + ", " + index + ", " + type + ")");
     switch(type) {
         case 'bold':
         return '<b>' + word.substr(2, word.length-4) + '</b>';
@@ -166,16 +187,18 @@ function convertMD(word, index, type) {
         return '<em>' + word.substr(1, word.length-2) + '</em>';
         break;
 
+        case 'paragraph':
+        return '</p><p>';
+        break;
+
+        case 'newline':
+        return '<br>';
+        break;
+
         case 'code':
         break;
 
         case 'multilinecode':
-        break;
-
-        case 'paragraph':
-        break;
-
-        case 'newline':
         break;
     }
 }

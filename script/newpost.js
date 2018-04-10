@@ -8,6 +8,12 @@ function updateCharsLeft(maxAmt, type) {
     }
 }
 
+function refreshContentArea() {
+    updateCharsLeft(10000, 'contentArea');
+    document.getElementById('preview').innerHTML = '<p>' + document.getElementById('contentArea').value + '</p>';
+    updateMD();
+}
+
 window.onload = function() {
     document.getElementById("contentArea").addEventListener("keyup", function(e) {
         if(e.ctrlKey && e.keyCode == 13) {

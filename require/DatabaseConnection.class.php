@@ -87,7 +87,7 @@ MYSQL;
             <span>on</span> $row[DAY] <span>at</span> $row[TIME]
           </p>
         </div>
-        <p id='post-text'>$row[CONTENT]</p>
+        <span id='post-text' class='md'>$row[CONTENT]</span>
       </div>
 RETURN;
     }
