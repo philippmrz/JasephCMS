@@ -4,11 +4,11 @@
   }
 
   function invertSortOrder() {
-    return (!$_GET['sort'] or $_GET['sort'] == 'DESC') ? "ASC" : "DESC";
+    return (isset($_GET['sort']) and (!$_GET['sort'] or $_GET['sort'] == 'DESC')) ? "ASC" : "DESC";
   }
 
   function getSortSVG() {
-    return (!$_GET['sort'] or $_GET['sort'] == 'DESC') ? '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M3 18h6v-2H3v2zM3 6v2h18V6H3zm0 7h12v-2H3v2z"/></svg>' : '<svg rotate="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M3 18h6v-2H3v2zM3 6v2h18V6H3zm0 7h12v-2H3v2z"/></svg>';
+    return (isset($_GET['sort']) and (!$_GET['sort'] or $_GET['sort'] == 'DESC')) ? '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M3 18h6v-2H3v2zM3 6v2h18V6H3zm0 7h12v-2H3v2z"/></svg>' : '<svg rotate="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M3 18h6v-2H3v2zM3 6v2h18V6H3zm0 7h12v-2H3v2z"/></svg>';
   }
 
   function randomString($length)
@@ -62,7 +62,7 @@
                   <p class='date'>$row[DAY] at $row[TIME]</p>
                 </div>
               </div>
-              <p class='post-text'>$row[CONTENT]...</p>
+              <span class='post-text' class='md'>$row[CONTENT]...</span>
             </div>
           </div>
         </a>
