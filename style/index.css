@@ -32,10 +32,15 @@
   transform: translateY(4px);
 }
 
+hr {
+  width: 80%;
+  margin: 0 auto;
+}
+
 .post {
   width: 70%;
   min-height: 12vh;
-  margin: 8vh auto;
+  margin: 6vh auto;
   padding: 4vh;
   display: flex;
   justify-content: space-between;
@@ -52,7 +57,7 @@
 }
 
 .post + .post {
-  border-top: 2px solid var(--accent-color-light);
+  /* border-top: 2px solid var(--accent-color-light); */
 }
 
 .thumbnail {

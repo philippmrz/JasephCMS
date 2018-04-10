@@ -49,8 +49,7 @@
       $return = "";
       while ($row = $r->fetch_assoc()){
         $return .= <<<MYSQL
-        <a href='onepost.php?id=$row[POSTID]'>
-          <div class='post'>
+        <a class='post' href='onepost.php?id=$row[POSTID]'>
             <img class='thumbnail' src='assets/dummy-thumbnail.png'>
 
             <div class='post-without-tn'>
@@ -64,8 +63,8 @@
               </div>
               <span class='post-text md'>$row[CONTENT]...</span>
             </div>
-          </div>
         </a>
+        <hr>
 MYSQL;
       }
       return $return;
