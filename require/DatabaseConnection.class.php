@@ -41,15 +41,14 @@
         $sqlQuery = "SELECT POSTID, substring(TITLE, 1, 50) AS TITLE, substring(CONTENT, 1, 200) AS CONTENT, DATE, substring(DATE, 1, 10) AS DAY, substring(DATE, 11, 19) AS TIME, USERNAME from $posttable, $usertable WHERE $posttable.USERID = $usertable.USERID AND $posttable.USERID = $userID ORDER BY DATE $order";
 
       else
-        $sqlQuery = "SELECT POSTID, substring(TITLE, 1, 50) AS TITLE, substring(CONTENT, 1, 200) AS CONTENT, DATE, substring(DATE, 1, 10) AS DAY, substring(DATE, 11, 19) AS TIME, USERNAME from $posttable, $usertable WHERE $posttable.USERID = $usertable.USERID ORDER BY DATE $order";
+        $sqlQuery = "SELECT POSTID, substring(TITLE, 1, 50) AS TITLE, CONTENT, DATE, substring(DATE, 1, 10) AS DAY, substring(DATE, 11, 19) AS TIME, USERNAME from $posttable, $usertable WHERE $posttable.USERID = $usertable.USERID ORDER BY DATE $order";
 
       $r = @parent::query($sqlQuery);
 
       $return = "";
       while ($row = $r->fetch_assoc()){
         $return .= <<<MYSQL
-        <a href='onepost.php?id=$row[POSTID]'>
-          <div class='post'>
+        <a class='post' href='onepost.php?id=$row[POSTID]'>
             <img class='thumbnail' src='assets/dummy-thumbnail.png'>
 
             <div class='post-without-tn'>
@@ -61,10 +60,10 @@
                   <p class='date'>$row[DAY] at $row[TIME]</p>
                 </div>
               </div>
-              <span class='post-text md'>$row[CONTENT]...</span>
+              <span class='post-text md'>$row[CONTENT]</span>
             </div>
-          </div>
         </a>
+        <hr>
 MYSQL;
       }
       return $return;
@@ -102,9 +101,7 @@ RETURN;
     }
 
     function getUserID() {
-      $getUserID = @parent::query("SELECT USERID FROM user WHERE USERNAME = '$_COOKIE[uname]'");
-      $row = $getUserID->fetch_assoc();
-      return $row["USERID"];
+      return @parent::query("SELECT USERID FROM user WHERE USERNAME = '$_COOKIE[uname]'")->fetch_assoc()['USERID'];
     }
   }
 ?>

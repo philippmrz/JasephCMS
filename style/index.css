@@ -32,11 +32,16 @@
   transform: translateY(4px);
 }
 
+hr {
+  width: 80%;
+  margin: 0 auto;
+}
+
 .post {
   width: 70%;
   min-height: 12vh;
-  margin: 8vh auto;
-  padding: 4vh;
+  margin: 4vh auto;
+  padding: 3vh;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -49,10 +54,6 @@
 
 .post:hover .username {
   color: var(--bg-color);
-}
-
-.post + .post {
-  border-top: 2px solid var(--accent-color-light);
 }
 
 .thumbnail {
@@ -106,8 +107,11 @@
 
 .post-text {
   overflow: hidden;
-  height: 8vh;
+  max-height: 8vh;
+  display: block;
   font-size: .8em;
   max-width: 40vw;
   word-break: break-all;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

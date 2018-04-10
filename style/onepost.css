@@ -1,5 +1,5 @@
 #content {
-  padding: 10vh 22vw;
+  padding: 10vh 20vw;
 }
 
 #post {
@@ -7,12 +7,14 @@
   padding: 2vh;
   border-right: 2px solid var(--accent-color-light);
   border-left: 2px solid var(--accent-color-light);
+  margin-bottom: 10vh;
 }
 
 #title {
   font-size: 3rem;
   letter-spacing: 3px;
   margin-bottom: 3vh;
+  word-break: break-all;
 }
 
 #post-info {
@@ -39,9 +41,4 @@
 #post-text {
   margin-top: 6vh;
   line-height: 29px;
-}
-
-#username-bottom {
-  margin-top: 6vh;
-  font-size: .9em;
 }
