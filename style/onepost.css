@@ -13,6 +13,7 @@
   font-size: 3rem;
   letter-spacing: 3px;
   margin-bottom: 3vh;
+  word-break: break-all;
 }
 
 #post-info {
