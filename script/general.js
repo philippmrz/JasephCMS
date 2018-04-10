@@ -121,11 +121,61 @@ function setNormalMode() {
 }
 
 function updateMD() {
-    for (var i = 0; i < x.length; i++) {
-      parseMD(document.getElementsByClassName("md")[i]);
+    elements = document.documentElement.getElementsByClassName('md');
+    for (var i = 0; i < elements.length; i++) {
+      parseMD(elements[i]);
     }
 }
 
-function parseMD() {
-    //TODO regex(?) checks for each part of md formatting
+function parseMD(element) {
+    var bold = /\*\*[^\*]+?\*\*/g;
+    var italic = /\*[^\*]+?\*/g;
+    //TODO REDO: var multilinecode = /(?<!\\)(?<!`)`{3}(?!`)/g;
+    /*TODO
+    code (`foo`)
+    paragraph (double enter)
+    newline (double space then enter)
+    */
+    var out;
+    while ((out = bold.exec(element.innerHTML)) != null) {
+        var word = out[0];
+        var index = out['index'];
+        var input = out['input'];
+        var converted = convertMD(word, index, 'bold');
+        //DEBUG console.log("Converted: " + converted);
+        element.innerHTML = input.substr(0, index) + converted + input.substr(index + word.length, input.length);
+    }
+    while ((out = italic.exec(element.innerHTML)) != null) {
+        var word = out[0];
+        var index = out['index'];
+        var input = out['input'];
+        var converted = convertMD(word, index, 'italic');
+        //DEBUG console.log("Converted: " + converted);
+        element.innerHTML = input.substr(0, index) + converted + input.substr(index + word.length, input.length);
+    }
+}
+
+function convertMD(word, index, type) {
+    //DEBUG console.log("(convertMD): Got it! (" + word + ", " + index + ", " + type + ")");
+    switch(type) {
+        case 'bold':
+        return '<b>' + word.substr(2, word.length-4) + '</b>';
+        break;
+
+        case 'italic':
+        return '<em>' + word.substr(1, word.length-2) + '</em>';
+        break;
+
+        case 'code':
+        break;
+
+        case 'multilinecode':
+        break;
+
+        case 'paragraph':
+        break;
+
+        case 'newline':
+        break;
+    }
 }

@@ -62,7 +62,7 @@
                   <p class='date'>$row[DAY] at $row[TIME]</p>
                 </div>
               </div>
-              <span class='post-text' class='md'>$row[CONTENT]...</span>
+              <span class='post-text md'>$row[CONTENT]...</span>
             </div>
           </div>
         </a>
