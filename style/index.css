@@ -40,8 +40,8 @@ hr {
 .post {
   width: 70%;
   min-height: 12vh;
-  margin: 6vh auto;
-  padding: 4vh;
+  margin: 4vh auto;
+  padding: 3vh;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -54,10 +54,6 @@ hr {
 
 .post:hover .username {
   color: var(--bg-color);
-}
-
-.post + .post {
-  /* border-top: 2px solid var(--accent-color-light); */
 }
 
 .thumbnail {
@@ -111,8 +107,11 @@ hr {
 
 .post-text {
   overflow: hidden;
-  height: 8vh;
+  max-height: 8vh;
+  display: block;
   font-size: .8em;
   max-width: 40vw;
   word-break: break-all;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

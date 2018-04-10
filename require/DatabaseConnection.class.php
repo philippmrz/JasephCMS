@@ -42,7 +42,7 @@
         $sqlQuery = "SELECT POSTID, substring(TITLE, 1, 50) AS TITLE, substring(CONTENT, 1, 200) AS CONTENT, DATE, substring(DATE, 1, 10) AS DAY, substring(DATE, 11, 19) AS TIME, USERNAME from $posttable, $usertable WHERE $posttable.USERID = $usertable.USERID AND $posttable.USERID = $userID ORDER BY DATE $order";
 
       else
-        $sqlQuery = "SELECT POSTID, substring(TITLE, 1, 50) AS TITLE, substring(CONTENT, 1, 200) AS CONTENT, DATE, substring(DATE, 1, 10) AS DAY, substring(DATE, 11, 19) AS TIME, USERNAME from $posttable, $usertable WHERE $posttable.USERID = $usertable.USERID ORDER BY DATE $order";
+        $sqlQuery = "SELECT POSTID, substring(TITLE, 1, 50) AS TITLE, CONTENT, DATE, substring(DATE, 1, 10) AS DAY, substring(DATE, 11, 19) AS TIME, USERNAME from $posttable, $usertable WHERE $posttable.USERID = $usertable.USERID ORDER BY DATE $order";
 
       $r = @parent::query($sqlQuery);
 
@@ -61,7 +61,7 @@
                   <p class='date'>$row[DAY] at $row[TIME]</p>
                 </div>
               </div>
-              <span class='post-text md'>$row[CONTENT]...</span>
+              <span class='post-text md'>$row[CONTENT]</span>
             </div>
         </a>
         <hr>
