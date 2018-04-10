@@ -10,7 +10,7 @@ if ($mysqli->connect_error) {
 
 $uname = $_COOKIE["uname"];
 
-//check for admin/mod
+//check for admin
 $getAdmin = $mysqli->query("SELECT ROLE FROM $usertable WHERE USERNAME = '$uname'");
 if (!$getAdmin) {
     echo $mysqli->error;
@@ -20,7 +20,7 @@ if ($rowAdmin["ROLE"] != "ADMIN" || !isset($_COOKIE["logcheck"])) {
   ?>
   <div class="content">
     <h1>Get Out</h1>
-    <script>redirect('index');</script>
+    <?php header('location: index.php');?>
   </div>
   <?php
 }
@@ -52,9 +52,9 @@ if (isset($_POST["confbtn"])) {
             $newRole = "MOD";
             break;
 
-          case "block":
+          case "common":
             $roleChange = "true";
-            $newRole = "BLOCKED";
+            $newRole = "COMMON";
             break;
 
           case "delete":
@@ -140,7 +140,7 @@ if (isset($_POST["confbtn"])) {
                     echo "<th>".$elem."</th>";
                   }
                   ?>
-                  <th>Delete</th><th>Block</th><th>Mod</th><th>Admin</th>
+                  <th>Delete</th><th>Common</th><th>Mod</th><th>Admin</th>
                 </tr>
                 <?php
               }
@@ -152,7 +152,7 @@ if (isset($_POST["confbtn"])) {
                 }
                 ?>
                 <td><input type="radio" name="chkusers<?php echo $row["USERID"]; ?>" value="delete"/></td>
-                <td><input type="radio" name="chkusers<?php echo $row["USERID"]; ?>" value="block"/></td>
+                <td><input type="radio" name="chkusers<?php echo $row["USERID"]; ?>" value="common"/></td>
                 <td><input type="radio" name="chkusers<?php echo $row["USERID"]; ?>" value="mod"/></td>
                 <td><input type="radio" name="chkusers<?php echo $row["USERID"]; ?>" value="admin"/></td>
               </tr>
