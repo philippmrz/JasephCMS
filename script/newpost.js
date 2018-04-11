@@ -1,4 +1,11 @@
-function updateCharsLeft(maxAmt, type) {
+/*
+ * This javascript file makes use of the following libraries:
+ * Showdown
+ * ..Github:(https://github.com/showdownjs/showdown)
+ *
+ */
+
+ function updateCharsLeft(maxAmt, type) {
     if(type == "title") {
         var cur = document.getElementById("titleField").value.length;
         document.getElementById("titlecharswrapper").innerHTML = maxAmt - cur;
@@ -10,8 +17,11 @@ function updateCharsLeft(maxAmt, type) {
 
 function refreshContentArea() {
     updateCharsLeft(10000, 'contentArea');
-    document.getElementById('preview').innerHTML = '<p>' + document.getElementById('contentArea').value + '</p>';
-    updateMD();
+    var text = document.getElementById('contentArea').value;
+    var target = document.getElementById('preview');
+    var converter = new showdown.Converter();
+    var output = converter.makeHtml(text);
+    target.innerHTML = output;
 }
 
 window.onload = function() {

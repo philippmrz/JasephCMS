@@ -1,3 +1,10 @@
+/*
+ * This javascript file makes use of the following libraries:
+ * Showdown
+ * ..Github:(https://github.com/showdownjs/showdown)
+ *
+ */
+
 function setCookie(cname, val, time) { // for time use new Date(years, months, days, hours, minutes, seconds, milliseconds);
     var now = new Date();
     if (time != null) {
@@ -95,10 +102,10 @@ function setHackerMode() {
     document.documentElement.style.setProperty('--color', '#e6e6e6');
     document.documentElement.style.setProperty('--title-color', 'rgba(255, 255, 255, 0.6)');
     var x;
-    if(x = document.querySelector("#mask")) {
+    if(x = document.querySelector('#mask')) {
       x.setAttribute('src', 'assets/mask-white.png');
     }
-    if(x = document.querySelector("#head-logo")) {
+    if(x = document.querySelector('#head-logo')) {
       x.setAttribute('src', 'assets/jaseph_hacker.png');
     }
 }
@@ -112,93 +119,35 @@ function setNormalMode() {
     document.documentElement.style.setProperty('--color', '#202124');
     document.documentElement.style.setProperty('--title-color', 'rgba(0, 0, 0, 0.6)');
     var x;
-    if(x = document.querySelector("#mask")) {
+    if(x = document.querySelector('#mask')) {
       x.setAttribute('src', 'assets/mask.png');
     }
-    if(x = document.querySelector("#head-logo")) {
+    if(x = document.querySelector('#head-logo')) {
       x.setAttribute('src', 'assets/jaseph_normal.png');
     }
 }
 
+//MARKDOWN formatting using Showdown
+showdown.setOption('strikethrough', true);
+showdown.setOption('tables', true);
+showdown.setOption('smoothLivePreview', true);
+
 function updateMD() {
-    elements = document.documentElement.getElementsByClassName('md');
+    elements = document.getElementsByClassName('md');
     for (var i = 0; i < elements.length; i++) {
-      parseMD(elements[i]);
+        runMD(elements[i]);
     }
 }
 
-function parseMD(element) {
-    //var bold = /\*\*[^\*]+?\*\*/g;
-    var bold = /\*{2}.+?\*{2}\*?/g
-    var italic = /\*[^\*]+?\*/g;
-    var paragraph = /\n{2,}/g;
-    var newline = /[^\S\n]{2}\n/g;
-    //TODO REDO: var multilinecode = /(?<!\\)(?<!`)`{3}(?!`)/g;
-    /*TODO
-    code (`foo`)
-    */
-    var out;
-    while ((out = bold.exec(element.innerHTML)) != null) {
-        var word = out[0];
-        var index = out['index'];
-        var input = out['input'];
-        var converted = convertMD(word, index, 'bold');
-        console.log("Converted: " + converted);
-        element.innerHTML = input.substr(0, index) + converted + input.substr(index + word.length, input.length);
-    }
-    var out = null;
-    while ((out = italic.exec(element.innerHTML)) != null) {
-        var word = out[0];
-        var index = out['index'];
-        var input = out['input'];
-        var converted = convertMD(word, index, 'italic');
-        console.log("Converted: " + converted);
-        element.innerHTML = input.substr(0, index) + converted + input.substr(index + word.length, input.length);
-    }
-    var out = null;
-    while ((out = paragraph.exec(element.innerHTML)) != null) {
-        var word = out[0];
-        var index = out['index'];
-        var input = out['input'];
-        var converted = convertMD(word, index, 'paragraph');
-        console.log("Converted: " + converted);
-        element.innerHTML = input.substr(0, index) + converted + input.substr(index + word.length, input.length);
-    }
-    var out = null;
-    while ((out = newline.exec(element.innerHTML)) != null) {
-        var word = out[0];
-        var index = out['index'];
-        var input = out['input'];
-        var converted = convertMD(word, index, 'newline');
-        console.log("Converted: " + converted);
-        element.innerHTML = input.substr(0, index) + converted + input.substr(index + word.length, input.length);
-    }
-    console.log(element.innerHTML);
-}
-
-function convertMD(word, index, type) {
-    console.log("(convertMD): Got it! (" + word + ", " + index + ", " + type + ")");
-    switch(type) {
-        case 'bold':
-        return '<b>' + word.substr(2, word.length-4) + '</b>';
-        break;
-
-        case 'italic':
-        return '<em>' + word.substr(1, word.length-2) + '</em>';
-        break;
-
-        case 'paragraph':
-        return '</p><p>';
-        break;
-
-        case 'newline':
-        return '<br>';
-        break;
-
-        case 'code':
-        break;
-
-        case 'multilinecode':
-        break;
+function runMD(source, target) {
+    var text = source.innerHTML;
+    var converter = new showdown.Converter();
+    var output = converter.makeHtml(text);
+    if (target) {
+        target.innerHTML = output;
+    } else {
+        source.innerHTML = output;
     }
 }
+
+window.onload = updateMD();
