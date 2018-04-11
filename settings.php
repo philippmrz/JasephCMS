@@ -1,5 +1,5 @@
 <?php
-    require_once('require/backend.php');
+    require_once('require/DatabaseConnection.class.php');
 
     if (!isLoggedIn()):
     header("Location: index");
@@ -50,7 +50,7 @@
       $img = $db->getPath($db->getUserID());
     }
     else{
-      $img = "assets/default-avatar";
+      $img = "assets/avatar/default-avatar";
     }
 
 
