@@ -68,7 +68,7 @@ function logout() {
 function redirect(link, delay) { // Delay in seconds
     //DEBUG console.log("Redirecting to " + link);
     if (delay == null) {
-      delay = 0;
+        delay = 0;
     }
     setTimeout(function() {
         window.location.replace(link);
@@ -77,12 +77,11 @@ function redirect(link, delay) { // Delay in seconds
 
 function swapStyle() {
     if (getCookie("theme") == "hacker") {
-        setNormalMode();
         setCookie('theme', 'normal');
     } else {
-        setHackerMode();
         setCookie('theme', 'hacker');
     }
+    applyStyle();
 }
 
 function applyStyle() {
@@ -91,6 +90,7 @@ function applyStyle() {
     } else {
         setNormalMode();
     }
+    rez();
 }
 
 function setHackerMode() {
@@ -102,12 +102,9 @@ function setHackerMode() {
     document.documentElement.style.setProperty('--accent-color-light', '#8fe086');
     document.documentElement.style.setProperty('--accent-color-verylight', '#77ff88');
     document.documentElement.style.setProperty('--accent-color-dark', '#009900');
-    var x;
-    if(x = document.querySelector('#mask')) {
-      x.setAttribute('src', 'assets/mask-white.png');
-    }
-    if(x = document.querySelector('#head-logo')) {
-      x.setAttribute('src', 'assets/jaseph_hacker.png');
+    var x = document.querySelector('#mask');
+    if (x) {
+      x.setAttribute('src', 'assets/mask_white.png');
     }
 }
 
@@ -120,12 +117,47 @@ function setNormalMode() {
     document.documentElement.style.setProperty('--accent-color-light', '#ff9950');
     document.documentElement.style.setProperty('--accent-color-verylight', '#ffbe90');
     document.documentElement.style.setProperty('--accent-color-dark', '#c2590f');
-    var x;
-    if(x = document.querySelector('#mask')) {
+    var x = document.querySelector('#mask');
+    if (x) {
       x.setAttribute('src', 'assets/mask.png');
     }
-    if(x = document.querySelector('#head-logo')) {
-      x.setAttribute('src', 'assets/jaseph_normal.png');
+}
+
+function rez() {
+    var x = document.querySelector('#head-logo');
+    if (x) {
+        if (window.innerWidth <= 600) {
+            if (getCookie('theme') == 'normal') {
+                x.setAttribute('src', 'assets/icon.png');
+            } else {
+                x.setAttribute('src', 'assets/icon_hacker.png');
+            }
+            document.getElementById('logo-wrapper').removeAttribute('href');
+            document.getElementById('logo-wrapper').setAttribute('onclick', 'navigation();');
+        } else {
+            if (getCookie('theme') == 'normal') {
+                x.setAttribute('src', 'assets/jaseph_normal.png');
+            } else {
+                x.setAttribute('src', 'assets/jaseph_hacker.png');
+            }
+            document.getElementById('logo-wrapper').setAttribute('href', 'index');
+            document.getElementById('logo-wrapper').removeAttribute('onclick');
+        }
+    }
+}
+
+window.addEventListener('resize', rez);
+
+var nav = false;
+
+function navigation() {
+    var x = document.querySelector('#navbar');
+    if (nav) {
+        x.style.transform = 'translateY(-10vh)';
+        nav = false;
+    } else {
+        x.style.transform = 'translateY(0)';
+        nav = true;
     }
 }
 
@@ -152,4 +184,7 @@ function runMD(source, target) {
     }
 }
 
-window.onload = updateMD();
+window.onload = function() {
+  rez();
+  updateMD();
+}

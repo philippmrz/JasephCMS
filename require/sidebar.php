@@ -22,3 +22,17 @@
   </a>
 </div>
 <?php endif; ?>
+
+<!-- Mobile only-->
+<div id='navbar'>
+  <ul>
+    <li><a href='index'>frontpage</a></li>
+    <?php if (isLoggedIn()):?>
+    <li><a href='saved'>saved posts</a></li>
+    <li><a href='myposts'>my posts</a></li>
+    <li><a href='settings'>settings</a></li>
+    <li><a href='newpost'>new post</a></li>
+    <li> </li>
+    <?php endif;?>
+  </ul>
+</div>

@@ -1,5 +1,5 @@
 #content {
-  padding: 10vh 20vw;
+  padding: 10vh 10vw;
 }
 
 #post {
@@ -11,7 +11,7 @@
 }
 
 #title {
-  font-size: 3rem;
+  font-size: 2.5rem;
   letter-spacing: 3px;
   margin-bottom: 3vh;
   word-break: break-all;
@@ -41,4 +41,18 @@
 #post-text {
   margin-top: 6vh;
   line-height: 29px;
+}
+
+/* Mobile */
+
+@media (max-width: 900px) {
+  #content {
+    padding: 5vh 5vw;
+  }
+
+  #title {
+    font-size: 1.25rem;
+    letter-spacing: 2px;
+    margin-bottom: 1vh;
+  }
 }

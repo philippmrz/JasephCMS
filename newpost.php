@@ -44,7 +44,6 @@ endif; ?>
 
 <div id='grid-wrap'>
   <?php require 'require/header.php';?>
-  <script>applyStyle();</script>
   <?php require 'require/sidebar.php'; ?>
   <div id='content'>
     <form id='newpost' action="" method="POST">

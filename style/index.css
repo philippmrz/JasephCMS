@@ -6,7 +6,7 @@
   width: 70%;
   min-height: 24vh;
   margin: 0 auto;
-  padding: 6vh 0;
+  padding: 6vh 4vw;
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -99,12 +99,6 @@ hr {
   letter-spacing: 1.5px;
 }
 
-.at {
-  color: var(--title-color);
-  margin-right: 12.5px;
-  font-style: italic;
-}
-
 .post-text {
   overflow: hidden;
   max-height: 8vh;
@@ -114,4 +108,31 @@ hr {
   word-break: break-all;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+/* Mobile */
+
+@media (max-width: 600px) {
+  .post {
+    width: 96vw;
+    margin: 2vh 2vw;
+    display: inline-block;
+    align-items: baseline;
+  }
+  .post-text {
+    max-height: 22vh;
+    max-width: 100%;
+  }
+  .thumbnail {
+    height: 6vh;
+  }
+
+  #jumbotron {
+    display: table;
+    text-align: center;
+  }
+
+  #jumbotron-btn {
+    margin-top: 10px;
+  }
 }

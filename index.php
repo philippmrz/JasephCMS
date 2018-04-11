@@ -13,7 +13,7 @@
   <div id='content'>
     <?php if (!isLoggedIn()): ?>
       <div id='jumbotron'>
-        <p>Register to start blogging and to access more features.</p>
+        <p>Register to start blogging and to access more features.</p><br>
         <a id='jumbotron-btn' href='register' class='primary-btn'>register</a>
       </div>
     <?php endif; ?>
