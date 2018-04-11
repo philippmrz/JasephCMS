@@ -1,4 +1,5 @@
 <?php
+require_once('require/backend.php');
 $db = new DatabaseConnection();
 $db->register();
 ?>

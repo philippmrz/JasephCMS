@@ -2,6 +2,7 @@
 <html>
 <head>
   <?php require 'require/head.php';?>
+  <script>applyStyle();</script>
   <link rel="stylesheet" href="style/index.css" id="pagestyle">
 </head>
 <body>
@@ -12,7 +13,7 @@
   <div id='content'>
     <?php
       $db = new DatabaseConnection();
-      echo $db->postsAusgeben($_GET['sort']);
+      echo $db->postsAusgeben(isset($_GET['sort']) ? $_GET['sort'] : 'DESC');
 
     if(isLoggedIn()): ?>
       <a title='Sort chronologically or reverse chronologically' class='floating-action-btn' href='index.php?sort=<?= invertSortOrder()?>'>

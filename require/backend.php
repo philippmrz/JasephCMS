@@ -33,7 +33,7 @@
     // constructor, this gets called every time a new instance of DatabaseConnection is created
     function __construct() {
       require('credentials.php');
-      @parent::__construct("$servername", "$username", "$password", "$dbname");
+      $instance = @parent::__construct("$servername", "$username", "$password", "$dbname");
 
       if ($this->connect_error) {
         die($this->connect_errno . $mysqli->connect_error);
@@ -57,7 +57,7 @@
       $getPath = @parent::query("SELECT PATH FROM images WHERE USERID = '$userID'");
       $row = $getPath->fetch_assoc();
       if (!$row["PATH"]) {
-        return 'assets/avatar/default-avatar.png';
+        return 'assets/default-avatar.png';
       } else {
         return $row["PATH"];
       }
@@ -88,7 +88,7 @@
 
       $userID = self::getUserID();
       if (basename($_SERVER['PHP_SELF']) == "myposts.php") {
-        $sqlQuery = "SELECT POSTID, substring(TITLE, 1, 50) AS TITLE, substring(CONTENT, 1, 200) AS CONTENT, DATE, substring(DATE, 1, 10) AS DAY, substring(DATE, 11, 19) AS TIME, USERNAME, USERID from $posttable P, $usertable U WHERE P.USERID = U.USERID AND P.USERID = $userID ORDER BY DATE $order";
+        $sqlQuery = "SELECT POSTID, substring(TITLE, 1, 50) AS TITLE, substring(CONTENT, 1, 200) AS CONTENT, DATE, substring(DATE, 1, 10) AS DAY, substring(DATE, 11, 19) AS TIME, U.USERID, USERNAME from $posttable P, $usertable U WHERE P.USERID = U.USERID AND P.USERID = $userID ORDER BY DATE $order";
       } else {
         $sqlQuery = "SELECT POSTID, substring(TITLE, 1, 50) AS TITLE, CONTENT, DATE, substring(DATE, 1, 10) AS DAY, substring(DATE, 11, 19) AS TIME, USERNAME, U.USERID AS USERID from $posttable P, $usertable U WHERE U.USERID = P.USERID ORDER BY DATE $order";
       }
@@ -159,10 +159,10 @@ RETURN;
 
     function login() {
       require('credentials.php');
-
+      $msg = array();
       if (isset($_POST["logbtn"])) {
-        $uname = $_POST["uname"];
-        $pword = $_POST["pword"];
+        echo $uname = $_POST["uname"];
+        echo $pword = $_POST["pword"];
         if (!empty($uname) && !empty($pword)) {
           if ($r = @parent::query("SELECT PASSWORD,USERNAME FROM $usertable WHERE USERNAME='$uname'")) {
             $row = $r->fetch_assoc();
@@ -195,6 +195,7 @@ RETURN;
     }
 
     function register() {
+      require('credentials.php');
       if (isset($_POST["regbtn"])) {
         unset($_COOKIE["identifier"]);
         unset($_COOKIE["token"]);
@@ -202,36 +203,32 @@ RETURN;
         $pword = $_POST["pword"];
         $pwordval = $_POST["pwordval"];
         $msg = [];
-
-        //invalid inputs
-        if (empty($uname)) {
-          array_push($msg, "Please enter a username");
-        }
-
-        if (empty($pword)) {
-          array_push($msg, "Please enter a password");
-        }
+        $valid = true;
 
         if (strlen($pword) < 6) {
-          array_push($msg, "Password must be at minimum length of 6 letters");
+          echo $msg = "Password must be at minimum length of 6 letters";
+          $valid = false;
         } else {
           if (ctype_upper($pword) || ctype_lower($pword)) {
-            array_push($msg, "Password must contain at least one lowercase and one uppercase character");
+          echo $msg = "Password must contain at least one lowercase and one uppercase character";
+          $valid = false;
           }
         }
 
         $r = @parent::query("SELECT USERNAME FROM $usertable WHERE UPPER(USERNAME) = UPPER('$uname')");
         if($r){
           if ($r->num_rows > 0) {
-            array_push($msg, "Username already exists");
+            echo $msg = "Username already exists";
+            $valid = false;
           }
         }
 
         if ($pword != $pwordval) {
-          array_push($msg, "Passwords must match");
+          echo $msg = "Passwords must match";
+          $valid = false;
         }
 
-        if (count($msg) == 0) {
+        if ($valid) {
           $pword = password_hash($pword, PASSWORD_DEFAULT);
           if ($r = @parent::query("INSERT INTO $usertable (USERNAME,PASSWORD) VALUES ('$uname','$pword')")) {
             setcookie("logcheck","true");
@@ -245,4 +242,5 @@ RETURN;
       }
     }
   }
+
 ?>

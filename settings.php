@@ -50,7 +50,7 @@
       $img = $db->getPath($db->getUserID());
     }
     else{
-      $img = "assets/avatar/default-avatar";
+      $img = "assets/default-avatar";
     }
 
 
@@ -127,48 +127,45 @@ $mysqli->close();
   <?php require 'require/header.php';?>
   <?php require 'require/sidebar.php';?>
   <div id='content'>
-    <p id="settings-title">My Settings</p>
-    <div id="settings">
+    <div id="settings-sheet">
+      <h1 id="settings-title">My Settings</h1>
       <form method="POST" action="" enctype="multipart/form-data">
         <input id="btn" type="submit" name="cancelbtn" value="Cancel"/>
         <input id="btn" type="submit" name="savebtn" value="Save Changes"/>
 
         <h1>ACCOUNT</h1></br>
-        <div id="content">
-          <p>Username: </p>
-          <input id="input" type"text" name="newUname" <?php echo "value=\"" . $uname . "\""; ?>/>
-          <p><?php
+        <p>Username: </p>
+        <input id="input" type"text" name="newUname" <?php echo "value=\"" . $uname . "\""; ?>/>
+        <p>
+          <?php
           if (!empty($msg)) {
             foreach ($msg as $text) {
               echo "<font size=\"2px\" color=\"red\"><i>" . $text . "</font></i><br>";
             }
           }
-          ?></p>
+          ?>
+        </p>
 
-            <input type="hidden" value="1000000" name="FILE_SIZE_MAX">
-            <input type="file" name="picFile" accept=".jpg, .jpeg, .png">
-            <input type="submit" name="picSubmit" value="Upload"><br>
+        <input type="hidden" value="1000000" name="FILE_SIZE_MAX">
+        <input type="file" name="picFile" accept=".jpg, .jpeg, .png">
+        <input type="submit" name="picSubmit" value="Upload"><br>
 
-            <img src="<?php echo $img;?>" height="256" width="256"/>
-
-        </div>
+        <img src="<?php echo $img;?>" height="128" width="128"/>
 
         <h1>PROFILE VISIBILITY</h1>
-        <div id="content">
-          <input type="radio" name="visibility" value="v" <?=($visibility) ? "checked" : "" ?> />
-          <p>Visible (Everyone can see that you are the author of your posts)</p>
-          <input type="radio" name="visibility" value="inv" <?= (!$visibility) ? "checked": "" ?>/>
-          <p>Not Visible (The author of your posts is set to anonymous)</p>
-        </div>
+        <input type="radio" name="visibility" value="v" <?=($visibility) ? "checked" : "" ?>>
+          Visible (Everyone can see that you are the author of your posts)
+        </input><br>
+        <input type="radio" name="visibility" value="inv" <?= (!$visibility) ? "checked": "" ?>>
+          Not Visible (The author of your posts is set to anonymous)
+        </input>
 
         <?php
         if ($admin): ?>
 
         <h1>ADMINISTRATION</h1>
-        <div id="content">
-          <p>Select Admins/Moderators from</p>
-          <a href="userlist">List of Users</a>
-        </div>
+        <p>Select Admins/Moderators from</p>
+        <a href="userlist">List of Users</a>
 
         <?php endif;?>
 
