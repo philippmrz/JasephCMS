@@ -56,9 +56,10 @@
 
       $return = "";
       while ($row = $r->fetch_assoc()){
+        $img = 'assets/default-avatar.png';
         $return .= <<<MYSQL
         <a class='post' href='onepost.php?id=$row[POSTID]'>
-            <img class='thumbnail' src='assets/dummy-thumbnail.png'>
+            <img class='thumbnail' src='$img'>
 
             <div class='post-without-tn'>
               <div class='post-info'>
@@ -112,5 +113,44 @@ RETURN;
     function getUserID() {
       return @parent::query("SELECT USERID FROM user WHERE USERNAME = '$_COOKIE[uname]'")->fetch_assoc()['USERID'];
     }
+    
+     function getVisibility(){
+      $getVisibility = @parent::query("SELECT VISIBILITY FROM user WHERE USERNAME = '$_COOKIE[uname]'");
+      $row = $getVisibility->fetch_assoc();
+      return $row["VISIBILITY"];
+    }
+
+    function getTempPath(){
+      $userID = self::getUserID();
+      $getPath = @parent::query("SELECT TEMP_PATH FROM images WHERE USERID = '$userID'");
+      $row = $getPath->fetch_assoc();
+      return $row["TEMP_PATH"];
+    }
+
+    function getPath($userID){
+      $getPath = @parent::query("SELECT PATH FROM images WHERE USERID = '$userID'");
+      $row = $getPath->fetch_assoc();
+      return $row["PATH"];
+    }
+
+    function createImgPath(){
+      $pathTarget = "assets/avatar/";
+      $pathTarget = $pathTarget.basename($_FILES["picFile"]["name"]);
+
+      $userID = self::getUserID();
+      $checkRows = @parent::query("SELECT * FROM images WHERE USERID = '$userID'");
+      if($checkRows->num_rows == 0){
+        $result = @parent::query("INSERT INTO images (USERID) VALUES ('$userID')");
+        self::createImgPath();
+      }
+
+      elseif(move_uploaded_file($_FILES["picFile"]["tmp_name"], $pathTarget)){
+          if(!is_null(self::getTempPath())){
+            unlink(self::getTempPath());
+          }
+          $movetoTemp = @parent::query("UPDATE images SET TEMP_PATH = '$pathTarget'");
+        }
+        return $pathTarget;
+      }
   }
 ?>
