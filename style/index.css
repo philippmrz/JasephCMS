@@ -100,7 +100,7 @@ hr {
 }
 
 .at {
-  color: rgba(0, 0, 0, 0.6);
+  color: var(--title-color);
   margin-right: 12.5px;
   font-style: italic;
 }

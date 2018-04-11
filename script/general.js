@@ -66,7 +66,7 @@ function logout() {
 }
 
 function redirect(link, delay) { // Delay in seconds
-    console.log("Redirecting");
+    //DEBUG console.log("Redirecting to " + link);
     if (delay == null) {
       delay = 0;
     }
@@ -95,12 +95,13 @@ function applyStyle() {
 
 function setHackerMode() {
     document.documentElement.style.setProperty('--bg-color', '#202124');
+    document.documentElement.style.setProperty('--color', '#e6e6e6');
+    document.documentElement.style.setProperty('--table-accent-color', '#313235');
+    document.documentElement.style.setProperty('--title-color', 'rgba(255, 255, 255, 0.6)');
     document.documentElement.style.setProperty('--accent-color', '#20c20e');
     document.documentElement.style.setProperty('--accent-color-light', '#8fe086');
     document.documentElement.style.setProperty('--accent-color-verylight', '#77ff88');
     document.documentElement.style.setProperty('--accent-color-dark', '#009900');
-    document.documentElement.style.setProperty('--color', '#e6e6e6');
-    document.documentElement.style.setProperty('--title-color', 'rgba(255, 255, 255, 0.6)');
     var x;
     if(x = document.querySelector('#mask')) {
       x.setAttribute('src', 'assets/mask-white.png');
@@ -112,12 +113,13 @@ function setHackerMode() {
 
 function setNormalMode() {
     document.documentElement.style.setProperty('--bg-color', '#fff');
+    document.documentElement.style.setProperty('--color', '#202124');
+    document.documentElement.style.setProperty('--table-accent-color', '#cccccc');
+    document.documentElement.style.setProperty('--title-color', 'rgba(0, 0, 0, 0.6)');
     document.documentElement.style.setProperty('--accent-color', '#ff7614');
     document.documentElement.style.setProperty('--accent-color-light', '#ff9950');
     document.documentElement.style.setProperty('--accent-color-verylight', '#ffbe90');
     document.documentElement.style.setProperty('--accent-color-dark', '#c2590f');
-    document.documentElement.style.setProperty('--color', '#202124');
-    document.documentElement.style.setProperty('--title-color', 'rgba(0, 0, 0, 0.6)');
     var x;
     if(x = document.querySelector('#mask')) {
       x.setAttribute('src', 'assets/mask.png');

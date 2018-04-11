@@ -1,6 +1,7 @@
 :root {
   --bg-color: white;
   --color: #202124;
+  --table-accent-color: #cccccc;
   --accent-color: #ff7614;
   --accent-color-light: #ff9950;
   --accent-color-verylight: #ffbe90;
@@ -235,4 +236,20 @@ button, input[type='submit'] {
 
 .md p {
     margin-bottom: 10px;
+}
+
+.md table {
+    border-collapse: collapse;
+}
+
+.md td, th {
+    padding: 2px;
+}
+
+.md th {
+    background: var(--accent-color);
+}
+
+.md tr:nth-child(even) {
+    background: var(--table-accent-color);
 }
