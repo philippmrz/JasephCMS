@@ -7,11 +7,11 @@
   }
 
   function invertSortOrder() {
-    return (isset($_GET['sort']) and (!$_GET['sort'] or $_GET['sort'] == 'DESC')) ? "ASC" : "DESC";
+    return (isset($_GET['sort']) and $_GET['sort'] == 'ASC') ? "DESC" : "ASC";
   }
 
   function getSortSVG() {
-    return (isset($_GET['sort']) and (!$_GET['sort'] or $_GET['sort'] == 'DESC')) ? '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M3 18h6v-2H3v2zM3 6v2h18V6H3zm0 7h12v-2H3v2z"/></svg>' : '<svg rotate="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M3 18h6v-2H3v2zM3 6v2h18V6H3zm0 7h12v-2H3v2z"/></svg>';
+    return (isset($_GET['sort']) and $_GET['sort'] == 'ASC') ? '<svg rotate="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M3 18h6v-2H3v2zM3 6v2h18V6H3zm0 7h12v-2H3v2z"/></svg>' : '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M3 18h6v-2H3v2zM3 6v2h18V6H3zm0 7h12v-2H3v2z"/></svg>';
   }
 
   function randomString($length) {
@@ -43,7 +43,7 @@
     function postsAusgeben($order) {
       require('credentials.php');
 
-      $order = ($order == 'ASC') ? 'DESC' : 'ASC';
+      $order = ($order == 'ASC') ? 'ASC' : 'DESC';
 
       $userID = self::getUserID();
       if (basename($_SERVER['PHP_SELF']) == "myposts.php")
