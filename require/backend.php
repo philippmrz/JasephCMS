@@ -56,7 +56,7 @@
 
       $return = "";
       while ($row = $r->fetch_assoc()){
-        $img = 'assets/default-avatar.png';
+        $img = 'assets/avatar/default-avatar.png';
         $return .= <<<MYSQL
         <a class='post' href='onepost.php?id=$row[POSTID]'>
             <img class='thumbnail' src='$img'>
