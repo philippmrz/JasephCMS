@@ -1,5 +1,5 @@
 <?php
-    require_once('require/backend.php');
+    require_once('require/DatabaseConnection.class.php');
 
     if (!isLoggedIn()):
     header("Location: index");
@@ -11,8 +11,12 @@
     if ($mysqli->connect_error) {
         die("Connecting to MySQL or database failed:<b><i> " . $mysqli->connect_error . "</b></i>");
     }
+
     $uname = $_COOKIE["uname"];
 
+    $db = new DatabaseConnection();
+
+    //get admin (getUserRole funzt net warum auch immer)
     $getAdmin = $mysqli->query("SELECT ROLE FROM $usertable WHERE USERNAME = '$uname'");
     if (!$getAdmin) {
         echo $mysqli->error;
@@ -24,27 +28,50 @@
         $admin = false;
     }
 
-    if(!isset ($_COOKIE["visibility"])){
+    $userID = $db->getUserID();
+
+    $vis = $db->getVisibility();
+    if($vis = 'VISIBILE'){
       $visibility = true;
-      setcookie("visibility","true",time() + 86400 * 365);
     }
-    else{
-      $visibility = $_COOKIE["visibility"];
+    elseif($vis = 'INVISIBILE'){
+      $visibility = false;
     }
 
+    if(isset($_POST["picSubmit"]) && isset($_FILES["picFile"])){
+      $imgPath = $db->createImgPath();
+    }
+
+    //show image
+    if(!is_null($db->getTempPath())){
+        $img = $db->getTempPath();
+    }
+    elseif(!is_null($db->getPath($db->getUserID()))){
+      $img = $db->getPath($db->getUserID());
+    }
+    else{
+      $img = "assets/avatar/default-avatar";
+    }
+
+
     if (isset($_POST["cancelbtn"])) {
-        ?><script>redirect("index");</script><?php
+      if(!is_null($db->getTempPath())){
+        unlink($db->getTempPath());
+        $deletetempPath = $mysqli->query("UPDATE images SET TEMP_PATH = null");
+      }
+        header("location: index");
     }
 
     if (isset($_POST["savebtn"])) {
         $msg = [];
+
         if (isset($_POST["newUname"])) {
             $newUname = $_POST["newUname"];
             if ($newUname != $uname) {
 
               $checkExist = $mysqli->query("SELECT USERNAME FROM $usertable WHERE UPPER(USERNAME) = UPPER('$newUname')");
               if($checkExist){
-                  if ($result->num_rows > 0) {
+                  if ($checkExist->num_rows > 0) {
                       array_push($msg, "Username already exists");
                   }
               }
@@ -57,16 +84,32 @@
               }
             }
         }
-        if ($_POST["visibility"] == "v") {
+
+      if ($_POST["visibility"] == "v") {
             $visibility = true;
-            setcookie("visibility","true",time() + 86400 * 365);
+            $updateVis = $mysqli->query("UPDATE $usertable SET VISIBILITY = 'VISIBLE' WHERE USERID = '$userID'");
         } else if ($_POST["visibility"] == "inv") {
         $visibility = false;
-        setcookie("visibility","false",time() + 86400 * 365);
-        }
+        $updateVis = $mysqli->query("UPDATE $usertable SET VISIBILITY = 'INVISIBLE' WHERE USERID = '$userID'");
+      }
 
-    ?><script>redirect("settings.php");</script><?php
+      if($img != "assets/default-avatar"){
+        $tempPath = $db->getTempPath();
+        $path = $db->getPath($db->getUserID());
+        if(!is_null($tempPath)){
+          if(is_null($path)){
+            $savePath = $mysqli->query("UPDATE images SET PATH = '$tempPath', TEMP_PATH = null WHERE USERID = '$userID'");
+          }
+          else{
+            unlink($path);
+            $savePath = $mysqli->query("UPDATE images SET PATH = '$tempPath', TEMP_PATH = null WHERE USERID = '$userID'");
+          }
+        }
+      }
+  //  header("location: index");
 }
+
+
 
 
 $mysqli->close();
@@ -80,14 +123,13 @@ $mysqli->close();
   <link rel="stylesheet" href="style/settings.css" id="pagestyle">
 </head>
 <body>
-
 <div id='grid-wrap'>
   <?php require 'require/header.php';?>
   <?php require 'require/sidebar.php';?>
   <div id='content'>
     <p id="settings-title">My Settings</p>
     <div id="settings">
-      <form method="POST" action="">
+      <form method="POST" action="" enctype="multipart/form-data">
         <input id="btn" type="submit" name="cancelbtn" value="Cancel"/>
         <input id="btn" type="submit" name="savebtn" value="Save Changes"/>
 
@@ -102,7 +144,13 @@ $mysqli->close();
             }
           }
           ?></p>
-          <p>Change Password?</p>
+
+            <input type="hidden" value="1000000" name="FILE_SIZE_MAX">
+            <input type="file" name="picFile" accept=".jpg, .jpeg, .png">
+            <input type="submit" name="picSubmit" value="Upload"><br>
+
+            <img src="<?php echo $img;?>" height="256" width="256"/>
+
         </div>
 
         <h1>PROFILE VISIBILITY</h1>
