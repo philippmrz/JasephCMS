@@ -33,6 +33,6 @@ if ($mysqli->connect_error) {
 </div>
 
 <script>applyStyle();</script>
-
+<script>updateMD();</script>
 </body>
 </html>

@@ -32,6 +32,6 @@ if (isset($_GET['del'])) {
 </div>
 
 <script>applyStyle();</script>
-
+<script>updateMD();</script>
 </body>
 </html>
