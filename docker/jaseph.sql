@@ -56,7 +56,8 @@ CREATE TABLE `user` (
   `LASTCHANGED` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `IDENTIFIER` varchar(255) NULL,
   `TOKEN` varchar(255) NULL,
-  `ROLE` varchar(255) DEFAULT 'COMMON', 
+  `ROLE` varchar(255) DEFAULT 'COMMON',
+  `VISIBILITY` varchar(30),
   PRIMARY KEY (`USERID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf16;
 /*!40101 SET character_set_client = @saved_cs_client */;
