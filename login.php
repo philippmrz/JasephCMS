@@ -1,3 +1,7 @@
+<?php
+$db = new DatabaseConnection();
+$db->login();
+?>
 <!doctype html>
 <html>
 <head>
@@ -33,9 +37,6 @@
       </div>
 
       <?php
-      $db = new DatabaseConnection();
-      $db->login();
-
       if (!empty($msg)) {
         foreach ($msg as $text) {
           echo "<font size=\"2px\" color=\"red\"><i>" . $text . "</font></i><br>";

@@ -1,3 +1,7 @@
+<?php
+$db = new DatabaseConnection();
+$db->register();
+?>
 <!doctype html>
 <html>
 <head>
@@ -20,9 +24,6 @@
       <input class='primary-btn' id="authbtn" type="submit" name="regbtn" value="Register"/>
     </form>
     <?php
-    $db = new DatabaseConnection();
-    $db->register();
-
     if (!empty($msg)) {
       foreach ($msg as $text) {
         echo "<font size=\"2px\" color=\"red\"><i>" . $text . "</font></i><br>";
