@@ -40,23 +40,63 @@
       }
     }
 
+    function getVisibility() {
+      $getVisibility = @parent::query("SELECT VISIBILITY FROM user WHERE USERNAME = '$_COOKIE[uname]'");
+      $row = $getVisibility->fetch_assoc();
+      return $row["VISIBILITY"];
+    }
+
+    function getTempPath() {
+      $userID = self::getUserID();
+      $getPath = @parent::query("SELECT TEMP_PATH FROM images WHERE USERID = '$userID'");
+      $row = $getPath->fetch_assoc();
+      return $row["TEMP_PATH"];
+    }
+
+    function getPath($userID) {
+      $getPath = @parent::query("SELECT PATH FROM images WHERE USERID = '$userID'");
+      $row = $getPath->fetch_assoc();
+      if (!$row["PATH"]) {
+        return 'assets/avatar/default-avatar.png';
+      } else {
+        return $row["PATH"];
+      }
+    }
+
+    function createImgPath() {
+      $pathTarget = "assets/avatar/";
+      $pathTarget = $pathTarget.basename($_FILES["picFile"]["name"]);
+
+      $userID = self::getUserID();
+      $checkRows = @parent::query("SELECT * FROM images WHERE USERID = '$userID'");
+      if ($checkRows->num_rows == 0) {
+        $result = @parent::query("INSERT INTO images (USERID) VALUES ('$userID')");
+        self::createImgPath();
+      } elseif (move_uploaded_file($_FILES["picFile"]["tmp_name"], $pathTarget)) {
+        if(!is_null(self::getTempPath())){
+          unlink(self::getTempPath());
+        }
+        $movetoTemp = @parent::query("UPDATE images SET TEMP_PATH = '$pathTarget'");
+      }
+      return $pathTarget;
+    }
+
     function postsAusgeben($order) {
       require('credentials.php');
 
       $order = ($order == 'ASC') ? 'ASC' : 'DESC';
 
       $userID = self::getUserID();
-      if (basename($_SERVER['PHP_SELF']) == "myposts.php")
-        $sqlQuery = "SELECT POSTID, substring(TITLE, 1, 50) AS TITLE, substring(CONTENT, 1, 200) AS CONTENT, DATE, substring(DATE, 1, 10) AS DAY, substring(DATE, 11, 19) AS TIME, USERNAME from $posttable, $usertable WHERE $posttable.USERID = $usertable.USERID AND $posttable.USERID = $userID ORDER BY DATE $order";
-
-      else
-        $sqlQuery = "SELECT POSTID, substring(TITLE, 1, 50) AS TITLE, CONTENT, DATE, substring(DATE, 1, 10) AS DAY, substring(DATE, 11, 19) AS TIME, USERNAME from $posttable, $usertable WHERE $posttable.USERID = $usertable.USERID ORDER BY DATE $order";
-
+      if (basename($_SERVER['PHP_SELF']) == "myposts.php") {
+        $sqlQuery = "SELECT POSTID, substring(TITLE, 1, 50) AS TITLE, substring(CONTENT, 1, 200) AS CONTENT, DATE, substring(DATE, 1, 10) AS DAY, substring(DATE, 11, 19) AS TIME, USERNAME, USERID from $posttable P, $usertable U WHERE P.USERID = U.USERID AND P.USERID = $userID ORDER BY DATE $order";
+      } else {
+        $sqlQuery = "SELECT POSTID, substring(TITLE, 1, 50) AS TITLE, CONTENT, DATE, substring(DATE, 1, 10) AS DAY, substring(DATE, 11, 19) AS TIME, USERNAME, U.USERID AS USERID from $posttable P, $usertable U WHERE U.USERID = P.USERID ORDER BY DATE $order";
+      }
       $r = @parent::query($sqlQuery);
 
       $return = "";
       while ($row = $r->fetch_assoc()){
-        $img = 'assets/avatar/default-avatar.png';
+        $img = self::getPath($row['USERID']);
         $return .= <<<MYSQL
         <a class='post' href='onepost.php?id=$row[POSTID]'>
             <img class='thumbnail' src='$img'>
@@ -204,44 +244,5 @@ RETURN;
         }
       }
     }
-
-     function getVisibility(){
-      $getVisibility = @parent::query("SELECT VISIBILITY FROM user WHERE USERNAME = '$_COOKIE[uname]'");
-      $row = $getVisibility->fetch_assoc();
-      return $row["VISIBILITY"];
-    }
-
-    function getTempPath(){
-      $userID = self::getUserID();
-      $getPath = @parent::query("SELECT TEMP_PATH FROM images WHERE USERID = '$userID'");
-      $row = $getPath->fetch_assoc();
-      return $row["TEMP_PATH"];
-    }
-
-    function getPath($userID){
-      $getPath = @parent::query("SELECT PATH FROM images WHERE USERID = '$userID'");
-      $row = $getPath->fetch_assoc();
-      return $row["PATH"];
-    }
-
-    function createImgPath(){
-      $pathTarget = "assets/avatar/";
-      $pathTarget = $pathTarget.basename($_FILES["picFile"]["name"]);
-
-      $userID = self::getUserID();
-      $checkRows = @parent::query("SELECT * FROM images WHERE USERID = '$userID'");
-      if($checkRows->num_rows == 0){
-        $result = @parent::query("INSERT INTO images (USERID) VALUES ('$userID')");
-        self::createImgPath();
-      }
-
-      elseif(move_uploaded_file($_FILES["picFile"]["tmp_name"], $pathTarget)){
-          if(!is_null(self::getTempPath())){
-            unlink(self::getTempPath());
-          }
-          $movetoTemp = @parent::query("UPDATE images SET TEMP_PATH = '$pathTarget'");
-        }
-        return $pathTarget;
-      }
   }
 ?>
