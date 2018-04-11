@@ -64,9 +64,12 @@
               <div class='post-info'>
                 <p class='title'>$row[TITLE]</p>
                 <div class='date-uname'>
-                  <p class='username'>$row[USERNAME]</p>
-                  <p class='at'>on</p>
-                  <p class='date'>$row[DAY] at $row[TIME]</p>
+                  <p class='username'>
+                    $row[USERNAME]
+                  </p>
+                  <p class='date'>
+                    on $row[DAY] at $row[TIME]
+                  </p>
                 </div>
               </div>
               <span class='post-text md'>$row[CONTENT]</span>
@@ -89,10 +92,10 @@ MYSQL;
         <p id='title'>$row[TITLE]</p>
         <div id='post-info'>
           <p id='username-top'>
-            <span>posted by</span> $row[USERNAME]
+            posted by $row[USERNAME]
           </p>
           <p id='date'>
-            <span>on</span> $row[DAY] <span>at</span> $row[TIME]
+            on $row[DAY] at $row[TIME]
           </p>
         </div>
         <span id='post-text' class='md'>$row[CONTENT]</span>
@@ -111,6 +114,94 @@ RETURN;
 
     function getUserID() {
       return @parent::query("SELECT USERID FROM user WHERE USERNAME = '$_COOKIE[uname]'")->fetch_assoc()['USERID'];
+    }
+
+    function login() {
+      require('credentials.php');
+
+      if (isset($_POST["logbtn"])) {
+        $uname = $_POST["uname"];
+        $pword = $_POST["pword"];
+        if (!empty($uname) && !empty($pword)) {
+          if ($r = @parent::query("SELECT PASSWORD,USERNAME FROM $usertable WHERE USERNAME='$uname'")) {
+            $row = $r->fetch_assoc();
+            $dbP = $row["PASSWORD"];
+            if (password_verify($pword, $dbP)) {
+              //pass
+              if (isset($_POST["stay_li"])) { //when checking "RM"
+                $identifier = randomString(32);
+                $token = randomString(32);
+                $hashToken = hash("sha256", $token);
+                $r = @parent::query("UPDATE $usertable SET IDENTIFIER = '$identifier', TOKEN = '$hashToken' WHERE USERNAME = '$uname'");
+                setcookie("identifier","$identifier",time() + 86400 * 365);
+                setcookie("token","$token",time() + 86400 * 365);
+              }
+              setcookie("logcheck","true");
+              setcookie("uname","$uname");
+              header("Location: index");
+              exit;
+            } else {
+              //invalid
+              array_push($msg, "Invalid password or username");
+            }
+          } else {
+            array_push($msg, "query error");
+          }
+        } else {
+          array_push($msg, "Please enter your username and your password");
+        }
+      }
+    }
+
+    function register() {
+      if (isset($_POST["regbtn"])) {
+        unset($_COOKIE["identifier"]);
+        unset($_COOKIE["token"]);
+        $uname = $_POST["uname"];
+        $pword = $_POST["pword"];
+        $pwordval = $_POST["pwordval"];
+        $msg = [];
+
+        //invalid inputs
+        if (empty($uname)) {
+          array_push($msg, "Please enter a username");
+        }
+
+        if (empty($pword)) {
+          array_push($msg, "Please enter a password");
+        }
+
+        if (strlen($pword) < 6) {
+          array_push($msg, "Password must be at minimum length of 6 letters");
+        } else {
+          if (ctype_upper($pword) || ctype_lower($pword)) {
+            array_push($msg, "Password must contain at least one lowercase and one uppercase character");
+          }
+        }
+
+        $r = @parent::query("SELECT USERNAME FROM $usertable WHERE UPPER(USERNAME) = UPPER('$uname')");
+        if($r){
+          if ($r->num_rows > 0) {
+            array_push($msg, "Username already exists");
+          }
+        }
+
+        if ($pword != $pwordval) {
+          array_push($msg, "Passwords must match");
+        }
+
+        if (count($msg) == 0) {
+          $pword = password_hash($pword, PASSWORD_DEFAULT);
+          if ($r = @parent::query("INSERT INTO $usertable (USERNAME,PASSWORD) VALUES ('$uname','$pword')")) {
+            setcookie("logcheck","true");
+            setcookie("uname", $uname);
+            header('Location: index');
+            exit;
+          } else {
+            echo "Query error";
+          }
+        }
+      }
     }
   }
 ?>
