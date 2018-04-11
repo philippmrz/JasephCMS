@@ -1,4 +1,4 @@
-<?php require_once('require/DatabaseConnection.class.php');
+<?php require_once('require/backend.php');
 if (!isLoggedIn()):
   header('Location: index');
 

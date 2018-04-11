@@ -1,13 +1,3 @@
-<?php
-// Credentials for this server
-require 'require/credentials.php';
-
-$mysqli = new mysqli($servername, $username, $password, $dbname);
-
-if ($mysqli->connect_error) {
-    die("Connecting to MySQL or database failed:<b><i> " . $mysqli->connect_error . "</b></i>");
-}?>
-
 <!doctype html>
 <html>
 <head>

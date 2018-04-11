@@ -1,4 +1,7 @@
 <?php
+// PHP file for all backend logic, includes a class for all things DatabaseConnection
+
+
   function isLoggedIn(){
     return (isset($_COOKIE['logcheck'])) ? true : false;
   }
@@ -21,7 +24,13 @@
       return $string;
   }
 
+
+
+  // instanciate with $var = new DatabaseConnection
+  // No need to create a new mysqli connection, everything is handled from the class
+  // just move your function to this class and call it with $var->yourFunction();
   class DatabaseConnection extends mysqli {
+    // constructor, this gets called every time a new instance of DatabaseConnection is created
     function __construct() {
       require('credentials.php');
       @parent::__construct("$servername", "$username", "$password", "$dbname");

@@ -1,7 +1,7 @@
 <?php
 // Credentials for this server
 require 'require/credentials.php';
-require_once('require/DatabaseConnection.class.php');
+require_once('require/backend.php');
 $msg = array();
 
 $mysqli = new mysqli($servername, $username, $password, $dbname);

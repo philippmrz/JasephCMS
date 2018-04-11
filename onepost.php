@@ -1,6 +1,7 @@
-<?php
-require_once 'require/DatabaseConnection.class.php';
+<?php require_once 'require/backend.php';
+
 $dbConnection = new DatabaseConnection();
+
 if (isset($_GET['del'])) {
   if ($_GET['del'] == 1 && $dbConnection->getUserRole() == 'ADMIN') {
     $dbConnection->deletePost();

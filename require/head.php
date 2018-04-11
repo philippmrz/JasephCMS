@@ -4,4 +4,4 @@
 <link rel="stylesheet" href="style/general.css" id="pagestyle">
 <script src="script/general.js"></script>
 <title>JasephCMS</title>
-<?php require_once('DatabaseConnection.class.php'); ?>
+<?php require_once('backend.php'); ?>
