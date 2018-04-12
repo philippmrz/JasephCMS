@@ -35,14 +35,15 @@
       $instance = @parent::__construct("$servername", "$username", "$password", "$dbname");
 
       if ($this->connect_error) {
-        die($this->connect_errno . $mysqli->connect_error);
+        die($this->connect_errno . $this->connect_error);
       }
     }
 
     function getVisibility() {
+      require('credentials.php');
       $getVisibility = @parent::query("SELECT VISIBILITY FROM user WHERE USERNAME = '$_COOKIE[uname]'");
       $row = $getVisibility->fetch_assoc();
-      if ($row["VISIBILITY"] == 'VISIBLE') {
+      if ($row['VISIBILITY'] == 'VISIBLE') {
         return true;
       } else {
         return false;
@@ -59,52 +60,64 @@
     function getImgPath($userID) {
       require('credentials.php');
       $getImgPath = @parent::query("SELECT PATH FROM $imgtable WHERE USERID = '$userID'");
-      if ($getImgPath->num_rows == 0) {
+      if ($getImgPath->num_rows == 0 or is_null($getImgPath->fetch_assoc()['PATH'])) {
         return 'assets/default-avatar.png';
       } else {
         return $getImgPath->fetch_assoc()['PATH'];
       }
     }
 
+    /*function getImgPath($userID) {
+      require('credentials.php');
+      $getImgPath = @parent::query("SELECT PATH FROM $imgtable WHERE USERID = '$userID'");
+      if ($getImgPath->num_rows == 0 or is_null($getImgPath->fetch_assoc()['PATH'])) {
+        return 'assets/default-avatar.png';
+      } else {
+        return $getImgPath->fetch_assoc()['PATH'];
+      }
+    }*/
+
     function createImgPath() {
       require('credentials.php');
       $msg = [];
-      $file = $_FILES["picFile"]["tmp_name"];
-      if (!$file) {
+      if (!isset($_FILES["picFile"]) or!file_exists($_FILES["picFile"]["tmp_name"])) {
         return;
       }
+      $file = $_FILES["picFile"]["tmp_name"];
       $imgsize = getimagesize($file);
       $width = $imgsize[0];
       $height = $imgsize[1];
       if ($width / $height != 1) {
-        array_push($msg, 'Image must have resolution 1:1.');
-        return;
+        array_push($msg, 'Image must have ratio of 1:1.');
+        return $msg;
       }
 
       $avatarDirectory = "assets/avatar/";
-      $pathTarget = $avatarDirectory.basename($_FILES["picFile"]["name"]);
-
+      $tempAvatarDirectory = "assets/avatar/temp/";
+      $filename = $_FILES["picFile"]["name"];
+      $extension = pathinfo($filename, PATHINFO_EXTENSION);
       $userID = self::getUserID();
+      $pathTarget = $tempAvatarDirectory . 'av_' . $userID . '.' . $extension;
+
       $checkRows = @parent::query("SELECT * FROM $imgtable WHERE USERID = '$userID'");
       if ($checkRows->num_rows == 0) {
         $result = @parent::query("INSERT INTO $imgtable (USERID) VALUES ('$userID')");
         self::createImgPath();
       } else {
         $r = @parent::query("SELECT TEMP_PATH FROM $imgtable WHERE TEMP_PATH = '$pathTarget' AND USERID = '$userID'");
-          if ($r->num_rows > 0) {
-            unlink($pathTarget);
-            $doubleImg = true;
-          }
-          else {
-            $doubleImg = false;
-          }
-          if (move_uploaded_file($_FILES["picFile"]["tmp_name"], $pathTarget)) {
-            if (!is_null(self::getTempImgPath()) && !$doubleImg){
-              unlink(self::getTempImgPath());
-            }
-            $movetoTemp = @parent::query("UPDATE $imgtable SET TEMP_PATH = '$pathTarget' WHERE USERID='$userID'");
-          }
+        if ($r->num_rows > 0) {
+          unlink($pathTarget);
+          $doubleImg = true;
+        } else {
+          $doubleImg = false;
         }
+        if (move_uploaded_file($_FILES["picFile"]["tmp_name"], $pathTarget)) {
+          if (!is_null(self::getTempImgPath()) && !$doubleImg){
+            unlink(self::getTempImgPath());
+          }
+          $movetoTemp = @parent::query("UPDATE $imgtable SET TEMP_PATH = '$pathTarget' WHERE USERID='$userID'");
+        }
+      }
       return $pathTarget;
     }
 
@@ -129,6 +142,9 @@
       }
       $r = @parent::query($sqlQuery);
       $return = "";
+      if (!$r) {
+        return 'No posts saved yet.';
+      }
       while ($row = $r->fetch_assoc()){
         $img = ($row['VISIBILITY'] == 'VISIBLE' ? self::getImgPath($row['USERID']) : 'assets/default-avatar.png');
         $uname = ($row['VISIBILITY'] == 'VISIBLE' ? $row['USERNAME'] : 'Anonymous');
