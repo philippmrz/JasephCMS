@@ -46,9 +46,9 @@
 
     //show image
     if (!is_null($db->getTempImgPath())) {
-      echo $tempimg = $db->getTempImgPath();
+      $tempimg = $db->getTempImgPath();
     } elseif (!is_null($db->getImgPath($db->getUserID()))) {
-      echo $tempimg = $db->getImgPath($db->getUserID());
+      $tempimg = $db->getImgPath($db->getUserID());
     }
 
     if (isset($_POST["cancelbtn"])) {
