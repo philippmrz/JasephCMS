@@ -20,6 +20,10 @@ if (isset($_GET['del'])) {
   <?php require 'require/sidebar.php'; ?>
   <div id='content'>
 
+  <a class='floating-action-btn' id='' href='saved.php?id=<?= $_GET['id']?>'>
+    saved
+  </a>
+
   <?php if ($dbConnection->getUserRole() == 'ADMIN'): ?>
     <a id='delete-post' class='floating-action-btn' href='onepost.php?del=1&id=<?=$_GET['id']?>'>
       <svg id="Layer_1" style="enable-background:new 0 0 512 512;" version="1.1" viewBox="0 0 512 512" xml:space="preserve">

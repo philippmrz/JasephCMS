@@ -1,7 +1,6 @@
 <?php
 // PHP file for all backend logic, includes a class for all things DatabaseConnection
 
-
   function isLoggedIn(){
     return (isset($_COOKIE['logcheck'])) ? true : false;
   }

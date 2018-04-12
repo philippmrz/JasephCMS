@@ -46,6 +46,10 @@
   line-height: 29px;
 }
 
+#delete-post {
+  bottom: 18vh;
+}
+
 /* Mobile */
 
 @media (max-width: 900px) {
