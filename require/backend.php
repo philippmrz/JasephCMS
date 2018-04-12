@@ -41,36 +41,26 @@
     }
 
     function getVisibility() {
-      require('credentials.php');
       $getVisibility = @parent::query("SELECT VISIBILITY FROM user WHERE USERNAME = '$_COOKIE[uname]'");
       $row = $getVisibility->fetch_assoc();
-      if ($row['VISIBILITY'] == 'VISIBLE') {
-        return true;
-      } else {
-        return false;
-      }
+      return $row["VISIBILITY"];
     }
 
-    function getTempImgPath() {
+    function getTempPath() {
       require('credentials.php');
       $userID = self::getUserID();
-      $getImgPath = @parent::query("SELECT TEMP_PATH FROM $imgtable WHERE USERID = '$userID'");
-      $row = $getImgPath->fetch_assoc();
+      $getPath = @parent::query("SELECT TEMP_PATH FROM $imgtable WHERE USERID = '$userID'");
+      $row = $getPath->fetch_assoc();
       return $row["TEMP_PATH"];
     }
 
-    function getImgPath($userID) {
+    function getPath($userID) {
       require('credentials.php');
-      $getImgPath = @parent::query("SELECT PATH FROM $imgtable WHERE USERID = '$userID'");
-      if (!$getImgPath) {
+      $getPath = @parent::query("SELECT PATH FROM $imgtable WHERE USERID = '$userID'");
+      if (!$getPath) {
         return 'assets/default-avatar.png';
       } else {
-<<<<<<< HEAD
         return $getPath->fetch_assoc()['PATH'];
-=======
-        $row = $getImgPath->fetch_assoc();
-        return $row["PATH"];
->>>>>>> be7b551050af22cf1a14ac21fad0b6c825cbd4a5
       }
     }
 
@@ -91,8 +81,8 @@
           }
           else{$doubleImg = false;}
           if(move_uploaded_file($_FILES["picFile"]["tmp_name"], $pathTarget)) {
-              if(!is_null(self::getTempImgPath()) && !$doubleImg){
-                unlink(self::getTempImgPath());
+              if(!is_null(self::getTempPath()) && !$doubleImg){
+                unlink(self::getTempPath());
               }
               $movetoTemp = @parent::query("UPDATE images SET TEMP_PATH = '$pathTarget' WHERE USERID='$userID'");
           }
@@ -107,15 +97,14 @@
 
       $userID = self::getUserID();
       if (basename($_SERVER['PHP_SELF']) == "myposts.php") {
-        $sqlQuery = "SELECT POSTID, substring(TITLE, 1, 50) AS TITLE, substring(CONTENT, 1, 200) AS CONTENT, DATE, substring(DATE, 1, 10) AS DAY, substring(DATE, 12, 5) AS TIME, USERNAME, U.USERID AS USERID, VISIBILITY from $posttable P, $usertable U WHERE P.USERID = U.USERID AND P.USERID = $userID ORDER BY DATE $order";
+        $sqlQuery = "SELECT POSTID, substring(TITLE, 1, 50) AS TITLE, substring(CONTENT, 1, 200) AS CONTENT, DATE, substring(DATE, 1, 10) AS DAY, substring(DATE, 12, 5) AS TIME, U.USERID, USERNAME from $posttable P, $usertable U WHERE P.USERID = U.USERID AND P.USERID = $userID ORDER BY DATE $order";
       } else {
-        $sqlQuery = "SELECT POSTID, substring(TITLE, 1, 50) AS TITLE, CONTENT, DATE, substring(DATE, 1, 10) AS DAY, substring(DATE, 12, 5) AS TIME, USERNAME, U.USERID AS USERID, VISIBILITY from $posttable P, $usertable U WHERE U.USERID = P.USERID ORDER BY DATE $order";
+        $sqlQuery = "SELECT POSTID, substring(TITLE, 1, 50) AS TITLE, CONTENT, DATE, substring(DATE, 1, 10) AS DAY, substring(DATE, 12, 5) AS TIME, USERNAME, U.USERID AS USERID from $posttable P, $usertable U WHERE U.USERID = P.USERID ORDER BY DATE $order";
       }
       $r = @parent::query($sqlQuery);
       $return = "";
       while ($row = $r->fetch_assoc()){
-        $img = ($row['VISIBILITY'] == 'VISIBLE') ? self::getImgPath($row['USERID']) : 'assets/default-avatar.png';
-        $uname = ($row['VISIBILITY'] == 'VISIBLE') ? $row['USERNAME'] : 'Anyonymous';
+        $img = self::getPath($row['USERID']);
         $return .= <<<MYSQL
         <a class='post' href='onepost.php?id=$row[POSTID]'>
             <img class='thumbnail' src='$img'>
@@ -125,7 +114,7 @@
                 <p class='title'>$row[TITLE]</p>
                 <div class='date-uname'>
                   <p class='username'>
-                    $uname
+                    $row[USERNAME]
                   </p>
                   <p class='date'>
                     on $row[DAY] at $row[TIME]
