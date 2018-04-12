@@ -16,31 +16,37 @@
 
     $db = new DatabaseConnection();
 
-    //get admin (getUserRole funzt net warum auch immer)
+    //get admin (getUserRole funzt nicht warum auch immer)
     $getAdmin = $mysqli->query("SELECT ROLE FROM $usertable WHERE USERNAME = '$uname'");
-    if (!$getAdmin) {
-        echo $mysqli->error;
-    }
     $rowAdmin = $getAdmin->fetch_assoc();
-    if ($rowAdmin["ROLE"] == "ADMIN") {
-        $admin = true;
-    } else {
-        $admin = false;
-    }
+    if ($rowAdmin["ROLE"] == "ADMIN") {$admin = true;}
+    else {$admin = false;}
 
     $userID = $db->getUserID();
 
-    $vis = $db->getVisibility();
-    if($vis = 'VISIBILE'){
-      $visibility = true;
-    }
-    elseif($vis = 'INVISIBILE'){
-      $visibility = false;
-    }
+    //get visibility (getUserRole funktioniert nicht warum auch immer)
+    $getVis = $mysqli->query("SELECT VISIBILITY FROM $usertable WHERE USERNAME = '$uname'");
+    $rowVis = $getVis->fetch_assoc();
+    if ($rowVis["VISIBILITY"] = "VISIBILE") {$visibility = true;}
+    else{$visibility = false;}
 
     if(isset($_POST["picSubmit"]) && isset($_FILES["picFile"])){
       $imgPath = $db->createImgPath();
     }
+
+    if(isset($_POST["remove"])){
+      $tempPath = $db->getTempPath();
+      $path = $db->getPath($db->getUserID());
+      if(!is_null($tempPath)){
+        unlink($tempPath);
+        $deletetempPath = $mysqli->query("UPDATE images SET TEMP_PATH = null WHERE USERID='$userID'");
+      }
+      if($path != "assets/default-avatar.png"){
+        unlink($path);
+        $deletePath = $mysqli->query("UPDATE images SET PATH = null WHERE USERID='$userID'");
+        }
+      }
+
 
     //show image
     if(!is_null($db->getTempPath())){
@@ -49,15 +55,11 @@
     elseif(!is_null($db->getPath($db->getUserID()))){
       $img = $db->getPath($db->getUserID());
     }
-    else{
-      $img = "assets/default-avatar.png";
-    }
-
 
     if (isset($_POST["cancelbtn"])) {
       if(!is_null($db->getTempPath())){
         unlink($db->getTempPath());
-        $deletetempPath = $mysqli->query("UPDATE images SET TEMP_PATH = null");
+        $deletetempPath = $mysqli->query("UPDATE images SET TEMP_PATH = null WHERE USERID='$userID'");
       }
         header("location: index");
     }
@@ -86,10 +88,8 @@
         }
 
       if ($_POST["visibility"] == "v") {
-            $visibility = true;
             $updateVis = $mysqli->query("UPDATE $usertable SET VISIBILITY = 'VISIBLE' WHERE USERID = '$userID'");
-        } else if ($_POST["visibility"] == "inv") {
-        $visibility = false;
+        } elseif($_POST["visibility"] == "inv") {
         $updateVis = $mysqli->query("UPDATE $usertable SET VISIBILITY = 'INVISIBLE' WHERE USERID = '$userID'");
       }
 
@@ -109,7 +109,7 @@
           }
         }
       }
-  //  header("location: index");
+      header("location: index");
 }
 
 
@@ -149,17 +149,17 @@ $mysqli->close();
           ?>
         </p>
 
-        <input type="hidden" value="1000000" name="FILE_SIZE_MAX">
-        <input type="file" name="picFile" accept=".jpg, .jpeg, .png">
-        <input type="submit" name="picSubmit" value="Upload"><br>
+        <input type="file" name="picFile" accept=".jpg, .jpeg, .png"><br>
+        <input type="submit" name="picSubmit" value="Upload">
+        <input type="submit" name="remove" value="Remove"><br>
 
         <img src="<?php echo $img;?>" height="128" width="128"/>
 
         <h1>PROFILE VISIBILITY</h1>
-        <input type="radio" name="visibility" value="v" <?=($visibility) ? "checked" : "" ?>>
+        <input type="radio" name="visibility" value="v" <?php if($visibility){echo "checked";} ?>>
           Visible (Everyone can see that you are the author of your posts)
         </input><br>
-        <input type="radio" name="visibility" value="inv" <?= (!$visibility) ? "checked": "" ?>>
+        <input type="radio" name="visibility" value="inv" <?php if(!$visibility){echo "checked";} ?>>
           Not Visible (The author of your posts is set to anonymous)
         </input>
 
@@ -168,7 +168,7 @@ $mysqli->close();
 
         <h1>ADMINISTRATION</h1>
         <p>Select Admins/Moderators from</p>
-        <a href="userlist">List of Users</a>
+        <a href="userlist">List of Users</a><br>
 
         <?php endif;?>
 
