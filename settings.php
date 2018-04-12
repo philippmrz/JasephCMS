@@ -16,17 +16,11 @@
 
     $db = new DatabaseConnection();
 
-    //get admin (getUserRole funzt net warum auch immer)
+    //get admin (getUserRole funzt nicht warum auch immer)
     $getAdmin = $mysqli->query("SELECT ROLE FROM $usertable WHERE USERNAME = '$uname'");
-    if (!$getAdmin) {
-        echo $mysqli->error;
-    }
     $rowAdmin = $getAdmin->fetch_assoc();
-    if ($rowAdmin["ROLE"] == "ADMIN") {
-        $admin = true;
-    } else {
-        $admin = false;
-    }
+    if ($rowAdmin["ROLE"] == "ADMIN") {$admin = true;}
+    else {$admin = false;}
 
     $userID = $db->getUserID();
 
@@ -36,6 +30,20 @@
       $imgPath = $db->createImgPath();
     }
 
+    if(isset($_POST["remove"])){
+      $tempPath = $db->getTempImgPath();
+      $path = $db->getImgPath($db->getUserID());
+      if(!is_null($tempPath)){
+        unlink($tempPath);
+        $deletetempPath = $mysqli->query("UPDATE images SET TEMP_PATH = null WHERE USERID='$userID'");
+      }
+      if($path != "assets/default-avatar.png"){
+        unlink($path);
+        $deletePath = $mysqli->query("UPDATE images SET PATH = null WHERE USERID='$userID'");
+        }
+      }
+
+
     //show image
     if(!is_null($db->getTempImgPath())){
         $img = $db->getTempImgPath();
@@ -43,15 +51,11 @@
     elseif(!is_null($db->getImgPath($db->getUserID()))){
       $img = $db->getImgPath($db->getUserID());
     }
-    else{
-      $img = "assets/default-avatar.png";
-    }
-
 
     if (isset($_POST["cancelbtn"])) {
       if(!is_null($db->getTempImgPath())){
         unlink($db->getTempImgPath());
-        $deletetempPath = $mysqli->query("UPDATE images SET TEMP_PATH = null");
+        $deletetempPath = $mysqli->query("UPDATE images SET TEMP_PATH = null WHERE USERID='$userID'");
       }
         header("location: index");
     }
@@ -103,7 +107,7 @@
           }
         }
       }
-  //  header("location: index");
+      header("location: index");
 }
 
 
@@ -148,6 +152,7 @@ $mysqli->close();
         <input type="hidden" value="1000000" name="FILE_SIZE_MAX">
         <input type="file" name="picFile" accept=".jpg, .jpeg, .png"><br>
         <input type="submit" name="picSubmit" value="Upload"><br>
+        <input type="submit" name="remove" value="Remove"><br>
 
         <img id='settings-avatar' src="<?php echo $img;?>" height="128" width="128"/>
 
@@ -167,7 +172,7 @@ $mysqli->close();
 
         <h1 id='settings-title2'>ADMINISTRATION</h1>
         <p>Select Admins/Moderators from</p>
-        <a href="userlist">List of Users</a>
+        <a href="userlist">List of Users</a><br>
 
         <?php endif;?>
 

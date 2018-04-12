@@ -54,18 +54,18 @@
     function getTempImgPath() {
       require('credentials.php');
       $userID = self::getUserID();
-      $getPath = @parent::query("SELECT TEMP_PATH FROM $imgtable WHERE USERID = '$userID'");
-      $row = $getPath->fetch_assoc();
+      $getImgPath = @parent::query("SELECT TEMP_PATH FROM $imgtable WHERE USERID = '$userID'");
+      $row = $getImgPath->fetch_assoc();
       return $row["TEMP_PATH"];
     }
 
     function getImgPath($userID) {
       require('credentials.php');
-      $getPath = @parent::query("SELECT PATH FROM $imgtable WHERE USERID = '$userID'");
-      $row = $getPath->fetch_assoc();
-      if (!$row["PATH"]) {
+      $getImgPath = @parent::query("SELECT PATH FROM $imgtable WHERE USERID = '$userID'");
+      if (!$getImgPath) {
         return 'assets/default-avatar.png';
       } else {
+        $row = $getImgPath->fetch_assoc();
         return $row["PATH"];
       }
     }
