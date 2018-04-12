@@ -15,7 +15,7 @@
       $db->addToSavedPosts();
     }
 
-    $db->postsAusgeben('DESC'); ?>
+    echo $db->postsAusgeben('DESC'); ?>
   </div>
 </div>
 
