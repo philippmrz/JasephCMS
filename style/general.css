@@ -54,7 +54,7 @@ a {
   outline: none;
 }
 
-input[type='text'] {
+input[type='text'], input[type='text'] {
   border: none;
   background-color: var(--bg-color);
   border: none;
