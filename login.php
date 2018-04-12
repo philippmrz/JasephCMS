@@ -1,7 +1,7 @@
 <?php
 require_once('require/backend.php');
 $db = new DatabaseConnection();
-$db->login();
+$msg = $db->login();
 ?>
 <!doctype html>
 <html>

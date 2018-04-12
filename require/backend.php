@@ -47,14 +47,16 @@
     }
 
     function getTempPath() {
+      require('credentials.php');
       $userID = self::getUserID();
-      $getPath = @parent::query("SELECT TEMP_PATH FROM images WHERE USERID = '$userID'");
+      $getPath = @parent::query("SELECT TEMP_PATH FROM $imgtable WHERE USERID = '$userID'");
       $row = $getPath->fetch_assoc();
       return $row["TEMP_PATH"];
     }
 
     function getPath($userID) {
-      $getPath = @parent::query("SELECT PATH FROM images WHERE USERID = '$userID'");
+      require('credentials.php');
+      $getPath = @parent::query("SELECT PATH FROM $imgtable WHERE USERID = '$userID'");
       $row = $getPath->fetch_assoc();
       if (!$row["PATH"]) {
         return 'assets/default-avatar.png';
@@ -158,10 +160,10 @@ RETURN;
 
     function login() {
       require('credentials.php');
-      $msg = array();
+      $msg = [];
       if (isset($_POST["logbtn"])) {
-        echo $uname = $_POST["uname"];
-        echo $pword = $_POST["pword"];
+        $uname = $_POST["uname"];
+        $pword = $_POST["pword"];
         if (!empty($uname) && !empty($pword)) {
           if ($r = @parent::query("SELECT PASSWORD,USERNAME FROM $usertable WHERE USERNAME='$uname'")) {
             $row = $r->fetch_assoc();
@@ -185,45 +187,46 @@ RETURN;
               array_push($msg, "Invalid password or username");
             }
           } else {
-            array_push($msg, "query error");
+            array_push($msg, "Query error");
           }
         } else {
           array_push($msg, "Please enter your username and your password");
         }
       }
+      return $msg;
     }
 
     function register() {
       require('credentials.php');
+      $msg = [];
       if (isset($_POST["regbtn"])) {
         unset($_COOKIE["identifier"]);
         unset($_COOKIE["token"]);
         $uname = $_POST["uname"];
         $pword = $_POST["pword"];
         $pwordval = $_POST["pwordval"];
-        $msg = [];
         $valid = true;
 
         if (strlen($pword) < 6) {
-          echo $msg = "Password must be at minimum length of 6 letters";
+        array_push($msg, "Password must be at minimum length of 6 letters");
           $valid = false;
         } else {
           if (ctype_upper($pword) || ctype_lower($pword)) {
-          echo $msg = "Password must contain at least one lowercase and one uppercase character";
-          $valid = false;
+            array_push($msg, "Password must contain at least one lowercase and one uppercase character");
+            $valid = false;
           }
         }
 
         $r = @parent::query("SELECT USERNAME FROM $usertable WHERE UPPER(USERNAME) = UPPER('$uname')");
         if($r){
           if ($r->num_rows > 0) {
-            echo $msg = "Username already exists";
+            array_push($msg, "Username already exists");
             $valid = false;
           }
         }
 
         if ($pword != $pwordval) {
-          echo $msg = "Passwords must match";
+          array_push($msg, "Passwords must match");
           $valid = false;
         }
 
@@ -235,10 +238,11 @@ RETURN;
             header('Location: index');
             exit;
           } else {
-            echo "Query error";
+            array_push($msg, "Query error");
           }
         }
       }
+      return $msg;
     }
   }
 

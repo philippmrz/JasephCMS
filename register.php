@@ -1,7 +1,7 @@
 <?php
 require_once('require/backend.php');
 $db = new DatabaseConnection();
-$db->register();
+$msg = $db->register();
 ?>
 <!doctype html>
 <html>
@@ -23,14 +23,15 @@ $db->register();
       <input class="password" type="password" name="pword" placeholder="Password"/>
       <input class="password" type="password" name="pwordval" placeholder="Repeat Password"/>
       <input class='primary-btn' id="authbtn" type="submit" name="regbtn" value="Register"/>
-    </form>
-    <?php
-    if (!empty($msg)) {
-      foreach ($msg as $text) {
-        echo "<font size=\"2px\" color=\"red\"><i>" . $text . "</font></i><br>";
+      
+      <?php
+      if (!empty($msg)) {
+        foreach ($msg as $text) {
+          echo "<font size=\"2px\" color=\"red\"><i>" . $text . "</font></i><br>";
+        }
       }
-    }
-    ?>
+      ?>
+    </form>
   </div>
 
 </div>
