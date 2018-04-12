@@ -72,12 +72,20 @@
       if ($checkRows->num_rows == 0) {
         $result = @parent::query("INSERT INTO images (USERID) VALUES ('$userID')");
         self::createImgPath();
-      } elseif (move_uploaded_file($_FILES["picFile"]["tmp_name"], $pathTarget)) {
-        if(!is_null(self::getTempPath())){
-          unlink(self::getTempPath());
+      } else{
+        $r = @parent::query("SELECT TEMP_PATH FROM images WHERE TEMP_PATH = '$pathTarget' AND USERID = '$userID'");
+          if ($r->num_rows > 0) {
+            unlink($pathTarget);
+            $doubleImg = true;
+          }
+          else{$doubleImg = false;}
+          if(move_uploaded_file($_FILES["picFile"]["tmp_name"], $pathTarget)) {
+              if(!is_null(self::getTempPath()) && !$doubleImg){
+                unlink(self::getTempPath());
+              }
+              $movetoTemp = @parent::query("UPDATE images SET TEMP_PATH = '$pathTarget' WHERE USERID='$userID'");
+          }
         }
-        $movetoTemp = @parent::query("UPDATE images SET TEMP_PATH = '$pathTarget' WHERE USERID='$userID'");
-      }
       return $pathTarget;
     }
 
