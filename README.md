@@ -10,7 +10,8 @@ This CMS is still in an early stage and does not include **any** security measur
 * Change `$servername` in `require/credentials.php` from `localhost` to `db`
 * Create file with name `credentials.php` inside `require/` with content
 
-```<?php
+```
+<?php
 $servername = 'db';
 $username = <db user name>;
 $password = <db user password>;
@@ -29,7 +30,8 @@ $imgtable = 'images';
 * Extract contents of this repository into your web server's host directory
 * Create file with name `credentials.php` inside `require/` with content
 
-```<?php
+```
+<?php
 $servername = '<db server address>';
 $username = <db user name>;
 $password = <db user password>;
