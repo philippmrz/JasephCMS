@@ -27,7 +27,7 @@
     $visibility = $db->getVisibility();
 
     if(isset($_POST["picSubmit"]) && isset($_FILES["picFile"])){
-      $imgPath = $db->createImgPath();
+      $tempimgPath = $db->createImgPath();
     }
 
     if(isset($_POST["remove"])){
@@ -45,19 +45,18 @@
 
 
     //show image
-    if(!is_null($db->getTempImgPath())){
-        $img = $db->getTempImgPath();
-    }
-    elseif(!is_null($db->getImgPath($db->getUserID()))){
-      $img = $db->getImgPath($db->getUserID());
+    if (!is_null($db->getTempImgPath())) {
+      echo $tempimg = $db->getTempImgPath();
+    } elseif (!is_null($db->getImgPath($db->getUserID()))) {
+      echo $tempimg = $db->getImgPath($db->getUserID());
     }
 
     if (isset($_POST["cancelbtn"])) {
-      if(!is_null($db->getTempImgPath())){
+      if (!is_null($db->getTempImgPath())) {
         unlink($db->getTempImgPath());
-        $deletetempPath = $mysqli->query("UPDATE images SET TEMP_PATH = null WHERE USERID='$userID'");
+        $deletetempPath = $mysqli->query("UPDATE $tempimgtable SET TEMP_PATH = null WHERE USERID='$userID'");
       }
-        header("location: index");
+      header("location: index");
     }
 
     if (isset($_POST["savebtn"])) {
@@ -91,7 +90,7 @@
           $updateVis = $mysqli->query("UPDATE $usertable SET VISIBILITY = 'INVISIBLE' WHERE USERID = '$userID'");
       }
 
-      if($img != "assets/default-avatar"){
+      if($tempimg != "assets/default-avatar"){
         $tempPath = $db->getTempImgPath();
         $path = $db->getImgPath($db->getUserID());
         if(!is_null($tempPath)){
@@ -154,7 +153,7 @@ $mysqli->close();
         <input type="submit" name="picSubmit" value="Upload"><br>
         <input type="submit" name="remove" value="Remove"><br>
 
-        <img id='settings-avatar' src="<?php echo $img;?>" height="128" width="128"/>
+        <img id='settings-avatar' src="<?php echo $tempimg;?>" height="128" width="128"/>
 
         <h1 id='settings-title2'>PROFILE VISIBILITY</h1>
         <div id='settings-visibility'>

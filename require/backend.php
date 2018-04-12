@@ -53,11 +53,7 @@
       require('credentials.php');
       $userID = self::getUserID();
       $getTempImgPath = @parent::query("SELECT TEMP_PATH FROM $imgtable WHERE USERID = '$userID'");
-      if (!$getTempImgPath) {
-        return 'assets/default-avatar.png';
-      } else {
-        return $getTempImgPath->fetch_assoc()['TEMP_PATH'];
-      }
+      return $getTempImgPath->fetch_assoc()['TEMP_PATH'];
     }
 
     function getImgPath($userID) {
@@ -71,26 +67,42 @@
     }
 
     function createImgPath() {
-      $pathTarget = "assets/avatar/";
-      $pathTarget = $pathTarget.basename($_FILES["picFile"]["name"]);
+      require('credentials.php');
+      $msg = [];
+      $file = $_FILES["picFile"]["tmp_name"];
+      if (!$file) {
+        return;
+      }
+      $imgsize = getimagesize($file);
+      $width = $imgsize[0];
+      $height = $imgsize[1];
+      if ($width / $height != 1) {
+        array_push($msg, 'Image must have resolution 1:1.');
+        return;
+      }
+
+      $avatarDirectory = "assets/avatar/";
+      $pathTarget = $avatarDirectory.basename($_FILES["picFile"]["name"]);
 
       $userID = self::getUserID();
       $checkRows = @parent::query("SELECT * FROM $imgtable WHERE USERID = '$userID'");
       if ($checkRows->num_rows == 0) {
         $result = @parent::query("INSERT INTO $imgtable (USERID) VALUES ('$userID')");
         self::createImgPath();
-      } else{
+      } else {
         $r = @parent::query("SELECT TEMP_PATH FROM $imgtable WHERE TEMP_PATH = '$pathTarget' AND USERID = '$userID'");
           if ($r->num_rows > 0) {
             unlink($pathTarget);
             $doubleImg = true;
           }
-          else{$doubleImg = false;}
-          if(move_uploaded_file($_FILES["picFile"]["tmp_name"], $pathTarget)) {
-              if(!is_null(self::getTempImgPath()) && !$doubleImg){
-                unlink(self::getTempImgPath());
-              }
-              $movetoTemp = @parent::query("UPDATE $imgtable SET TEMP_PATH = '$pathTarget' WHERE USERID='$userID'");
+          else {
+            $doubleImg = false;
+          }
+          if (move_uploaded_file($_FILES["picFile"]["tmp_name"], $pathTarget)) {
+            if (!is_null(self::getTempImgPath()) && !$doubleImg){
+              unlink(self::getTempImgPath());
+            }
+            $movetoTemp = @parent::query("UPDATE $imgtable SET TEMP_PATH = '$pathTarget' WHERE USERID='$userID'");
           }
         }
       return $pathTarget;
