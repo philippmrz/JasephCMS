@@ -76,7 +76,7 @@
         if(!is_null(self::getTempPath())){
           unlink(self::getTempPath());
         }
-        $movetoTemp = @parent::query("UPDATE images SET TEMP_PATH = '$pathTarget'");
+        $movetoTemp = @parent::query("UPDATE images SET TEMP_PATH = '$pathTarget' WHERE USERID='$userID'");
       }
       return $pathTarget;
     }
