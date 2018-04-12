@@ -2,7 +2,7 @@
 <html>
 <head>
   <?php require 'require/head.php';?>
-  <link rel="stylesheet" href="style/saved.css" id="pagestyle">
+  <link rel="stylesheet" href="style/index.css" id="pagestyle">
 </head>
 <body>
 
@@ -15,7 +15,7 @@
       $db->addToSavedPosts();
     }
 
-    $db->postsAusgeben('DESC'); ?>
+    echo $db->postsAusgeben('DESC'); ?>
   </div>
 </div>
 
