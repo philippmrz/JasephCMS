@@ -54,8 +54,7 @@ a {
   outline: none;
 }
 
-input {
-  border: none;
+input[type='text'], input[type='password'] {
   background-color: var(--bg-color);
   border: none;
   border-bottom: 2px solid #ababab;

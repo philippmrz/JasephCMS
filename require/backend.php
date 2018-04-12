@@ -42,15 +42,22 @@
     function getVisibility() {
       $getVisibility = @parent::query("SELECT VISIBILITY FROM user WHERE USERNAME = '$_COOKIE[uname]'");
       $row = $getVisibility->fetch_assoc();
-      return $row["VISIBILITY"];
+      if ($row["VISIBILITY"] == 'VISIBLE') {
+        return true;
+      } else {
+        return false;
+      }
     }
 
     function getTempImgPath() {
       require('credentials.php');
       $userID = self::getUserID();
-      $getImgPath = @parent::query("SELECT TEMP_PATH FROM $imgtable WHERE USERID = '$userID'");
-      $row = $getImgPath->fetch_assoc();
-      return $row["TEMP_PATH"];
+      $getTempImgPath = @parent::query("SELECT TEMP_PATH FROM $imgtable WHERE USERID = '$userID'");
+      if (!$getTempImgPath) {
+        return 'assets/default-avatar.png';
+      } else {
+        return $getTempImgPath->fetch_assoc()['TEMP_PATH'];
+      }
     }
 
     function getImgPath($userID) {
@@ -68,12 +75,12 @@
       $pathTarget = $pathTarget.basename($_FILES["picFile"]["name"]);
 
       $userID = self::getUserID();
-      $checkRows = @parent::query("SELECT * FROM images WHERE USERID = '$userID'");
+      $checkRows = @parent::query("SELECT * FROM $imgtable WHERE USERID = '$userID'");
       if ($checkRows->num_rows == 0) {
-        $result = @parent::query("INSERT INTO images (USERID) VALUES ('$userID')");
+        $result = @parent::query("INSERT INTO $imgtable (USERID) VALUES ('$userID')");
         self::createImgPath();
       } else{
-        $r = @parent::query("SELECT TEMP_PATH FROM images WHERE TEMP_PATH = '$pathTarget' AND USERID = '$userID'");
+        $r = @parent::query("SELECT TEMP_PATH FROM $imgtable WHERE TEMP_PATH = '$pathTarget' AND USERID = '$userID'");
           if ($r->num_rows > 0) {
             unlink($pathTarget);
             $doubleImg = true;
@@ -83,7 +90,7 @@
               if(!is_null(self::getTempImgPath()) && !$doubleImg){
                 unlink(self::getTempImgPath());
               }
-              $movetoTemp = @parent::query("UPDATE images SET TEMP_PATH = '$pathTarget' WHERE USERID='$userID'");
+              $movetoTemp = @parent::query("UPDATE $imgtable SET TEMP_PATH = '$pathTarget' WHERE USERID='$userID'");
           }
         }
       return $pathTarget;
@@ -104,16 +111,17 @@
 
       $userID = self::getUserID();
       if (basename($_SERVER['PHP_SELF']) == "myposts.php") {
-        $sqlQuery = "SELECT POSTID, substring(TITLE, 1, 50) AS TITLE, substring(CONTENT, 1, 200) AS CONTENT, DATE, substring(DATE, 1, 10) AS DAY, substring(DATE, 12, 5) AS TIME, U.USERID, USERNAME from $posttable P, $usertable U WHERE P.USERID = U.USERID AND P.USERID = $userID ORDER BY DATE $order";
+        $sqlQuery = "SELECT POSTID, substring(TITLE, 1, 50) AS TITLE, substring(CONTENT, 1, 200) AS CONTENT, DATE, substring(DATE, 1, 10) AS DAY, substring(DATE, 12, 5) AS TIME, U.USERID AS USERID, USERNAME, VISIBILITY from $posttable P, $usertable U WHERE P.USERID = U.USERID AND P.USERID = $userID ORDER BY DATE $order";
       } else if (basename($_SERVER['PHP_SELF']) == "saved.php") {
-        $sqlQuery = "SELECT POSTID, substring(TITLE, 1, 50) AS TITLE, substring(CONTENT, 1, 200) AS CONTENT, DATE, substring(DATE, 1, 10) AS DAY, substring(DATE, 12, 5) AS TIME, U.USERID, USERNAME from $posttable P, $usertable U, saved S WHERE P.USERID = U.USERID AND P.POSTID=S.POSTID AND P.USERID = $userID ORDER BY DATE $order";
+        $sqlQuery = "SELECT POSTID, substring(TITLE, 1, 50) AS TITLE, substring(CONTENT, 1, 200) AS CONTENT, DATE, substring(DATE, 1, 10) AS DAY, substring(DATE, 12, 5) AS TIME, U.USERID AS USERID, USERNAME, VISIBILITY from $posttable P, $usertable U, saved S WHERE P.USERID = U.USERID AND P.POSTID=S.POSTID AND P.USERID = $userID ORDER BY DATE $order";
       } else {
-        $sqlQuery = "SELECT POSTID, substring(TITLE, 1, 50) AS TITLE, CONTENT, DATE, substring(DATE, 1, 10) AS DAY, substring(DATE, 12, 5) AS TIME, USERNAME, U.USERID AS USERID from $posttable P, $usertable U WHERE U.USERID = P.USERID ORDER BY DATE $order";
+        $sqlQuery = "SELECT POSTID, substring(TITLE, 1, 50) AS TITLE, CONTENT, DATE, substring(DATE, 1, 10) AS DAY, substring(DATE, 12, 5) AS TIME, U.USERID AS USERID, USERNAME, VISIBILITY from $posttable P, $usertable U WHERE U.USERID = P.USERID ORDER BY DATE $order";
       }
       $r = @parent::query($sqlQuery);
       $return = "";
       while ($row = $r->fetch_assoc()){
-        $img = self::getImgPath($row['USERID']);
+        $img = ($row['VISIBILITY'] == 'VISIBLE' ? self::getImgPath($row['USERID']) : 'assets/default-avatar.png');
+        $uname = ($row['VISIBILITY'] == 'VISIBLE' ? $row['USERNAME'] : 'Anonymous');
         $return .= <<<MYSQL
         <a class='post' href='onepost.php?id=$row[POSTID]'>
             <img class='thumbnail' src='$img'>
@@ -123,7 +131,7 @@
                 <p class='title'>$row[TITLE]</p>
                 <div class='date-uname'>
                   <p class='username'>
-                    $row[USERNAME]
+                    $uname
                   </p>
                   <p class='date'>
                     on $row[DAY] at $row[TIME]
@@ -142,15 +150,16 @@ MYSQL;
     function einenPostAusgeben() {
       require('credentials.php');
 
-      $r = @parent::query("SELECT TITLE, CONTENT, substring(DATE, 1, 10) AS DAY, substring(DATE, 12, 5) AS TIME, USERNAME from $posttable, $usertable WHERE $posttable.USERID = $usertable.USERID AND POSTID = $_GET[id]");
+      $r = @parent::query("SELECT TITLE, CONTENT, substring(DATE, 1, 10) AS DAY, substring(DATE, 12, 5) AS TIME, USERNAME, U.USERID AS USERID from $posttable P, $usertable U WHERE P.USERID = U.USERID AND POSTID = $_GET[id]");
 
       $row = $r->fetch_assoc();
+      $uname = ($row['VISIBILITY'] == 'VISIBLE' ? $row['USERNAME'] : 'Anonymous');
       return <<<RETURN
       <div id='post'>
         <p id='title'>$row[TITLE]</p>
         <div id='post-info'>
           <p id='username-top'>
-            posted by $row[USERNAME]
+            posted by $uname
           </p>
           <p id='date'>
             on $row[DAY] at $row[TIME]
