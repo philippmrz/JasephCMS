@@ -93,7 +93,7 @@
     function addToSavedPosts() {
       $userid = self::getUserID();
       if (!@parent::query("SELECT saved FROM SAVED WHERE USERID='$userid' AND POSTID='$_GET[id]'")) {
-        @parent::query("INSERT INTO saved(USERID,POSTID) VALUES('$userid','$_GET[id])");
+        @parent::query("INSERT INTO saved(USERID,POSTID) VALUES('$userid','$_GET[id]')");
       }
     }
 
