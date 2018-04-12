@@ -46,18 +46,18 @@
       return $row["VISIBILITY"];
     }
 
-    function getTempPath() {
+    function getTempImgPath() {
       require('credentials.php');
       $userID = self::getUserID();
-      $getPath = @parent::query("SELECT TEMP_PATH FROM $imgtable WHERE USERID = '$userID'");
-      $row = $getPath->fetch_assoc();
+      $getImgPath = @parent::query("SELECT TEMP_PATH FROM $imgtable WHERE USERID = '$userID'");
+      $row = $getImgPath->fetch_assoc();
       return $row["TEMP_PATH"];
     }
 
-    function getPath($userID) {
+    function getImgPath($userID) {
       require('credentials.php');
-      $getPath = @parent::query("SELECT PATH FROM $imgtable WHERE USERID = '$userID'");
-      if (!$getPath) {
+      $getImgPath = @parent::query("SELECT PATH FROM $imgtable WHERE USERID = '$userID'");
+      if (!$getImgPath) {
         return 'assets/default-avatar.png';
       } else {
         return $getImgPath->fetch_assoc()['PATH'];
@@ -81,8 +81,8 @@
           }
           else{$doubleImg = false;}
           if(move_uploaded_file($_FILES["picFile"]["tmp_name"], $pathTarget)) {
-              if(!is_null(self::getTempPath()) && !$doubleImg){
-                unlink(self::getTempPath());
+              if(!is_null(self::getTempImgPath()) && !$doubleImg){
+                unlink(self::getTempImgPath());
               }
               $movetoTemp = @parent::query("UPDATE images SET TEMP_PATH = '$pathTarget' WHERE USERID='$userID'");
           }
@@ -104,7 +104,7 @@
       $r = @parent::query($sqlQuery);
       $return = "";
       while ($row = $r->fetch_assoc()){
-        $img = self::getPath($row['USERID']);
+        $img = self::getImgPath($row['USERID']);
         $return .= <<<MYSQL
         <a class='post' href='onepost.php?id=$row[POSTID]'>
             <img class='thumbnail' src='$img'>
