@@ -126,7 +126,7 @@ function setNormalMode() {
 function rez() {
     var x = document.querySelector('#head-logo');
     if (x) {
-        if (window.innerWidth <= 600) {
+        if (window.innerWidth <= 900) {
             if (getCookie('theme') == 'hacker') {
                 x.setAttribute('src', 'assets/icon_hacker.png');
             } else {

@@ -112,7 +112,7 @@ hr {
 
 /* Mobile */
 
-@media (max-width: 600px) {
+@media (max-width: 900px) {
   .post {
     width: 96vw;
     margin: 2vh 2vw;

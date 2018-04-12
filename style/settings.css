@@ -1,4 +1,41 @@
 #settings-sheet {
-  width: 70%;
+  width: 60%;
   margin: auto;
+}
+
+#settings-title {
+  text-align: center;
+  font-size: 2rem;
+}
+
+#settings-title2 {
+  font-size: 1.25rem;
+}
+
+.btn-wrapper {
+  width: 100%;
+  text-align: center;
+}
+
+#settings-username {
+  width: 100%;
+  max-width: 400px;
+}
+
+#settings-avatar {
+  display: block;
+  border-radius: 4px;
+  margin: 1vh 5%;
+}
+
+/* Mobile */
+
+@media (max-width: 900px) {
+  #settings-sheet {
+    width: 90%;
+  }
+
+  #settings-avatar {
+    margin: 1vh auto;
+  }
 }
