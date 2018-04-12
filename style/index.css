@@ -119,10 +119,25 @@ hr {
     display: inline-block;
     align-items: baseline;
   }
+
+  .post-info {
+    display: block;
+  }
+
   .post-text {
     max-height: 22vh;
     max-width: 100%;
   }
+
+  .title {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .date {
+    font-size: 0.9em;
+  }
+
   .thumbnail {
     height: 6vh;
   }
