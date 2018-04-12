@@ -65,12 +65,7 @@
       if (!$getImgPath) {
         return 'assets/default-avatar.png';
       } else {
-<<<<<<< HEAD
         return $getPath->fetch_assoc()['PATH'];
-=======
-        $row = $getImgPath->fetch_assoc();
-        return $row["PATH"];
->>>>>>> be7b551050af22cf1a14ac21fad0b6c825cbd4a5
       }
     }
 
