@@ -99,7 +99,7 @@
 
     function addToSavedPosts() {
       $userid = self::getUserID();
-        @parent::query("INSERT INTO saved(USERID,POSTID) VALUES('$userid','$_GET[id])");
+        @parent::query("INSERT INTO saved(USERID,POSTID) VALUES($userid,$_GET[id])");
     }
 
     function postsAusgeben($order) {
