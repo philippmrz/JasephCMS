@@ -153,10 +153,10 @@ var nav = false;
 function navigation() {
     var x = document.querySelector('#navbar');
     if (nav) {
-        x.style.transform = 'translateY(-10vh)';
+        x.style.transform = 'translateY(-5vh)';
         nav = false;
     } else {
-        x.style.transform = 'translateY(0)';
+        x.style.transform = 'translateY(10vh)';
         nav = true;
     }
 }

@@ -69,7 +69,7 @@ hr {
 }
 
 .post-info {
-  display: flex;
+  display: block;
   justify-content: space-between;
   margin-bottom: 1vh;
   letter-spacing: 1px;
@@ -80,7 +80,7 @@ hr {
   text-transform: uppercase;
   color: var(--title-color);
   font-size: 0.8rem;
-  max-width: 20vw;
+  max-width: 100%;
   letter-spacing: 1.5px;
   white-space: nowrap;
   overflow: hidden;
@@ -126,11 +126,6 @@ hr {
 
   .post-text {
     max-height: 22vh;
-    max-width: 100%;
-  }
-
-  .title {
-    width: 100%;
     max-width: 100%;
   }
 
