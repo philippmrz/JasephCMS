@@ -50,7 +50,7 @@
       $img = $db->getPath($db->getUserID());
     }
     else{
-      $img = "assets/default-avatar";
+      $img = "assets/default-avatar.png";
     }
 
 
@@ -101,8 +101,11 @@
             $savePath = $mysqli->query("UPDATE images SET PATH = '$tempPath', TEMP_PATH = null WHERE USERID = '$userID'");
           }
           else{
-            unlink($path);
-            $savePath = $mysqli->query("UPDATE images SET PATH = '$tempPath', TEMP_PATH = null WHERE USERID = '$userID'");
+            if ($path != "assets/default-avatar.png"){
+              unlink($path);
+              $savePath = $mysqli->query("UPDATE images SET PATH = '$tempPath', TEMP_PATH = null WHERE USERID = '$userID'");
+            }
+            else{$savePath = $mysqli->query("UPDATE images SET PATH = '$tempPath', TEMP_PATH = null WHERE USERID = '$userID'");}
           }
         }
       }
