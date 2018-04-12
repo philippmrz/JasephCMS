@@ -30,24 +30,18 @@
 
     $userID = $db->getUserID();
 
-    $vis = $db->getVisibility();
-    if($vis = 'VISIBILE'){
-      $visibility = true;
-    }
-    elseif($vis = 'INVISIBILE'){
-      $visibility = false;
-    }
+    $visibility = $db->getVisibility();
 
     if(isset($_POST["picSubmit"]) && isset($_FILES["picFile"])){
       $imgPath = $db->createImgPath();
     }
 
     //show image
-    if(!is_null($db->getTempPath())){
-        $img = $db->getTempPath();
+    if(!is_null($db->getTempImgPath())){
+        $img = $db->getTempImgPath();
     }
-    elseif(!is_null($db->getPath($db->getUserID()))){
-      $img = $db->getPath($db->getUserID());
+    elseif(!is_null($db->getImgPath($db->getUserID()))){
+      $img = $db->getImgPath($db->getUserID());
     }
     else{
       $img = "assets/default-avatar.png";
@@ -55,8 +49,8 @@
 
 
     if (isset($_POST["cancelbtn"])) {
-      if(!is_null($db->getTempPath())){
-        unlink($db->getTempPath());
+      if(!is_null($db->getTempImgPath())){
+        unlink($db->getTempImgPath());
         $deletetempPath = $mysqli->query("UPDATE images SET TEMP_PATH = null");
       }
         header("location: index");
@@ -85,17 +79,17 @@
             }
         }
 
-      if ($_POST["visibility"] == "v") {
-            $visibility = true;
-            $updateVis = $mysqli->query("UPDATE $usertable SET VISIBILITY = 'VISIBLE' WHERE USERID = '$userID'");
-        } else if ($_POST["visibility"] == "inv") {
-        $visibility = false;
-        $updateVis = $mysqli->query("UPDATE $usertable SET VISIBILITY = 'INVISIBLE' WHERE USERID = '$userID'");
+      if (isset($_POST["visibility"])) {
+          $visibility = true;
+          $updateVis = $mysqli->query("UPDATE $usertable SET VISIBILITY = 'VISIBLE' WHERE USERID = '$userID'");
+        } else {
+          $visibility = false;
+          $updateVis = $mysqli->query("UPDATE $usertable SET VISIBILITY = 'INVISIBLE' WHERE USERID = '$userID'");
       }
 
       if($img != "assets/default-avatar"){
-        $tempPath = $db->getTempPath();
-        $path = $db->getPath($db->getUserID());
+        $tempPath = $db->getTempImgPath();
+        $path = $db->getImgPath($db->getUserID());
         if(!is_null($tempPath)){
           if(is_null($path)){
             $savePath = $mysqli->query("UPDATE images SET PATH = '$tempPath', TEMP_PATH = null WHERE USERID = '$userID'");
@@ -124,6 +118,7 @@ $mysqli->close();
   <?php require 'require/head.php';?>
   <script>applyStyle();</script>
   <link rel="stylesheet" href="style/settings.css" id="pagestyle">
+  <script src="script/settings.js"></script>
 </head>
 <body>
 <div id='grid-wrap'>
@@ -133,12 +128,13 @@ $mysqli->close();
     <div id="settings-sheet">
       <h1 id="settings-title">My Settings</h1>
       <form method="POST" action="" enctype="multipart/form-data">
-        <input id="btn" type="submit" name="cancelbtn" value="Cancel"/>
-        <input id="btn" type="submit" name="savebtn" value="Save Changes"/>
-
-        <h1>ACCOUNT</h1></br>
-        <p>Username: </p>
-        <input id="input" type"text" name="newUname" <?php echo "value=\"" . $uname . "\""; ?>/>
+        <div class='btn-wrapper'>
+          <input class="secondary-btn" type="submit" name="cancelbtn" value="Cancel"/>
+          <input class="secondary-btn" type="submit" name="savebtn" value="Save Changes"/>
+        </div>
+        <h1 id='settings-title2'>ACCOUNT</h1>
+        <p>Username</p>
+        <input id="settings-username" type="text" name="newUname" <?php echo "value=\"" . $uname . "\""; ?>/>
         <p>
           <?php
           if (!empty($msg)) {
@@ -148,38 +144,43 @@ $mysqli->close();
           }
           ?>
         </p>
-
+        <p>Avatar</p>
         <input type="hidden" value="1000000" name="FILE_SIZE_MAX">
-        <input type="file" name="picFile" accept=".jpg, .jpeg, .png">
+        <input type="file" name="picFile" accept=".jpg, .jpeg, .png"><br>
         <input type="submit" name="picSubmit" value="Upload"><br>
 
-        <img src="<?php echo $img;?>" height="128" width="128"/>
+        <img id='settings-avatar' src="<?php echo $img;?>" height="128" width="128"/>
 
-        <h1>PROFILE VISIBILITY</h1>
-        <input type="radio" name="visibility" value="v" <?=($visibility) ? "checked" : "" ?>>
-          Visible (Everyone can see that you are the author of your posts)
-        </input><br>
-        <input type="radio" name="visibility" value="inv" <?= (!$visibility) ? "checked": "" ?>>
-          Not Visible (The author of your posts is set to anonymous)
-        </input>
-
+        <h1 id='settings-title2'>PROFILE VISIBILITY</h1>
+        <div id='settings-visibility'>
+          <?php
+          $checked = ($visibility) ? "checked" : "";
+          ?>
+          <div class='switch'>
+            <?php echo "<input id='settings-visibility-switch' class='switch-checkbox' type='checkbox' name='visibility' onchange='vis();' $checked>";?>
+            <label class='switch-label' for='settings-visibility-switch'></label>
+          </div>
+          <p id='settings-visibility-info'></p>
+        </div>
         <?php
         if ($admin): ?>
 
-        <h1>ADMINISTRATION</h1>
+        <h1 id='settings-title2'>ADMINISTRATION</h1>
         <p>Select Admins/Moderators from</p>
         <a href="userlist">List of Users</a>
 
         <?php endif;?>
 
-        <input id="btn" type="submit" name="cancelbtn" value="Cancel"/>
-        <input id="btn" type="submit" name="savebtn" value="Save Changes"/>
+        <div class='btn-wrapper'>
+          <input class="secondary-btn" type="submit" name="cancelbtn" value="Cancel"/>
+          <input class="secondary-btn" type="submit" name="savebtn" value="Save Changes"/>
+        </div>
       </form>
     </div>
   </div>
 </div>
 
 <script>applyStyle();</script>
-
+<script>vis();</script>
 </body>
 </html>
