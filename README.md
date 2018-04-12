@@ -8,10 +8,34 @@ This CMS is still in an early stage and does not include **any** security measur
 * Clone repository to local machine
 * Run docker-compose up (if necessary with root permissions) inside docker directory
 * Change `$servername` in `require/credentials.php` from `localhost` to `db`
+* Create file with name `credentials.php` inside `require/` with content
+
+```<?php
+$servername = 'db';
+$username = <db user name>;
+$password = <db user password>;
+$dbname = 'jaseph';
+$usertable = 'user';
+$posttable = 'post';
+$imgtable = 'images';
+?>
+```
+
 * Visit `localhost` with port `8000`
 
 
 #### Installation without docker
 * Set up a web server including an SQL database and a php7 installation
 * Extract contents of this repository into your web server's host directory
-* Provide the right credentials to your SQL server inside `credentials.php`
+* Create file with name `credentials.php` inside `require/` with content
+
+```<?php
+$servername = '<db server address>';
+$username = <db user name>;
+$password = <db user password>;
+$dbname = 'jaseph';
+$usertable = 'user';
+$posttable = 'post';
+$imgtable = 'images';
+?>
+```
