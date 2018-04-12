@@ -22,7 +22,9 @@
   justify-content: space-between;
   align-items: center;
   font-size: .9em;
+  margin-bottom: 6vh;
 }
+
 
 #date {
   display: flex;
@@ -40,6 +42,7 @@
 
 #post-text {
   margin-top: 6vh;
+  color: black;
   line-height: 29px;
 }
 

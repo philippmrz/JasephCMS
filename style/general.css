@@ -54,7 +54,7 @@ a {
   outline: none;
 }
 
-input {
+input[type='text'] {
   border: none;
   background-color: var(--bg-color);
   border: none;
@@ -87,8 +87,58 @@ input:invalid, textarea:invalid {
 }
 
 button, input[type='submit'] {
-  border: none;
   cursor: pointer;
+}
+
+.switch {
+    position: relative;
+    width: 55px;
+    margin: 5px;
+    display: inline-block;
+}
+
+.switch-checkbox {
+    display: none;
+}
+
+.switch-label {
+    display: block;
+    overflow: hidden;
+    cursor: pointer;
+    height: 20px;
+    padding: 0;
+    line-height: 20px;
+    border: 0px solid #FFFFFF;
+    border-radius: 30px;
+    background-color: #9E9E9E;
+}
+.switch-label:before {
+    content: "";
+    display: block;
+    width: 30px;
+    margin: -5px;
+    background: #FFFFFF;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 31px;
+    border-radius: 30px;
+    box-shadow: 0 6px 12px 0px #757575;
+    transition: all 0.2s ease-in;
+}
+.switch-checkbox:checked + .switch-label {
+    background-color: var(--accent-color-light);
+}
+.switch-checkbox:checked + .switch-label, .switch-checkbox:checked + .switch-label:before {
+   border-color: var(--accent-color);
+}
+.switch-checkbox:checked + .switch-label .switch-inner {
+    margin-left: 0;
+}
+.switch-checkbox:checked + .switch-label:before {
+    right: 0px;
+    background-color: var(--accent-color);
+    box-shadow: 3px 6px 18px 0px rgba(0, 0, 0, 0.2);
 }
 
 /* Default buttons */
@@ -172,6 +222,10 @@ button, input[type='submit'] {
   margin-left: 50px;
 }
 
+#header #profile {
+  height: 40px;
+  border-radius: 4px;
+}
 
 #mask {
   height: 20px;
@@ -279,7 +333,7 @@ button, input[type='submit'] {
   display: none;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 900px) {
  #grid-wrap {
     grid-template-columns: auto;
     grid-template-rows: 10vh auto;
