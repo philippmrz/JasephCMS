@@ -61,8 +61,10 @@
         return 'assets/default-avatar.png';
       } else {
         $row = $getPath->fetch_assoc();
-        return $row["PATH"];
-      }
+        if(!is_null($row["PATH"]){
+          return $row["PATH"];
+        }else{return 'assets/default-avatar.png';}
+       }    
     }
 
     function createImgPath() {
