@@ -57,10 +57,10 @@
     function getPath($userID) {
       require('credentials.php');
       $getPath = @parent::query("SELECT PATH FROM $imgtable WHERE USERID = '$userID'");
-      $row = $getPath->fetch_assoc();
-      if (!$row["PATH"]) {
+      if (!$getPath) {
         return 'assets/default-avatar.png';
       } else {
+        $row = $getPath->fetch_assoc();
         return $row["PATH"];
       }
     }
