@@ -10,6 +10,12 @@
   <?php require 'require/header.php';?>
   <?php require 'require/sidebar.php'; ?>
   <div id='content'>
+    <?php if (isset($_GET['id'])) {
+      $db = new DatabaseConnection();
+      $db->addToSavedPosts();
+    }
+
+    $db->postsAusgeben('DESC'); ?>
   </div>
 </div>
 

@@ -89,6 +89,14 @@
       return $pathTarget;
     }
 
+
+    function addToSavedPosts() {
+      $userid = self::getUserID();
+      if (!@parent::query("SELECT saved FROM SAVED WHERE USERID='$userid' AND POSTID='$_GET[id]'")) {
+        @parent::query("INSERT INTO saved(USERID,POSTID) VALUES('$userid','$_GET[id])");
+      }
+    }
+
     function postsAusgeben($order) {
       require('credentials.php');
 
@@ -97,6 +105,8 @@
       $userID = self::getUserID();
       if (basename($_SERVER['PHP_SELF']) == "myposts.php") {
         $sqlQuery = "SELECT POSTID, substring(TITLE, 1, 50) AS TITLE, substring(CONTENT, 1, 200) AS CONTENT, DATE, substring(DATE, 1, 10) AS DAY, substring(DATE, 12, 5) AS TIME, U.USERID, USERNAME from $posttable P, $usertable U WHERE P.USERID = U.USERID AND P.USERID = $userID ORDER BY DATE $order";
+      } else if (basename($_SERVER['PHP_SELF']) == "saved.php") {
+        $sqlQuery = "SELECT POSTID, substring(TITLE, 1, 50) AS TITLE, substring(CONTENT, 1, 200) AS CONTENT, DATE, substring(DATE, 1, 10) AS DAY, substring(DATE, 12, 5) AS TIME, U.USERID, USERNAME from $posttable P, $usertable U, saved S WHERE P.USERID = U.USERID AND P.POSTID=S.POSTID AND P.USERID = $userID ORDER BY DATE $order";
       } else {
         $sqlQuery = "SELECT POSTID, substring(TITLE, 1, 50) AS TITLE, CONTENT, DATE, substring(DATE, 1, 10) AS DAY, substring(DATE, 12, 5) AS TIME, USERNAME, U.USERID AS USERID from $posttable P, $usertable U WHERE U.USERID = P.USERID ORDER BY DATE $order";
       }
