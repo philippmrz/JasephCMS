@@ -11,8 +11,9 @@
   <?php require 'require/header.php';?>
   <?php require 'require/sidebar.php'; ?>
   <div id='content'>
-    <?php if (isset($_GET['id'])) {
-      $db = new DatabaseConnection();
+    <?php
+    $db = new DatabaseConnection();
+    if (isset($_GET['id'])) {
       $db->addToSavedPosts();
     }
 
