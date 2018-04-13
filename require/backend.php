@@ -124,7 +124,9 @@
 
     function addToSavedPosts() {
       $userid = self::getUserID();
+//      if (@parent::query("SELECT FROM saved WHERE POSTID=$_GET[id]")->fetch_assoc()) {
         @parent::query("INSERT INTO saved(USERID,POSTID) VALUES($userid,$_GET[id])");
+  //    }
     }
 
     function postsAusgeben($order) {
