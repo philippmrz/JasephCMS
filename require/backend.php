@@ -53,35 +53,26 @@
     function getTempImgPath() {
       require('credentials.php');
       $userID = self::getUserID();
-      $getTempImgPath = @parent::query("SELECT TEMP_PATH FROM $imgtable WHERE USERID = '$userID'");
-      return $getTempImgPath->fetch_assoc()['TEMP_PATH'];
+      $getTempImgPath = @parent::query("SELECT TEMP_PATH FROM $imgtable WHERE USERID = $userID");
+      $row = $getTempImgPath->fetch_assoc();
+      return $row['TEMP_PATH'];
     }
 
     function getImgPath($userID) {
       require('credentials.php');
-      $getImgPath = @parent::query("SELECT PATH FROM $imgtable WHERE USERID = '$userID'");
-      if ($getImgPath->num_rows == 0 or is_null($getImgPath->fetch_assoc()['PATH'])) {
-        return 'assets/default-avatar.png';
+      $getImgPath = @parent::query("SELECT PATH FROM $imgtable WHERE USERID = $userID");
+      if ($row = $getImgPath->fetch_assoc()) {
+        return $row['PATH'];
       } else {
-        return $getImgPath->fetch_assoc()['PATH'];
+        return 'assets/default-avatar.png';
       }
     }
 
-    /*function getImgPath($userID) {
-      require('credentials.php');
-      $getImgPath = @parent::query("SELECT PATH FROM $imgtable WHERE USERID = '$userID'");
-      if ($getImgPath->num_rows == 0 or is_null($getImgPath->fetch_assoc()['PATH'])) {
-        return 'assets/default-avatar.png';
-      } else {
-        return $getImgPath->fetch_assoc()['PATH'];
-      }
-    }*/
-
-    function createImgPath() {
-      require('credentials.php');
+    function checkImg() {
       $msg = [];
       if (!isset($_FILES["picFile"]) or!file_exists($_FILES["picFile"]["tmp_name"])) {
-        return;
+        array_push($msg, 'No image selected.');
+        return $msg;
       }
       $file = $_FILES["picFile"]["tmp_name"];
       $imgsize = getimagesize($file);
@@ -91,34 +82,45 @@
         array_push($msg, 'Image must have ratio of 1:1.');
         return $msg;
       }
+      return true;
+    }
 
+    function createImgPath() {
+      require('credentials.php');
       $avatarDirectory = "assets/avatar/";
       $tempAvatarDirectory = "assets/avatar/temp/";
       $filename = $_FILES["picFile"]["name"];
       $extension = pathinfo($filename, PATHINFO_EXTENSION);
       $userID = self::getUserID();
-      $pathTarget = $tempAvatarDirectory . 'av_' . $userID . '.' . $extension;
-
+      //DEBUG echo "userid: $userID<br>";
+      $tempPathTarget = $tempAvatarDirectory . 'av_' . $userID . '.' . $extension;
+      //DEBUG echo "temppathtarget: $tempPathTarget<br>";
+      $pathTarget = $avatarDirectory . 'av_' . $userID . '.' . $extension;
+      //DEBUG echo "pathtarget: $pathTarget<br>";
       $checkRows = @parent::query("SELECT * FROM $imgtable WHERE USERID = '$userID'");
-      if ($checkRows->num_rows == 0) {
+      if (!$checkRows or $checkRows->num_rows == 0) {
+        //DEBUG echo 'row doesnt exist<br>';
         $result = @parent::query("INSERT INTO $imgtable (USERID) VALUES ('$userID')");
+        //DEBUG echo 'going back through createimgpath<br>';
         self::createImgPath();
       } else {
-        $r = @parent::query("SELECT TEMP_PATH FROM $imgtable WHERE TEMP_PATH = '$pathTarget' AND USERID = '$userID'");
+        //DEBUG echo 'row exists<br>';
+        $r = @parent::query("SELECT TEMP_PATH FROM $imgtable WHERE TEMP_PATH = '$tempPathTarget' AND USERID = '$userID'");
         if ($r->num_rows > 0) {
-          unlink($pathTarget);
+          //DEBUG echo 'tempimg exists already<br>';
+          unlink($tempPathTarget);
           $doubleImg = true;
         } else {
+          //DEBUG echo 'tempimg doesnt exist already<br>';
           $doubleImg = false;
         }
-        if (move_uploaded_file($_FILES["picFile"]["tmp_name"], $pathTarget)) {
+        if (move_uploaded_file($_FILES["picFile"]["tmp_name"], $tempPathTarget)) {
           if (!is_null(self::getTempImgPath()) && !$doubleImg){
             unlink(self::getTempImgPath());
           }
-          $movetoTemp = @parent::query("UPDATE $imgtable SET TEMP_PATH = '$pathTarget' WHERE USERID='$userID'");
+          $movetoTemp = @parent::query("UPDATE $imgtable SET TEMP_PATH = '$tempPathTarget' WHERE USERID='$userID'");
         }
       }
-      return $pathTarget;
     }
 
 
@@ -134,7 +136,6 @@
 
       $order = ($order == 'ASC') ? 'ASC' : 'DESC';
 
-      $userID = self::getUserID();
       if (basename($_SERVER['PHP_SELF']) == "myposts.php") {
         $sqlQuery = "SELECT POSTID, substring(TITLE, 1, 50) AS TITLE, substring(CONTENT, 1, 200) AS CONTENT, DATE, substring(DATE, 1, 10) AS DAY, substring(DATE, 12, 5) AS TIME, U.USERID AS USERID, USERNAME, VISIBILITY from $posttable P, $usertable U WHERE P.USERID = U.USERID AND P.USERID = $userID ORDER BY DATE $order";
       } else if (basename($_SERVER['PHP_SELF']) == "saved.php") {
@@ -199,16 +200,21 @@ RETURN;
     }
 
     function getUserRole() {
-      return @parent::query("SELECT ROLE FROM user WHERE USERNAME = '$_COOKIE[uname]'")->fetch_assoc()[ROLE];
+      require('credentials.php');
+      $uname = $_COOKIE['uname'];
+      return @parent::query("SELECT ROLE FROM $usertable WHERE USERNAME = '$uname'")->fetch_assoc()['ROLE'];
     }
 
     function deletePost() {
-      @parent::query("DELETE FROM post WHERE POSTID = $_GET[id]");
+      require('credentials.php');
+      @parent::query("DELETE FROM $posttable WHERE POSTID = $_GET[id]");
       header('Location: index');
     }
 
     function getUserID() {
-      return @parent::query("SELECT USERID FROM user WHERE USERNAME = '$_COOKIE[uname]'")->fetch_assoc()['USERID'];
+      require('credentials.php');
+      $uname = $_COOKIE['uname'];
+      return @parent::query("SELECT USERID FROM $usertable WHERE USERNAME = '$uname'")->fetch_assoc()['USERID'];
     }
 
     function login() {
