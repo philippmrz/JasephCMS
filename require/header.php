@@ -13,7 +13,7 @@
     <?php
     $db = new DatabaseConnection();
     $img = $db->getImgPath($db->getUserID());
-    echo "<img id='profile' src='$img'>";
+    echo "<a href=settings.php><img id='profile' src='$img'></a>";
     ?>
     <a href='#'>
       <button id='logout' class='secondary-btn' onclick='logout()'>log out</button>
