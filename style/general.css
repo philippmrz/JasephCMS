@@ -89,9 +89,13 @@ input:invalid, textarea:invalid {
   box-shadow: none;
 }
 
-button, input[type='submit'] {
+button {
   cursor: pointer;
   border: none;
+}
+
+input[type='submit'] {
+  cursor: pointer;
 }
 
 .switch {

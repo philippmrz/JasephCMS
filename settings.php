@@ -145,8 +145,8 @@ $db->close();
         <p>Avatar</p>
         <input type="hidden" value="1000000" name="FILE_SIZE_MAX">
         <input type="file" name="picFile" accept=".jpg, .jpeg, .png, .gif"><br>
-        <input type="submit" name="picSubmit" value="Upload"><br>
-        <input type="submit" name="remove" value="Remove"><br>
+        <input class='secondary-btn' type="submit" name="picSubmit" value="Upload"><br>
+        <input class='secondary-btn' type="submit" name="remove" value="Remove"><br>
 
         <img id='settings-avatar' src=<?php echo "'$displayimg'";?> height="128" width="128"/>
 
@@ -165,8 +165,7 @@ $db->close();
         if ($admin): ?>
 
         <h1 id='settings-title2'>ADMINISTRATION</h1>
-        <p>Select Admins/Moderators from</p>
-        <a href="userlist">List of Users</a><br>
+        <a href='userlist'>List of Users</a>
 
         <?php endif;?>
         <p>

@@ -5,7 +5,7 @@ require 'require/credentials.php';
 $mysqli = new mysqli($servername, $username, $password, $dbname);
 
 if ($mysqli->connect_error) {
-    die("Connecting to MySQL or database failed:<b><i> ". $mysqli->connect_error . "</b></i>");
+  die("Connecting to MySQL or database failed:<b><i> ". $mysqli->connect_error . "</b></i>");
 }
 
 $uname = $_COOKIE["uname"];
@@ -13,7 +13,7 @@ $uname = $_COOKIE["uname"];
 //check for admin
 $getAdmin = $mysqli->query("SELECT ROLE FROM $usertable WHERE USERNAME = '$uname'");
 if (!$getAdmin) {
-    echo $mysqli->error;
+  echo $mysqli->error;
 }
 $rowAdmin = $getAdmin->fetch_assoc();
 if ($rowAdmin["ROLE"] != "ADMIN" || !isset($_COOKIE["logcheck"])) {
@@ -23,75 +23,72 @@ if ($rowAdmin["ROLE"] != "ADMIN" || !isset($_COOKIE["logcheck"])) {
     <?php header('location: index.php');?>
   </div>
   <?php
-}
-else{
-    $admin = true;
+} else {
+  $admin = true;
 }
 
 if (isset($_POST["canclbtn"])) {
-    header("location: settings.php");
+  header("location: settings.php");
 }
+
+function checkRole($userid, $role) {
+  $getRole = $mysqli->query("SELECT ROLE FROM $usertable WHERE USERID = '$userid'");
+  $row = $getRole->fetch_assoc();
+  return $row['ROLE'] == $role ? true : false;
+}
+
+function updateRole($userid, $role) {
+  $getUserID = $mysqli->query("SELECT USERID FROM $usertable WHERE USERID = $_COOKIE['uname']");
+  $row = $getUserID->fetch_assoc();
+  if ($row['USERID'] != $userid) {
+    $updateRole = $mysqli->query("UPDATE $usertable SET ROLE = '$role' WHERE USERID = '$userid'");
+    return $updateRole;
+  } else {
+    return false; // can't change your own role
+  }
+}
+
+function deleteUser($userid) {
+  $getUserID = $mysqli->query("SELECT USERID FROM $usertable WHERE USERID = $_COOKIE['uname']");
+  $row = $getUserID->fetch_assoc();
+  if ($row['USERID'] != $userid) {
+    $deleteUser = $mysqli->query("DELETE FROM $usertable WHERE USERID = $userid");
+    return $deleteUser;
+  }
+  return false; // can't delete self
+}
+
 if (isset($_POST["confbtn"])) {
   $msg = [];
-  $userlist = $mysqli->query("SELECT USERNAME FROM $usertable");
-  while ($row = $userlist->fetch_assoc()) {
+  $usernames = $mysqli->query("SELECT USERNAME FROM $usertable");
+  while ($row = $usernames->fetch_assoc()) {
     //check every user
-    foreach ($row as $user) {
-      $getUserID = $mysqli->query("SELECT USERID FROM $usertable WHERE USERNAME = '$user'");
+    foreach ($row as $uname) {
+      $getUserID = $mysqli->query("SELECT USERID FROM $usertable WHERE USERNAME = '$uname'");
       $idRow = $getUserID->fetch_assoc();
-      $id = $idRow["USERID"];
-      if (isset($_POST["chkusers$id"])) {
-        switch ($_POST["chkusers$id"]) {
+      $userid = $idRow["USERID"];
+      if (isset($_POST["chkusers$userid"])) {
+        switch ($_POST["chkusers$userid"]) {
           case "admin":
-            $roleChange = "true";
-            $newRole = "ADMIN";
-            break;
+          $newRole = "ADMIN";
+          break;
 
           case "mod":
-            $roleChange = "true";
-            $newRole = "MOD";
-            break;
+          $newRole = "MOD";
+          break;
 
           case "common":
-            $roleChange = "true";
-            $newRole = "COMMON";
-            break;
+          $newRole = "COMMON";
+          break;
 
           case "delete":
-            $roleChange = "false";
-            $newRole = "";
-            $getUname = $mysqli->query("SELECT USERNAME FROM $usertable WHERE USERID = $id");
-            $urow = $getUname->fetch_assoc();
-            $uname = $urow["USERNAME"];
-            if($uname != $_COOKIE["uname"]){
-              $delete = $mysqli->query("DELETE FROM $usertable WHERE USERID = $id");
-              if ($delete) {
-                array_push($msg, "Successfully deleted User no.$id");
-              } else {
-                array_push($msg, "Couldn't carry out changes (db query failed)");
-              }
-            }
-            else{
-              array_push($msg, "Couldn't carry out changes (invalid selection)");
-            }
-            break;
+          deleteUser($userid);
+          break;
         }
-        //change table, get re:message
-        if ($roleChange){
-          $getUname = $mysqli->query("SELECT USERNAME FROM $usertable WHERE USERID = $id");
-          $urow = $getUname->fetch_assoc();
-          $uname = $urow["USERNAME"];
-          if($uname != $_COOKIE["uname"]){
-            $role = $mysqli->query("UPDATE $usertable SET ROLE = '$newRole' WHERE USERID = $id");
-            if ($role && $getUname) {
-              array_push($msg, "Changed Role of $uname to $newRole");
-            } else {
-              array_push($msg, "Couldn't carry out changes (db query failed)");
-            }
-          }
-          else{
-            array_push($msg, "Couldn't carry out changes (invalid selection)");
-          }
+        if (!checkRole($userid,$newRole)) {
+          updateRole($userid,$newRole);
+        } else {
+          array_push($msg)
         }
       }
     }
@@ -105,6 +102,8 @@ if (isset($_POST["confbtn"])) {
 
 <head>
   <?php require 'require/head.php';?>
+  <script>applyStyle();</script>
+  <link rel="stylesheet" href="style/userlist.css" id="pagestyle">
 </head>
 
 <body>
@@ -112,7 +111,8 @@ if (isset($_POST["confbtn"])) {
     <?php require 'require/header.php';?>
     <?php require 'require/sidebar.php';?>
     <div id='content'>
-      <script>applyStyle();</script>
+      <div id='userlist-sheet'>
+        <h1 id="userlist-title">List of Users</h1>
       <?php
       if (!empty($msg)) {
         echo "Status: <br>";
@@ -133,7 +133,7 @@ if (isset($_POST["confbtn"])) {
               $fl = false;
               $heads = array_keys($row);
               ?>
-              <table border=3>
+              <table>
                 <tr>
                   <?php
                   foreach ($heads as $elem) {
@@ -143,9 +143,9 @@ if (isset($_POST["confbtn"])) {
                   <th>Delete</th><th>Common</th><th>Mod</th><th>Admin</th>
                 </tr>
                 <?php
-              }
-              ?>
-              <tr>
+                }
+                ?>
+                <tr>
                 <?php
                 foreach ($row as $elem) {
                   echo"<td>".$elem."</td>";
@@ -163,12 +163,11 @@ if (isset($_POST["confbtn"])) {
           }
           ?>
         </table>
-        <br>
-        <input type="submit" name="confbtn" value="Confirm"/>
-        <br>
-        <input type="submit" name="canclbtn" value="Cancel"/>
+        <input class='secondary-btn' type="submit" name="confbtn" value="Confirm"/>
+        <input class='secondary-btn' type="submit" name="canclbtn" value="Cancel"/>
       </form>
     </div>
+  </div>
 </div>
 <script>applyStyle();</script>
 </body>

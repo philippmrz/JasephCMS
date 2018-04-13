@@ -1,0 +1,29 @@
+#userlist-sheet {
+  width: 60%;
+  margin: auto;
+}
+
+#userlist-title {
+  text-align: center;
+  font-size: 2rem;
+}
+
+table   {
+  border-collapse: collapse;
+  border-style: hidden;
+}
+
+table td, table th {
+  padding: 4px;
+  border: 1px solid #e2e2e2;
+}
+
+table th {
+  background: var(--accent-color);
+}
+
+@media (max-width: 900px) {
+  #userlist-sheet {
+    width: 90%;
+  }
+}
