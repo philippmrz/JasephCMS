@@ -29,7 +29,7 @@ else{
 }
 
 if (isset($_POST["canclbtn"])) {
-    ?><script>redirect("settings.php")</script><?php
+    header("location: settings.php");
 }
 if (isset($_POST["confbtn"])) {
   $msg = [];
