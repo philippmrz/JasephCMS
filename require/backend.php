@@ -29,6 +29,10 @@
   // No need to create a new mysqli connection, everything is handled from the class
   // just move your function to this class and call it with $var->yourFunction();
   class DatabaseConnection extends mysqli {
+
+    const AVATAR_DIRECTORY = "assets/avatar";
+    const TEMP_AVATAR_DIRECTORY = "assets/avatar/temp";
+
     // constructor, this gets called every time a new instance of DatabaseConnection is created
     function __construct() {
       require('credentials.php');
@@ -36,6 +40,12 @@
 
       if ($this->connect_error) {
         die($this->connect_errno . $this->connect_error);
+      }
+      if (!is_dir(self::AVATAR_DIRECTORY)) {
+        mkdir(self::AVATAR_DIRECTORY, 0777, true);
+      }
+      if (!is_dir(self::TEMP_AVATAR_DIRECTORY)) {
+        mkdir(self::TEMP_AVATAR_DIRECTORY, 0777, true);
       }
     }
 
@@ -87,15 +97,13 @@
 
     function createImgPath() {
       require('credentials.php');
-      $avatarDirectory = "assets/avatar/";
-      $tempAvatarDirectory = "assets/avatar/temp/";
       $filename = $_FILES["picFile"]["name"];
       $extension = pathinfo($filename, PATHINFO_EXTENSION);
       $userID = self::getUserID();
       //DEBUG echo "userid: $userID<br>";
-      $tempPathTarget = $tempAvatarDirectory . 'av_' . $userID . '.' . $extension;
+      $tempPathTarget = self::TEMP_AVATAR_DIRECTORY . '/av_' . $userID . '.' . $extension;
       //DEBUG echo "temppathtarget: $tempPathTarget<br>";
-      $pathTarget = $avatarDirectory . 'av_' . $userID . '.' . $extension;
+      $pathTarget = self::AVATAR_DIRECTORY . '/av_' . $userID . '.' . $extension;
       //DEBUG echo "pathtarget: $pathTarget<br>";
       $checkRows = @parent::query("SELECT * FROM $imgtable WHERE USERID = '$userID'");
       if (!$checkRows or $checkRows->num_rows == 0) {

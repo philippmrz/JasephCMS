@@ -99,12 +99,10 @@
 
     if ($tempimg != "assets/default-avatar.png") {
       //DEBUG echo 'saving<br>';
-      $avatarDirectory = "assets/avatar/";
-      $tempAvatarDirectory = "assets/avatar/temp/";
       $tempPath = $db->getTempImgPath();
       //DEBUG echo "temppath: $tempPath<br>";
       $path = $db->getImgPath($db->getUserID());
-      $newpath = $avatarDirectory . substr($tempPath, strlen($tempAvatarDirectory));
+      $newpath = DatabaseConnection::AVATAR_DIRECTORY . '/' . substr($tempPath, strlen(DatabaseConnection::TEMP_AVATAR_DIRECTORY));
       //DEBUG echo "newpath: $newpath<br>";
       if (!is_null($tempPath)) {
         if (is_null($path)) {
