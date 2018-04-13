@@ -100,26 +100,18 @@
       $filename = $_FILES["picFile"]["name"];
       $extension = pathinfo($filename, PATHINFO_EXTENSION);
       $userID = self::getUserID();
-      //DEBUG echo "userid: $userID<br>";
       $tempPathTarget = self::TEMP_AVATAR_DIRECTORY . '/av_' . $userID . '.' . $extension;
-      //DEBUG echo "temppathtarget: $tempPathTarget<br>";
       $pathTarget = self::AVATAR_DIRECTORY . '/av_' . $userID . '.' . $extension;
-      //DEBUG echo "pathtarget: $pathTarget<br>";
       $checkRows = @parent::query("SELECT * FROM $imgtable WHERE USERID = '$userID'");
       if (!$checkRows or $checkRows->num_rows == 0) {
-        //DEBUG echo 'row doesnt exist<br>';
         $result = @parent::query("INSERT INTO $imgtable (USERID) VALUES ('$userID')");
-        //DEBUG echo 'going back through createimgpath<br>';
         self::createImgPath();
       } else {
-        //DEBUG echo 'row exists<br>';
         $r = @parent::query("SELECT TEMP_PATH FROM $imgtable WHERE TEMP_PATH = '$tempPathTarget' AND USERID = '$userID'");
         if ($r->num_rows > 0) {
-          //DEBUG echo 'tempimg exists already<br>';
           unlink($tempPathTarget);
           $doubleImg = true;
         } else {
-          //DEBUG echo 'tempimg doesnt exist already<br>';
           $doubleImg = false;
         }
         if (move_uploaded_file($_FILES["picFile"]["tmp_name"], $tempPathTarget)) {

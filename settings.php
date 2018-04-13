@@ -18,7 +18,7 @@
 
   $userID = $db->getUserID();
 
-  //get admin (getUserRole funzt nicht warum auch immer)
+  //get admin
   $getAdmin = $mysqli->query("SELECT ROLE FROM $usertable WHERE USERNAME = '$uname'");
   $rowAdmin = $getAdmin->fetch_assoc();
   $admin = $rowAdmin["ROLE"] == "ADMIN" ? true : false;
@@ -35,19 +35,14 @@
 
   //show image
   if (!is_null($db->getTempImgPath())) {
-    //DEBUG echo 'tempimg is now temp<br>';
     $tempimg = $db->getTempImgPath();
   } else {
-    //DEBUG echo 'tempimg is now real<br>';
     $tempimg = $db->getImgPath($userID);
   }
-  //DEBUG echo "tempimg: $tempimg<br>";
 
-  $displayimg = $tempimg;
-  //DEBUG echo "displayimg: $displayimg<br>";
+  $displayimg = $tempimg;;
 
   if(isset($_POST["remove"])){
-    //DEBUG echo 'removing';
     $tempPath = $db->getTempImgPath();
     $path = $db->getImgPath($db->getUserID());
     if(!is_null($tempPath)){
@@ -98,12 +93,9 @@
     }
 
     if ($tempimg != "assets/default-avatar.png") {
-      //DEBUG echo 'saving<br>';
       $tempPath = $db->getTempImgPath();
-      //DEBUG echo "temppath: $tempPath<br>";
       $path = $db->getImgPath($db->getUserID());
       $newpath = DatabaseConnection::AVATAR_DIRECTORY . '/' . substr($tempPath, strlen(DatabaseConnection::TEMP_AVATAR_DIRECTORY));
-      //DEBUG echo "newpath: $newpath<br>";
       if (!is_null($tempPath)) {
         if (is_null($path)) {
           $savePath = $mysqli->query("UPDATE images SET PATH = '$newpath', TEMP_PATH = null WHERE USERID = '$userID'");
@@ -118,9 +110,8 @@
         rename($tempPath, $newpath);
       }
       $displayimg = $newpath;
-      //DEBUG echo "displayimg: $displayimg<br>";
     }
-    header('Location: '.$_SERVER['PHP_SELF']);
+    header('Location: index');
   }
 
 $mysqli->close();
