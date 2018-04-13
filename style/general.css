@@ -228,6 +228,7 @@ button, input[type='submit'] {
 
 #header #profile {
   height: 40px;
+  border: 1px solid #e2e2e2;
   border-radius: 4px;
 }
 

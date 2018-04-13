@@ -58,6 +58,7 @@ hr {
 
 .thumbnail {
   height: 10vh;
+  border: 1px solid #e2e2e2;
   border-radius: 4px;
   margin-right: 25px;
 }
