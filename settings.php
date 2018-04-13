@@ -111,7 +111,8 @@
       }
       $displayimg = $newpath;
     }
-    header('Location: index');
+    sleep(1);
+    header('location: index');
   }
 
 $mysqli->close();
