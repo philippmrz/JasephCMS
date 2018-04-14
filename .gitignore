@@ -2,3 +2,6 @@ docker/mysql/*
 !docker/mysql/jaseph
 require/credentials.php
 avatar/
+sandbox.php
+style/sandbox.css
+script/sandbox.js
