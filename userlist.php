@@ -1,70 +1,30 @@
 <?php
-// Credentials for this server
-require 'require/credentials.php';
+require_once('require/backend.php');
+require('require/credentials.php');
 
-$mysqli = new mysqli($servername, $username, $password, $dbname);
-
-if ($mysqli->connect_error) {
-  die("Connecting to MySQL or database failed:<b><i> ". $mysqli->connect_error . "</b></i>");
-}
-
-$uname = $_COOKIE["uname"];
+$db = new DatabaseConnection();
 
 //check for admin
-$getAdmin = $mysqli->query("SELECT ROLE FROM $usertable WHERE USERNAME = '$uname'");
-if (!$getAdmin) {
-  echo $mysqli->error;
-}
-$rowAdmin = $getAdmin->fetch_assoc();
-if ($rowAdmin["ROLE"] != "ADMIN" || !isset($_COOKIE["logcheck"])) {
+if ($db->getUserRole() != 'ADMIN' || !isset($_COOKIE["logcheck"])) {
   ?>
   <div class="content">
     <h1>Get Out</h1>
     <?php header('location: index.php');?>
   </div>
   <?php
-} else {
-  $admin = true;
 }
 
 if (isset($_POST["canclbtn"])) {
   header("location: settings.php");
 }
 
-function checkRole($userid, $role) {
-  $getRole = $mysqli->query("SELECT ROLE FROM $usertable WHERE USERID = '$userid'");
-  $row = $getRole->fetch_assoc();
-  return $row['ROLE'] == $role ? true : false;
-}
-
-function updateRole($userid, $role) {
-  $getUserID = $mysqli->query("SELECT USERID FROM $usertable WHERE USERID = $_COOKIE['uname']");
-  $row = $getUserID->fetch_assoc();
-  if ($row['USERID'] != $userid) {
-    $updateRole = $mysqli->query("UPDATE $usertable SET ROLE = '$role' WHERE USERID = '$userid'");
-    return $updateRole;
-  } else {
-    return false; // can't change your own role
-  }
-}
-
-function deleteUser($userid) {
-  $getUserID = $mysqli->query("SELECT USERID FROM $usertable WHERE USERID = $_COOKIE['uname']");
-  $row = $getUserID->fetch_assoc();
-  if ($row['USERID'] != $userid) {
-    $deleteUser = $mysqli->query("DELETE FROM $usertable WHERE USERID = $userid");
-    return $deleteUser;
-  }
-  return false; // can't delete self
-}
-
 if (isset($_POST["confbtn"])) {
   $msg = [];
-  $usernames = $mysqli->query("SELECT USERNAME FROM $usertable");
+  $usernames = $db->query("SELECT USERNAME FROM $usertable");
   while ($row = $usernames->fetch_assoc()) {
     //check every user
     foreach ($row as $uname) {
-      $getUserID = $mysqli->query("SELECT USERID FROM $usertable WHERE USERNAME = '$uname'");
+      $getUserID = $db->query("SELECT USERID FROM $usertable WHERE USERNAME = '$uname'");
       $idRow = $getUserID->fetch_assoc();
       $userid = $idRow["USERID"];
       if (isset($_POST["chkusers$userid"])) {
@@ -82,13 +42,29 @@ if (isset($_POST["confbtn"])) {
           break;
 
           case "delete":
-          deleteUser($userid);
+          if (!$db->checkSelf($userid)) {
+            if ($db->deleteUser($userid)) {
+              array_push($msg, 'Deleted user ' . $db->getUsername($userid) . '.');
+            } else {
+              array_push($msg, 'Could not delete user ' . $db->getUsername($userid) . '.');
+            }
+          } else {
+            array_push($msg, 'You can\'t delete your own account.');
+          }
           break;
         }
-        if (!checkRole($userid,$newRole)) {
-          updateRole($userid,$newRole);
-        } else {
-          array_push($msg)
+        if (isset($newRole)) {
+          if (!$db->checkRole($userid, $newRole)) {
+            if (!$db->checkSelf($userid)) {
+              if ($db->updateRole($userid, $newRole)) {
+                array_push($msg, 'Set ' . $db->getUsername($userid) . '\'s role to ' . $newRole . '.');
+              } else {
+                array_push($msg, 'Could not set ' . $db->getUsername($userid) . '\'s role to ' . $newRole . '.');
+              }
+            } else {
+              array_push($msg, 'You can\'t change your own role.');
+            }
+          }
         }
       }
     }
@@ -111,21 +87,23 @@ if (isset($_POST["confbtn"])) {
     <?php require 'require/header.php';?>
     <?php require 'require/sidebar.php';?>
     <div id='content'>
+      <h1 id="userlist-title">List of Users</h1>
+      <div id='status-sheet'>
+        <h1 id='status-title'>Status</h1>
+        <p>
+          <?php
+          if (!empty($msg)) {
+            foreach ($msg as $text) {
+              echo $text."<br>";
+            }
+          }
+          ?>
+        </p>
+      </div>
       <div id='userlist-sheet'>
-        <h1 id="userlist-title">List of Users</h1>
-      <?php
-      if (!empty($msg)) {
-        echo "Status: <br>";
-        echo "-------------<br>";
-        foreach ($msg as $text) {
-          echo $text."<br>";
-        }
-        echo "-------------<br>";
-      }
-      ?>
       <form method="POST" action="">
         <?php
-        $result= $mysqli->query("SELECT USERID, USERNAME, REGISTERED, ROLE FROM $usertable");
+        $result= $db->query("SELECT USERID, USERNAME, REGISTERED, ROLE FROM $usertable");
         $fl = true;
         if ($result) {
           while ($row = $result->fetch_assoc()) {
@@ -152,9 +130,9 @@ if (isset($_POST["confbtn"])) {
                 }
                 ?>
                 <td><input type="radio" name="chkusers<?php echo $row["USERID"]; ?>" value="delete"/></td>
-                <td><input type="radio" name="chkusers<?php echo $row["USERID"]; ?>" value="common"/></td>
-                <td><input type="radio" name="chkusers<?php echo $row["USERID"]; ?>" value="mod"/></td>
-                <td><input type="radio" name="chkusers<?php echo $row["USERID"]; ?>" value="admin"/></td>
+                <td><input type="radio" name="chkusers<?php echo $row["USERID"]; ?>" value="common" <?php echo ($db->getRole($row['USERID']) == 'COMMON') ? 'checked' : '';?>/></td>
+                <td><input type="radio" name="chkusers<?php echo $row["USERID"]; ?>" value="mod" <?php echo ($db->getRole($row['USERID']) == 'MOD') ? 'checked' : '';?>/></td>
+                <td><input type="radio" name="chkusers<?php echo $row["USERID"]; ?>" value="admin" <?php echo ($db->getRole($row['USERID']) == 'ADMIN') ? 'checked' : '';?>/></td>
               </tr>
               <?php
             }

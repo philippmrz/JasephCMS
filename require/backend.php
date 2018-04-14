@@ -206,6 +206,16 @@ RETURN;
       return @parent::query("SELECT ROLE FROM $usertable WHERE USERNAME = '$uname'")->fetch_assoc()['ROLE'];
     }
 
+    function getRole($userid) {
+      require('credentials.php');
+      return @parent::query("SELECT ROLE FROM $usertable WHERE USERID = '$userid'")->fetch_assoc()['ROLE'];
+    }
+
+    function getUsername($userid) {
+      require('credentials.php');
+      return @parent::query("SELECT USERNAME FROM $usertable WHERE USERID = '$userid'")->fetch_assoc()['USERNAME'];
+    }
+
     function deletePost() {
       require('credentials.php');
       @parent::query("DELETE FROM $posttable WHERE POSTID = $_GET[id]");
@@ -216,6 +226,30 @@ RETURN;
       require('credentials.php');
       $uname = $_COOKIE['uname'];
       return @parent::query("SELECT USERID FROM $usertable WHERE USERNAME = '$uname'")->fetch_assoc()['USERID'];
+    }
+
+    function checkRole($userid, $role) {
+      require('credentials.php');
+      $getRole = @parent::query("SELECT ROLE FROM $usertable WHERE USERID = '$userid'");
+      $row = $getRole->fetch_assoc();
+      return $row['ROLE'] == $role ? true : false;
+    }
+
+    function checkSelf($userid) {
+      require('credentials.php');
+      return ($userid == self::getUserID()) ? true : false;
+    }
+
+    function updateRole($userid, $role) {
+      require('credentials.php');
+      $updateRole = @parent::query("UPDATE $usertable SET ROLE = '$role' WHERE USERID = '$userid'");
+      return $updateRole;
+    }
+
+    function deleteUser($userid) {
+      require('credentials.php');
+      $deleteUser = @parent::query("DELETE FROM $usertable WHERE USERID = $userid");
+      return $deleteUser;
     }
 
     function login() {
