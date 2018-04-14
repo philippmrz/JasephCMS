@@ -80,6 +80,7 @@ if (isset($_POST["confbtn"])) {
   <?php require 'require/head.php';?>
   <script>applyStyle();</script>
   <link rel="stylesheet" href="style/userlist.css" id="pagestyle">
+  <script src="script/userlist.js"></script>
 </head>
 
 <body>
@@ -90,7 +91,7 @@ if (isset($_POST["confbtn"])) {
       <h1 id="userlist-title">List of Users</h1>
       <div id='status-sheet'>
         <h1 id='status-title'>Status</h1>
-        <p>
+        <div id='status-text'>
           <?php
           if (!empty($msg)) {
             foreach ($msg as $text) {
@@ -98,12 +99,12 @@ if (isset($_POST["confbtn"])) {
             }
           }
           ?>
-        </p>
+        </div>
       </div>
       <div id='userlist-sheet'>
       <form method="POST" action="">
         <?php
-        $result= $db->query("SELECT USERID, USERNAME, REGISTERED, ROLE FROM $usertable");
+        $result= $db->query("SELECT USERID AS ID, USERNAME AS NAME, REGISTERED FROM $usertable");
         $fl = true;
         if ($result) {
           while ($row = $result->fetch_assoc()) {
@@ -118,7 +119,14 @@ if (isset($_POST["confbtn"])) {
                     echo "<th>".$elem."</th>";
                   }
                   ?>
-                  <th>Delete</th><th>Common</th><th>Mod</th><th>Admin</th>
+
+                  <th class='userlist-role'>Common</th>
+                  <th class='userlist-role'>Mod</th>
+                  <th class='userlist-role'>Admin</th>
+                  <th class='userlist-role'>Delete</th>
+
+                  <th class='userlist-manage'>Manage</th>
+
                 </tr>
                 <?php
                 }
@@ -129,10 +137,21 @@ if (isset($_POST["confbtn"])) {
                   echo"<td>".$elem."</td>";
                 }
                 ?>
-                <td><input type="radio" name="chkusers<?php echo $row["USERID"]; ?>" value="delete"/></td>
-                <td><input type="radio" name="chkusers<?php echo $row["USERID"]; ?>" value="common" <?php echo ($db->getRole($row['USERID']) == 'COMMON') ? 'checked' : '';?>/></td>
-                <td><input type="radio" name="chkusers<?php echo $row["USERID"]; ?>" value="mod" <?php echo ($db->getRole($row['USERID']) == 'MOD') ? 'checked' : '';?>/></td>
-                <td><input type="radio" name="chkusers<?php echo $row["USERID"]; ?>" value="admin" <?php echo ($db->getRole($row['USERID']) == 'ADMIN') ? 'checked' : '';?>/></td>
+
+                <td class='userlist-role'><input type="radio" name="chkusers<?php echo $row["ID"]; ?>" value="common" <?php echo ($db->getRole($row['ID']) == 'COMMON') ? 'checked' : '';?>/></td>
+                <td class='userlist-role'><input type="radio" name="chkusers<?php echo $row["ID"]; ?>" value="mod" <?php echo ($db->getRole($row['ID']) == 'MOD') ? 'checked' : '';?>/></td>
+                <td class='userlist-role'><input type="radio" name="chkusers<?php echo $row["ID"]; ?>" value="admin" <?php echo ($db->getRole($row['ID']) == 'ADMIN') ? 'checked' : '';?>/></td>
+                <td class='userlist-role'><input type="radio" name="chkusers<?php echo $row["ID"]; ?>" value="delete"/></td>
+
+                <td class='userlist-manage'>
+                  <select name='chkusers<?php echo $row["ID"]; ?>'>
+                    <option value='common' <?php echo ($db->getRole($row['ID']) == 'COMMON') ? 'selected' : '';?>>Common</option>
+                    <option value='mod' <?php echo ($db->getRole($row['ID']) == 'MOD') ? 'selected' : '';?>>Mod</option>
+                    <option value='admin' <?php echo ($db->getRole($row['ID']) == 'ADMIN') ? 'selected' : '';?>>Admin</option>
+                    <option value='delete'>Delete</option>
+                  </select>
+                </td>
+
               </tr>
               <?php
             }
@@ -141,8 +160,10 @@ if (isset($_POST["confbtn"])) {
           }
           ?>
         </table>
-        <input class='secondary-btn' type="submit" name="confbtn" value="Confirm"/>
-        <input class='secondary-btn' type="submit" name="canclbtn" value="Cancel"/>
+        <div class='btn-wrapper'>
+          <input class='secondary-btn' type="submit" name="confbtn" value="Confirm"/>
+          <input class='secondary-btn' type="submit" name="canclbtn" value="Cancel"/>
+        </div>
       </form>
     </div>
   </div>

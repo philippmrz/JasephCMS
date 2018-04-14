@@ -9,7 +9,7 @@
   padding: 0 10%;
 }
 
-#status-sheet p {
+#status-sheet #status-text {
   background: #e2e2e2;
   border-radius: 4px;
   padding: 5px;
@@ -53,10 +53,15 @@ table tr:nth-child(odd) {
   background: var(--table-accent-color);
 }
 
+.userlist-manage {
+  display: none;
+}
+
 @media (max-width: 900px) {
   #content {
     grid-template-rows: 3rem auto auto;
     grid-template-columns: auto;
+    font-size: 0.8em;
   }
 
   #userlist-title {
@@ -72,7 +77,34 @@ table tr:nth-child(odd) {
 
   #status-sheet {
     grid-area: 3 / 1 / 3 / 1;
+    max-width: 100%;
+    min-height: 120px;
     padding: 0;
+  }
+
+  #status-sheet #status-text {
+    min-height: 100px;
+  }
+
+  table {
+    width: 100%;
+  }
+
+  table td, table th {
+    padding: 2px 0;
+  }
+
+  .userlist-role {
+    display: none;
+  }
+
+  .userlist-manage {
+    display: table-cell;
+  }
+
+  .btn-wrapper {
+    width: 100%;
+    text-align: center;
   }
 
 }
