@@ -5,4 +5,4 @@
 <script src="https://cdn.rawgit.com/showdownjs/showdown/master/dist/showdown.js"></script>
 <script src="script/general.js"></script>
 <title>JasephCMS</title>
-<?php require_once('backend.php'); ?>
+<?php require_once('backend.php');?>

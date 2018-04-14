@@ -1,3 +1,12 @@
+<?php
+require_once('require/backend.php');
+$db = new DatabaseConnection();
+
+if (isset($_GET['id'])) {
+  $db->addToSavedPosts($_GET['id']);
+}
+?>
+
 <!doctype html>
 <html>
 <head>
@@ -11,13 +20,7 @@
   <?php require 'require/header.php';?>
   <?php require 'require/sidebar.php'; ?>
   <div id='content'>
-    <?php
-    $db = new DatabaseConnection();
-    if (isset($_GET['id'])) {
-      $db->addToSavedPosts();
-    }
-
-    echo $db->postsAusgeben('DESC'); ?>
+    <?php echo $db->postsAusgeben('DESC'); ?>
   </div>
 </div>
 

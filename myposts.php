@@ -15,7 +15,7 @@
       $db = new DatabaseConnection();
       echo $db->postsAusgeben(isset($_GET['sort']) ? $_GET['sort'] : 'DESC');
 
-    if(isLoggedIn()): ?>
+    if($db->auth()): ?>
       <a title='Sort chronologically or reverse chronologically' class='floating-action-btn' href='index.php?sort=<?= invertSortOrder()?>'>
         <?= getSortSVG() ?>
       </a>

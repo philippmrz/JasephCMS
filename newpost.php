@@ -1,37 +1,24 @@
 <?php require_once('require/backend.php');
-if (!isLoggedIn()):
+require('require/credentials.php');
+
+$db = new DatabaseConnection();
+
+if (!$db->auth()) {
   header('Location: index');
+}
 
-elseif (isset($_POST["title"])):
-  require 'require/credentials.php';
-  $mysqli = new mysqli("$servername", "$username", "$password", "$dbname");
+if (isset($_POST["title"])) {
 
-  if ($mysqli->connect_errno) {
-    printf("Connect failed: %s\n", $mysqli->connect_error);
-    exit();
-  }
+  $userid = $db->getUserID($_COOKIE['identifier']);
 
-  $username = $_COOKIE["uname"];
-  $mysqliUserID = $mysqli->query("SELECT USERID FROM $usertable WHERE USERNAME = '$username'");
-  if (!$mysqliUserID) {
-      echo $mysqli->error;
-  }
+  $title = $db->escape_string($_POST["title"]);
+  $content = $db->escape_string($_POST["content"]);
 
-  $row_uid = $mysqliUserID->fetch_assoc();
-  $userID= $row_uid["USERID"];
-
-  $title = $mysqli->escape_string($_POST["title"]);
-  $content = $mysqli->escape_string($_POST["content"]);
-
-  $insert = $mysqli->query("INSERT INTO $posttable (USERID, TITLE, CONTENT) VALUES ('$userID', '$title', '$content')");
-  if (!$insert) {
-      echo $mysqli->error;
-  }
-
-  $mysqli->close();
+  $insert = $db->query("INSERT INTO $posttable (USERID, TITLE, CONTENT) VALUES ('$userid', '$title', '$content')");
   header("Location: index");
 
-endif; ?>
+}
+?>
 
 <!doctype html>
 <html>

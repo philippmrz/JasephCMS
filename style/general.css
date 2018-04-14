@@ -262,17 +262,12 @@ input[type='submit'] {
   font-weight: 300;
 }
 
+.sidebar-elem:hover {
+  background-color: var(--accent-color-light);
+}
+
 .sidebar-elem[status='active'] {
   box-shadow: none;
-  background-color: initial;
-}
-
-.sidebar-elem[status='active']:hover {
-  background-color: initial;
-  cursor: initial;
-}
-
-.sidebar-elem:hover {
   background-color: var(--accent-color);
 }
 

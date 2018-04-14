@@ -19,11 +19,11 @@ $msg = $db->register();
     <form id='auth' method="POST" action="">
     <p id="title">Register</p>
 
-      <input id="username" type="text" name="uname" placeholder="Username"/>
-      <input class="password" type="password" name="pword" placeholder="Password"/>
-      <input class="password" type="password" name="pwordval" placeholder="Repeat Password"/>
+      <input id="username" type="text" name="username" placeholder="Username"/>
+      <input class="password" type="password" name="password" placeholder="Password"/>
+      <input class="password" type="password" name="passwordval" placeholder="Repeat Password"/>
       <input class='primary-btn' id="authbtn" type="submit" name="regbtn" value="Register"/>
-      
+
       <?php
       if (!empty($msg)) {
         foreach ($msg as $text) {

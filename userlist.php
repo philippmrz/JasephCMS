@@ -4,14 +4,15 @@ require('require/credentials.php');
 
 $db = new DatabaseConnection();
 
+if (!$db->auth()) {
+  header('location: index.php');
+}
+
+$userid = $db->getUserID($_COOKIE['identifier']);
+
 //check for admin
-if ($db->getUserRole() != 'ADMIN' || !isset($_COOKIE["logcheck"])) {
-  ?>
-  <div class="content">
-    <h1>Get Out</h1>
-    <?php header('location: index.php');?>
-  </div>
-  <?php
+if ($db->getRole($userid) != 'ADMIN') {
+  header('location: index.php');
 }
 
 if (isset($_POST["canclbtn"])) {
@@ -168,6 +169,9 @@ if (isset($_POST["confbtn"])) {
     </div>
   </div>
 </div>
-<script>applyStyle();</script>
+<script>
+  applyStyle();
+  rezUserlist();
+</script>
 </body>
 </html>

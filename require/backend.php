@@ -1,41 +1,22 @@
 <?php
 // PHP file for all backend logic, includes a class for all things DatabaseConnection
 
-  function isLoggedIn(){
-    return (isset($_COOKIE['logcheck'])) ? true : false;
-  }
-
   function invertSortOrder() {
     return (isset($_GET['sort']) and $_GET['sort'] == 'ASC') ? "DESC" : "ASC";
   }
 
   function getSVG($svg) {
-      switch($svg) {
-        case 'sort':
-        return 'M3 18h6v-2H3v2zM3 6v2h18V6H3zm0 7h12v-2H3v2z';
-        break;
-
-        case 'home':
-        return 'M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z';
-        break;
-
-        case 'newpost':
-        return 'M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z';
-        break;
-
-        case 'saved':
-        return 'M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2z';
-        break;
-
-        case 'myposts':
-        return 'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z';
-        break;
-
-        case 'settings':
-        return 'M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.23.09.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z';
-        break;
-
-      }
+    $svg_list = [
+      'sort' => 'M3 18h6v-2H3v2zM3 6v2h18V6H3zm0 7h12v-2H3v2z',
+      'home' => 'M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z',
+      'newpost' => 'M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z',
+      'saved' => 'M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2z',
+      'myposts' => 'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z',
+      'settings' => 'M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.23.09.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z',
+      'login' => 'M7,14A2,2 0 0,1 5,12A2,2 0 0,1 7,10A2,2 0 0,1 9,12A2,2 0 0,1 7,14M12.65,10C11.83,7.67 9.61,6 7,6A6,6 0 0,0 1,12A6,6 0 0,0 7,18C9.61,18 11.83,16.33 12.65,14H17V18H21V14H23V10H12.65Z',
+      'register' => 'M15,14C12.33,14 7,15.33 7,18V20H23V18C23,15.33 17.67,14 15,14M6,10V7H4V10H1V12H4V15H6V12H9V10M15,12A4,4 0 0,0 19,8A4,4 0 0,0 15,4A4,4 0 0,0 11,8A4,4 0 0,0 15,12Z'
+    ];
+    return $svg_list[$svg];
   }
 
   function getSortSVG() {
@@ -68,7 +49,7 @@
     // constructor, this gets called every time a new instance of DatabaseConnection is created
     function __construct() {
       require('credentials.php');
-      $instance = @parent::__construct("$servername", "$username", "$password", "$dbname");
+      $instance = @parent::__construct($db_servername, $db_username, $db_password, $db_name);
 
       if ($this->connect_error) {
         die($this->connect_errno . $this->connect_error);
@@ -83,7 +64,8 @@
 
     function getVisibility() {
       require('credentials.php');
-      $getVisibility = @parent::query("SELECT VISIBILITY FROM user WHERE USERNAME = '$_COOKIE[uname]'");
+      $userid = self::getUserID($_COOKIE['identifier']);
+      $getVisibility = @parent::query("SELECT VISIBILITY FROM $usertable WHERE USERID = $userid");
       $row = $getVisibility->fetch_assoc();
       if ($row['VISIBILITY'] == 'VISIBLE') {
         return true;
@@ -94,16 +76,17 @@
 
     function getTempImgPath() {
       require('credentials.php');
-      $userID = self::getUserID();
-      $getTempImgPath = @parent::query("SELECT TEMP_PATH FROM $imgtable WHERE USERID = $userID");
+      $userID = self::getUserID($_COOKIE['identifier']);
+      $getTempImgPath = @parent::query("SELECT TEMP_PATH FROM $imgtable WHERE USERID = '$userID'");
       $row = $getTempImgPath->fetch_assoc();
       return $row['TEMP_PATH'];
     }
 
     function getImgPath($userID) {
       require('credentials.php');
-      $getImgPath = @parent::query("SELECT PATH FROM $imgtable WHERE USERID = $userID");
-      if ($row = $getImgPath->fetch_assoc()) {
+      $getImgPath = @parent::query("SELECT PATH FROM $imgtable WHERE USERID = '$userID'");
+      $row = $getImgPath->fetch_assoc();
+      if (!is_null($row['PATH'])) {
         return $row['PATH'];
       } else {
         return 'assets/default-avatar.png';
@@ -131,7 +114,7 @@
       require('credentials.php');
       $filename = $_FILES["picFile"]["name"];
       $extension = pathinfo($filename, PATHINFO_EXTENSION);
-      $userID = self::getUserID();
+      $userID = self::getUserID($_COOKIE['identifier']);
       $tempPathTarget = self::TEMP_AVATAR_DIRECTORY . '/av_' . $userID . '.' . $extension;
       $pathTarget = self::AVATAR_DIRECTORY . '/av_' . $userID . '.' . $extension;
       $checkRows = @parent::query("SELECT * FROM $imgtable WHERE USERID = '$userID'");
@@ -150,17 +133,19 @@
           if (!is_null(self::getTempImgPath()) && !$doubleImg){
             unlink(self::getTempImgPath());
           }
-          $movetoTemp = @parent::query("UPDATE $imgtable SET TEMP_PATH = '$tempPathTarget' WHERE USERID='$userID'");
+          $movetoTemp = @parent::query("UPDATE $imgtable SET TEMP_PATH = '$tempPathTarget' WHERE USERID = '$userID'");
         }
       }
     }
 
 
-    function addToSavedPosts() {
-      $userid = self::getUserID();
-//      if (@parent::query("SELECT FROM saved WHERE POSTID=$_GET[id]")->fetch_assoc()) {
-        @parent::query("INSERT INTO saved(USERID,POSTID) VALUES($userid,$_GET[id])");
-  //    }
+    function addToSavedPosts($postid) {
+      require('credentials.php');
+      $userid = self::getUserID($_COOKIE['identifier']);
+      $getSaved = @parent::query("SELECT POSTID FROM saved WHERE POSTID = '$postid' AND USERID = '$userid'");
+      if ($getSaved->num_rows == 0) {
+        @parent::query("INSERT INTO saved (USERID,POSTID) VALUES ($userid,'$postid')");
+      }
     }
 
     function postsAusgeben($order) {
@@ -169,11 +154,11 @@
       $order = ($order == 'ASC') ? 'ASC' : 'DESC';
 
       if (basename($_SERVER['PHP_SELF']) == "myposts.php") {
-        $userID = self::getUserID();
+        $userID = self::getUserID($_COOKIE['identifier']);
         $sqlQuery = "SELECT POSTID, substring(TITLE, 1, 50) AS TITLE, substring(CONTENT, 1, 200) AS CONTENT, DATE, substring(DATE, 1, 10) AS DAY, substring(DATE, 12, 5) AS TIME, U.USERID AS USERID, USERNAME, VISIBILITY from $posttable P, $usertable U WHERE P.USERID = U.USERID AND P.USERID = $userID ORDER BY DATE $order";
       } else if (basename($_SERVER['PHP_SELF']) == "saved.php") {
-        $userID = self::getUserID();
-        $sqlQuery = "SELECT P.POSTID, substring(TITLE, 1, 50) AS TITLE, substring(CONTENT, 1, 200) AS CONTENT, DATE, substring(DATE, 1, 10) AS DAY, substring(DATE, 12, 5) AS TIME, U.USERID, USERNAME from $posttable P, $usertable U, saved S WHERE P.USERID = U.USERID AND P.POSTID=S.POSTID AND S.USERID=$userID ORDER BY DATE ASC";
+        $userID = self::getUserID($_COOKIE['identifier']);
+        $sqlQuery = "SELECT P.POSTID, substring(TITLE, 1, 50) AS TITLE, substring(CONTENT, 1, 200) AS CONTENT, DATE, substring(DATE, 1, 10) AS DAY, substring(DATE, 12, 5) AS TIME, U.USERID, USERNAME, VISIBILITY from $posttable P, $usertable U, saved S WHERE P.USERID = U.USERID AND P.POSTID=S.POSTID AND S.USERID=$userID ORDER BY DATE ASC";
       } else {
         $sqlQuery = "SELECT POSTID, substring(TITLE, 1, 50) AS TITLE, CONTENT, DATE, substring(DATE, 1, 10) AS DAY, substring(DATE, 12, 5) AS TIME, U.USERID AS USERID, USERNAME, VISIBILITY from $posttable P, $usertable U WHERE U.USERID = P.USERID ORDER BY DATE $order";
       }
@@ -233,15 +218,14 @@ MYSQL;
 RETURN;
     }
 
-    function getUserRole() {
-      require('credentials.php');
-      $uname = $_COOKIE['uname'];
-      return @parent::query("SELECT ROLE FROM $usertable WHERE USERNAME = '$uname'")->fetch_assoc()['ROLE'];
-    }
-
     function getRole($userid) {
       require('credentials.php');
       return @parent::query("SELECT ROLE FROM $usertable WHERE USERID = '$userid'")->fetch_assoc()['ROLE'];
+    }
+
+    function getUserID($identifier) {
+      require('credentials.php');
+      return @parent::query("SELECT USERID FROM $usertable WHERE IDENTIFIER = '$identifier'")->fetch_assoc()['USERID'];
     }
 
     function getUsername($userid) {
@@ -255,12 +239,6 @@ RETURN;
       header('Location: index');
     }
 
-    function getUserID() {
-      require('credentials.php');
-      $uname = $_COOKIE['uname'];
-      return @parent::query("SELECT USERID FROM $usertable WHERE USERNAME = '$uname'")->fetch_assoc()['USERID'];
-    }
-
     function checkRole($userid, $role) {
       require('credentials.php');
       $getRole = @parent::query("SELECT ROLE FROM $usertable WHERE USERID = '$userid'");
@@ -270,7 +248,7 @@ RETURN;
 
     function checkSelf($userid) {
       require('credentials.php');
-      return ($userid == self::getUserID()) ? true : false;
+      return ($userid == self::getUserID($_COOKIE['identifier'])) ? true : false;
     }
 
     function updateRole($userid, $role) {
@@ -285,28 +263,70 @@ RETURN;
       return $deleteUser;
     }
 
+    function createIdentifier($userid) {
+      require('credentials.php');
+      $identifier = randomString(32);
+      $checkExist = @parent::query("SELECT IDENTIFIER FROM $usertable WHERE IDENTIFIER = '$identifier'");
+      $valid = true;
+      while ($row = $checkExist->fetch_assoc()) {
+        if ($identifier == $row['IDENTIFIER']) {
+          $valid = false;
+        }
+      }
+      if ($valid) { //identifier doesn't exist yet
+        $createIdentifier = @parent::query("UPDATE $usertable SET IDENTIFIER = '$identifier' WHERE USERID = '$userid'");
+      } else { // identifier already exists
+        self::createIdentifier();
+      }
+    }
+
+    function getIdentifier($userid) {
+      echo 'getident<br>';
+      require('credentials.php');
+      $getIdentifier = @parent::query("SELECT IDENTIFIER FROM $usertable WHERE USERID = '$userid'");
+      $row = $getIdentifier->fetch_assoc();
+      if ($row['IDENTIFIER']) {
+        echo $row['IDENTIFIER'] . '<br>';
+        return $row['IDENTIFIER'];
+      } else { // user doesn't have identifier yet
+        echo 'creating new ident<br>';
+        self::createIdentifier($userid);
+        self::getIdentifier($userid);
+      }
+    }
+
+    function auth() {
+      require('credentials.php');
+      if (isset($_COOKIE['identifier']) and isset($_COOKIE['hashed_password'])) {
+        $identifier = $_COOKIE['identifier'];
+        $hashed_password = $_COOKIE['hashed_password'];
+        $verify = @parent::query("SELECT IDENTIFIER FROM $usertable WHERE IDENTIFIER = '$identifier' AND PASSWORD = '$hashed_password'");
+        if ($verify->num_rows > 0) {
+          return true;
+        }
+      }
+      foreach ($_COOKIE as $key => $val) {
+        if ($key != 'theme') {
+          setcookie($key, '', 1);
+        }
+      }
+      return false;
+    }
+
     function login() {
       require('credentials.php');
       $msg = [];
       if (isset($_POST["logbtn"])) {
-        $uname = $_POST["uname"];
-        $pword = $_POST["pword"];
+        $uname = $_POST['uname'];
+        $pword = $_POST['password'];
         if (!empty($uname) && !empty($pword)) {
-          if ($r = @parent::query("SELECT PASSWORD,USERNAME FROM $usertable WHERE USERNAME='$uname'")) {
-            $row = $r->fetch_assoc();
-            $dbP = $row["PASSWORD"];
-            if (password_verify($pword, $dbP)) {
+          if ($getInfo = @parent::query("SELECT PASSWORD, USERID FROM $usertable WHERE USERNAME='$uname'")) {
+            $row = $getInfo->fetch_assoc();
+            $dbPword = $row['PASSWORD'];
+            if (password_verify($pword, $dbPword)) {
               //pass
-              if (isset($_POST["stay_li"])) { //when checking "RM"
-                $identifier = randomString(32);
-                $token = randomString(32);
-                $hashToken = hash("sha256", $token);
-                $r = @parent::query("UPDATE $usertable SET IDENTIFIER = '$identifier', TOKEN = '$hashToken' WHERE USERNAME = '$uname'");
-                setcookie("identifier","$identifier",time() + 86400 * 365);
-                setcookie("token","$token",time() + 86400 * 365);
-              }
-              setcookie("logcheck","true");
-              setcookie("uname","$uname");
+              setcookie('identifier', self::getIdentifier($row['USERID']));
+              setcookie('hashed_password', $dbPword);
               header("Location: index");
               exit;
             } else {
@@ -314,6 +334,7 @@ RETURN;
               array_push($msg, "Invalid password or username");
             }
           } else {
+            //query error
             array_push($msg, "Query error");
           }
         } else {
@@ -327,11 +348,9 @@ RETURN;
       require('credentials.php');
       $msg = [];
       if (isset($_POST["regbtn"])) {
-        unset($_COOKIE["identifier"]);
-        unset($_COOKIE["token"]);
-        $uname = $_POST["uname"];
-        $pword = $_POST["pword"];
-        $pwordval = $_POST["pwordval"];
+        $uname = $_POST["username"];
+        $pword = $_POST["password"];
+        $pwordval = $_POST["passwordval"];
         $valid = true;
 
         if (strlen($pword) < 6) {
@@ -358,10 +377,12 @@ RETURN;
         }
 
         if ($valid) {
-          $pword = password_hash($pword, PASSWORD_DEFAULT);
-          if ($r = @parent::query("INSERT INTO $usertable (USERNAME,PASSWORD) VALUES ('$uname','$pword')")) {
-            setcookie("logcheck","true");
-            setcookie("uname", $uname);
+          $hashed_password = password_hash($pword, PASSWORD_DEFAULT);
+          if ($r = @parent::query("INSERT INTO $usertable (USERNAME,PASSWORD) VALUES ('$uname','$hashed_password')")) {
+            $userid = @parent::query("SELECT USERID FROM $usertable WHERE USERNAME = '$uname'")->fetch_assoc()['USERID'];
+            self::createIdentifier($userid);
+            setcookie('identifier', self::getIdentifier($userid));
+            setcookie('hashed_password', $hashed_password);
             header('Location: index');
             exit;
           } else {

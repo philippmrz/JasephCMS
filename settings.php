@@ -1,27 +1,19 @@
 <?php
   require_once('require/backend.php');
 
-  if (!isLoggedIn()):
+  $db = new DatabaseConnection();
+
+  if (!$db->auth()):
   header("Location: index");
   endif;
   require 'require/credentials.php';
 
-  $mysqli = new mysqli($servername, $username, $password, $dbname);
-
-  if ($mysqli->connect_error) {
-    die("Connecting to MySQL or database failed:<b><i> " . $mysqli->connect_error . "</b></i>");
-  }
-
-  $uname = $_COOKIE["uname"];
-
   $db = new DatabaseConnection();
 
-  $userID = $db->getUserID();
+  $userid = $db->getUserID($_COOKIE['identifier']);
 
   //get admin
-  $getAdmin = $mysqli->query("SELECT ROLE FROM $usertable WHERE USERNAME = '$uname'");
-  $rowAdmin = $getAdmin->fetch_assoc();
-  $admin = $rowAdmin["ROLE"] == "ADMIN" ? true : false;
+  $admin = $db->getRole($userid);
 
   $visibility = $db->getVisibility();
 
@@ -37,28 +29,28 @@
   if (!is_null($db->getTempImgPath())) {
     $tempimg = $db->getTempImgPath();
   } else {
-    $tempimg = $db->getImgPath($userID);
+    $tempimg = $db->getImgPath($userid);
   }
 
   $displayimg = $tempimg;;
 
   if(isset($_POST["remove"])){
     $tempPath = $db->getTempImgPath();
-    $path = $db->getImgPath($db->getUserID());
+    $path = $db->getImgPath($db->getUserID($_COOKIE['identifier']));
     if(!is_null($tempPath)){
       unlink($tempPath);
-      $deletetempPath = $mysqli->query("UPDATE $imgtable SET TEMP_PATH = null WHERE USERID='$userID'");
+      $deletetempPath = $db->query("UPDATE $imgtable SET TEMP_PATH = null WHERE USERID='$userid'");
     }
     if($path != "assets/default-avatar.png"){
       unlink($path);
-      $deletePath = $mysqli->query("UPDATE $imgtable SET PATH = 'assets/default-avatar.png' WHERE USERID='$userID'");
+      $deletePath = $db->query("UPDATE $imgtable SET PATH = 'assets/default-avatar.png' WHERE USERID='$userid'");
     }
   }
 
   if (isset($_POST["cancelbtn"])) {
     if (!is_null($db->getTempImgPath())) {
       unlink($db->getTempImgPath());
-      $deletetempPath = $mysqli->query("UPDATE $imgtable SET TEMP_PATH = null WHERE USERID='$userID'");
+      $deletetempPath = $db->query("UPDATE $imgtable SET TEMP_PATH = null WHERE USERID='$userid'");
     }
     header("location: index");
   }
@@ -67,44 +59,40 @@
     $msg = [];
     if (isset($_POST["newUname"])) {
       $newUname = $_POST["newUname"];
-      if ($newUname != $uname) {
-        $checkExist = $mysqli->query("SELECT USERNAME FROM $usertable WHERE UPPER(USERNAME) = UPPER('$newUname')");
+      if ($newUname != $db->getUsername($userid)) {
+        $checkExist = $db->query("SELECT USERNAME FROM $usertable WHERE UPPER(USERNAME) = UPPER('$newUname')");
         if($checkExist){
           if ($checkExist->num_rows > 0) {
             array_push($msg, "Username already exists");
           }
         }
         if(empty($msg)){
-          $result = $mysqli->query("UPDATE $usertable SET USERNAME = '$newUname' WHERE USERNAME = '$uname'");
-          if ($result) {
-            $uname = $newUname;
-            setcookie("uname", $uname);
-          }
+          $result = $db->query("UPDATE $usertable SET USERNAME = '$newUname' WHERE USERID = $userid");
         }
       }
     }
 
     if (isset($_POST["visibility"])) {
       $visibility = true;
-      $updateVis = $mysqli->query("UPDATE $usertable SET VISIBILITY = 'VISIBLE' WHERE USERID = '$userID'");
+      $updateVis = $db->query("UPDATE $usertable SET VISIBILITY = 'VISIBLE' WHERE USERID = '$userid'");
     } else {
       $visibility = false;
-      $updateVis = $mysqli->query("UPDATE $usertable SET VISIBILITY = 'INVISIBLE' WHERE USERID = '$userID'");
+      $updateVis = $db->query("UPDATE $usertable SET VISIBILITY = 'INVISIBLE' WHERE USERID = '$userid'");
     }
 
     if ($tempimg != "assets/default-avatar.png") {
       $tempPath = $db->getTempImgPath();
-      $path = $db->getImgPath($db->getUserID());
+      $path = $db->getImgPath($db->getUserID($_COOKIE['identifier']));
       $newpath = DatabaseConnection::AVATAR_DIRECTORY . '/' . substr($tempPath, strlen(DatabaseConnection::TEMP_AVATAR_DIRECTORY));
       if (!is_null($tempPath)) {
         if (is_null($path)) {
-          $savePath = $mysqli->query("UPDATE images SET PATH = '$newpath', TEMP_PATH = null WHERE USERID = '$userID'");
+          $savePath = $db->query("UPDATE images SET PATH = '$newpath', TEMP_PATH = null WHERE USERID = '$userid'");
         } else {
           if ($path != "assets/default-avatar.png") {
             unlink($path);
-            $savePath = $mysqli->query("UPDATE images SET PATH = '$newpath', TEMP_PATH = null WHERE USERID = '$userID'");
+            $savePath = $db->query("UPDATE images SET PATH = '$newpath', TEMP_PATH = null WHERE USERID = '$userid'");
           } else {
-            $savePath = $mysqli->query("UPDATE images SET PATH = '$newpath', TEMP_PATH = null WHERE USERID = '$userID'");
+            $savePath = $db->query("UPDATE images SET PATH = '$newpath', TEMP_PATH = null WHERE USERID = '$userid'");
           }
         }
         rename($tempPath, $newpath);
@@ -115,7 +103,6 @@
     header('location: index');
   }
 
-$mysqli->close();
 $db->close();
 ?>
 
@@ -142,7 +129,7 @@ $db->close();
         <hr>
         <h1 id='settings-title2'>ACCOUNT</h1>
         <p>Username</p>
-        <input id="settings-username" type="text" name="newUname" <?php echo "value=\"" . $uname . "\""; ?>/>
+        <input id="settings-username" type="text" name="newUname" <?php echo "value=\"" . $db->getUsername($userid) . "\""; ?>/>
         <p>Avatar</p>
         <input type="hidden" value="1000000" name="FILE_SIZE_MAX">
         <input type="file" name="picFile" accept=".jpg, .jpeg, .png, .gif"><br>

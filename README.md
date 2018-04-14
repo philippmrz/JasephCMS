@@ -11,17 +11,17 @@ This CMS is still in an early stage and does not include **any** security measur
 
 ```
 <?php
-$servername = 'db';
-$username   = <db user name>;
-$password   = <db user password>;
-$dbname     = 'jaseph';
+$db_servername = 'db';
+$db_username   = <db user name>;
+$db_password   = <db user password>;
+$db_name     = 'jaseph';
 $usertable  = 'user';
 $posttable  = 'post';
 $imgtable   = 'images';
 ?>
 ```
-* Fill in your `$username` and `$password`.
-* `$servername` must be `db`
+* Fill in your `$db_username` and `$db_password`.
+* `$db_servername` must be `db`
 * Visit `localhost` with port `8000`
 
 
@@ -33,14 +33,14 @@ $imgtable   = 'images';
 
 ```
 <?php
-$servername = '<db server address>';
-$username   = <db user name>;
-$password   = <db user password>;
-$dbname     = 'jaseph';
+$db_servername = '<db server address>';
+$db_username   = <db user name>;
+$db_password   = <db user password>;
+$db_name     = 'jaseph';
 $usertable  = 'user';
 $posttable  = 'post';
 $imgtable   = 'images';
 ?>
 ```
-* Fill in your `$servername`, `$username` and `$password`.
+* Fill in your `$db_servername`, `$db_username` and `$db_password`.
 * Visit your web server's address.

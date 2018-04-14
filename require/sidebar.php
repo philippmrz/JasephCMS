@@ -1,4 +1,7 @@
-<?php  if (isLoggedIn()):?>
+<?php
+$db = new DatabaseConnection();
+if ($db->auth()):
+?>
 <div id='sidebar'>
   <a class='sidebar-elem' href='index' id='front-page'
     <?= (strpos($_SERVER['REQUEST_URI'], "/") || strpos($_SERVER['REQUEST_URI'], "/index")) ? "status='active'" : ""?>>
@@ -24,13 +27,12 @@
 <?php endif; ?>
 
 <!-- Mobile only-->
-<?php require_once('backend.php');?>
 <div id='navbar'>
   <a class='navbar-elem' href='index'
     <?= (strpos($_SERVER['REQUEST_URI'], "/") || strpos($_SERVER['REQUEST_URI'], "/index")) ? "status='active'" : ""?>>
     <svg class='svg-24' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d='<?php echo getSVG('home');?>'/></svg>
   </a>
-  <?php if (isLoggedIn()):?>
+  <?php if ($db->auth()):?>
     <a class='navbar-elem' href='saved'
       <?= (strpos($_SERVER['REQUEST_URI'], "/saved")) ? "status='active'" : ""?>>
       <svg class='svg-24' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d='<?php echo getSVG('saved');?>'/></svg>
@@ -46,6 +48,15 @@
     <a class='navbar-elem' href='newpost'
       <?= (strpos($_SERVER['REQUEST_URI'], "/newpost")) ? "status='active'" : ""?>>
       <svg class='svg-24' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d='<?php echo getSVG('newpost');?>'/></svg>
+    </a>
+  <?php else:?>
+    <a class='navbar-elem' href='login'
+      <?= (strpos($_SERVER['REQUEST_URI'], "/login")) ? "status='active'" : ""?>>
+      <svg class='svg-24' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d='<?php echo getSVG('login');?>'/></svg>
+    </a>
+    <a class='navbar-elem' href='register'
+      <?= (strpos($_SERVER['REQUEST_URI'], "/register")) ? "status='active'" : ""?>>
+      <svg class='svg-24' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d='<?php echo getSVG('register');?>'/></svg>
     </a>
   <?php endif;?>
 </div>

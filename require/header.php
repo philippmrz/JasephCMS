@@ -1,7 +1,11 @@
+<?php
+$db = new DatabaseConnection();
+?>
+
 <div id='header'>
   <a id='logo-wrapper' href='index' title='Go to main page'><img id='head-logo'></a>
   <div id='btn-holder'>
-    <?php if(!isLoggedIn()):?>
+    <?php if(!$db->auth()):?>
     <a href='login'>
       <button id='login' class='secondary-btn'>login</button>
     </a>
@@ -12,7 +16,7 @@
     <?php else:?>
     <?php
     $db = new DatabaseConnection();
-    $img = $db->getImgPath($db->getUserID());
+    $img = $db->getImgPath($db->getUserID($_COOKIE['identifier']));
     echo "<a href=settings.php><img id='profile' src='$img'></a>";
     ?>
     <a href='#'>

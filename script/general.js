@@ -58,10 +58,8 @@ function deleteAllCookies() {
 }
 
 function logout() {
-    deleteCookie("logcheck");
-    deleteCookie("uname");
     deleteCookie("identifier");
-    deleteCookie("token");
+    deleteCookie("hashed_password");
     location = location;
 }
 

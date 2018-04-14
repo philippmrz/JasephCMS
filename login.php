@@ -21,20 +21,14 @@ $msg = $db->login();
 
       <p id="title">Login</p>
 
-      <?php
-      if (isset($uname) && !empty($uname)) {
-        echo '<input id="username" type="text" name="uname" placeholder="Username" value="' . $uname . '"/><br>';
-      } else {
-        echo '<input id="username" type="text" name="uname" placeholder="Username"/><br>';
-      }
-      ?>
-      <input class="password" type="password" name="pword" placeholder="Password"/><br>
+      <input id="username" type="text" name="uname" placeholder="Username" <?= (isset($uname) and !empty($uname)) ? 'value=' . $uname : ''?> autofocus/><br>
+      <input class="password" type="password" name="password" placeholder="Password"/><br>
 
       <input class='primary-btn' id="authbtn" type="submit" name="logbtn" value="Sign In"/><br>
 
       <div id='remember-me'>
         <p>Remember me</p>
-        <input type="checkbox" name="stay_li"/><br>
+        <input type="checkbox" name="remember_me"/><br>
       </div>
 
       <?php
