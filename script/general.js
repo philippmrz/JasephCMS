@@ -104,7 +104,7 @@ function setHackerMode() {
     document.documentElement.style.setProperty('--accent-color-dark', '#009900');
     var x = document.querySelector('#mask');
     if (x) {
-      x.setAttribute('src', 'assets/mask_white.png');
+        x.setAttribute('src', 'assets/mask_white.png');
     }
 }
 
@@ -119,7 +119,7 @@ function setNormalMode() {
     document.documentElement.style.setProperty('--accent-color-dark', '#c2590f');
     var x = document.querySelector('#mask');
     if (x) {
-      x.setAttribute('src', 'assets/mask.png');
+        x.setAttribute('src', 'assets/mask.png');
     }
 }
 
@@ -185,6 +185,6 @@ function runMD(source, target) {
 }
 
 window.onload = function() {
-  rez();
-  updateMD();
-}
+    rez();
+    updateMD();
+};
