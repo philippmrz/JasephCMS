@@ -1,6 +1,6 @@
 #settings-sheet {
   width: 60%;
-  margin: auto;
+  margin: 0 auto 50px auto;
 }
 
 #settings-title {
@@ -27,6 +27,11 @@
   border: 1px solid #e2e2e2;
   border-radius: 4px;
   margin: 1vh 5%;
+}
+
+hr {
+  margin-top: 15px;
+  margin-bottom: 15px;
 }
 
 /* Mobile */

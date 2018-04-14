@@ -139,6 +139,7 @@ $db->close();
           <input class="secondary-btn" type="submit" name="cancelbtn" value="Cancel"/>
           <input class="secondary-btn" type="submit" name="savebtn" value="Save Changes"/>
         </div>
+        <hr>
         <h1 id='settings-title2'>ACCOUNT</h1>
         <p>Username</p>
         <input id="settings-username" type="text" name="newUname" <?php echo "value=\"" . $uname . "\""; ?>/>
@@ -149,7 +150,7 @@ $db->close();
         <input class='secondary-btn' type="submit" name="remove" value="Remove"><br>
 
         <img id='settings-avatar' src=<?php echo "'$displayimg'";?> height="128" width="128"/>
-
+        <hr>
         <h1 id='settings-title2'>PROFILE VISIBILITY</h1>
         <div id='settings-visibility'>
           <?php
@@ -163,7 +164,7 @@ $db->close();
         </div>
         <?php
         if ($admin): ?>
-
+        <hr>
         <h1 id='settings-title2'>ADMINISTRATION</h1>
         <a href='userlist'>List of Users</a>
 
@@ -177,6 +178,7 @@ $db->close();
           }
           ?>
         </p>
+        <hr>
         <div class='btn-wrapper'>
           <input class="secondary-btn" type="submit" name="cancelbtn" value="Cancel"/>
           <input class="secondary-btn" type="submit" name="savebtn" value="Save Changes"/>
