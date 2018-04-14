@@ -1,5 +1,5 @@
 <div id='header'>
-  <a id='logo-wrapper' href='index' title='Go to main page'><img id='head-logo' src='assets/jaseph_normal.png'></a>
+  <a id='logo-wrapper' href='index' title='Go to main page'><img id='head-logo'></a>
   <div id='btn-holder'>
     <?php if(!isLoggedIn()):?>
     <a href='login'>
