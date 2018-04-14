@@ -127,39 +127,26 @@ function rez() {
     var x = document.querySelector('#head-logo');
     if (x) {
         if (window.innerWidth <= 900) {
+            var y = document.getElementById('navbar');
+            if (y) {
+              y.style.gridTemplateColumns = 'repeat(' + y.childElementCount + ', 1fr)';
+            }
             if (getCookie('theme') == 'hacker') {
                 x.setAttribute('src', 'assets/icon_hacker.png');
             } else {
-              x.setAttribute('src', 'assets/icon.png');
+                x.setAttribute('src', 'assets/icon.png');
             }
-            document.getElementById('logo-wrapper').removeAttribute('href');
-            document.getElementById('logo-wrapper').setAttribute('onclick', 'navigation();');
         } else {
             if (getCookie('theme') == 'hacker') {
                 x.setAttribute('src', 'assets/jaseph_hacker.png');
             } else {
                 x.setAttribute('src', 'assets/jaseph_normal.png');
             }
-            document.getElementById('logo-wrapper').setAttribute('href', 'index');
-            document.getElementById('logo-wrapper').removeAttribute('onclick');
         }
     }
 }
 
 window.addEventListener('resize', rez);
-
-var nav = false;
-
-function navigation() {
-    var x = document.querySelector('#navbar');
-    if (nav) {
-        x.style.transform = 'translateY(-5vh)';
-        nav = false;
-    } else {
-        x.style.transform = 'translateY(10vh)';
-        nav = true;
-    }
-}
 
 //MARKDOWN formatting using Showdown
 showdown.setOption('strikethrough', true);
