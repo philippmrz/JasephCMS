@@ -313,6 +313,18 @@ RETURN;
       return false;
     }
 
+    function pwordRequirements($pword){
+      $msg = [];
+      if (strlen($pword) < 6) {
+      array_push($msg, "Password must be at minimum length of 6 letters");
+      } else {
+        if (ctype_upper($pword) || ctype_lower($pword)) {
+          array_push($msg, "Password must contain at least one lowercase and one uppercase character");
+        }
+      }
+      return $msg;
+    }
+
     function login() {
       require('credentials.php');
       $msg = [];
@@ -351,32 +363,22 @@ RETURN;
         $uname = $_POST["username"];
         $pword = $_POST["password"];
         $pwordval = $_POST["passwordval"];
-        $valid = true;
 
-        if (strlen($pword) < 6) {
-        array_push($msg, "Password must be at minimum length of 6 letters");
-          $valid = false;
-        } else {
-          if (ctype_upper($pword) || ctype_lower($pword)) {
-            array_push($msg, "Password must contain at least one lowercase and one uppercase character");
-            $valid = false;
-          }
-        }
+        $msg = self::pwordRequirements($pword);
 
         $r = @parent::query("SELECT USERNAME FROM $usertable WHERE UPPER(USERNAME) = UPPER('$uname')");
         if($r){
           if ($r->num_rows > 0) {
             array_push($msg, "Username already exists");
-            $valid = false;
           }
         }
 
         if ($pword != $pwordval) {
           array_push($msg, "Passwords must match");
-          $valid = false;
         }
 
-        if ($valid) {
+        //no error|valid = true
+        if (empty($msg)) {
           $hashed_password = password_hash($pword, PASSWORD_DEFAULT);
           if ($r = @parent::query("INSERT INTO $usertable (USERNAME,PASSWORD) VALUES ('$uname','$hashed_password')")) {
             $userid = @parent::query("SELECT USERID FROM $usertable WHERE USERNAME = '$uname'")->fetch_assoc()['USERID'];
