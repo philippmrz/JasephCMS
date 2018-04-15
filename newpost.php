@@ -116,21 +116,21 @@ if (isset($_POST["submit-draft"])) {
         <span id="preview" class="md"><p></p></span>
       </div>
 
-      <div id="newpost-expand" class="floating-action-btn" onclick='toggleExpand();'>
+      <div id="newpost-expand" class="floating-action-btn" onclick='toggleExpand();' title='Expand this menu'>
         <svg class='svg-24' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d='<?= getSVG('expand-vertical');?>'/></svg>
       </div>
 
       <div id='expand-wrapper'>
 
-        <div id="newpost-expand-drafts" class="floating-action-btn">
+        <div id="newpost-expand-drafts" class="floating-action-btn" title='Access your drafts'>
           <a href='drafts'><svg class='svg-24' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d='<?= getSVG('drafts');?>'/></svg></a>
         </div>
 
-        <button type="submit" id="newpost-expand-newdraft" class="floating-action-btn" name="submit-draft">
+        <button type="submit" id="newpost-expand-newdraft" class="floating-action-btn" name="submit-draft" title='Save as draft'>
           <svg class='svg-24' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d='<?= getSVG('savedraft');?>'/></svg>
         </button>
 
-        <button type="submit" id="newpost-expand-submit" class="floating-action-btn" name="submit-post">
+        <button type="submit" id="newpost-expand-submit" class="floating-action-btn" name="submit-post" title='Submit your post'>
           <svg class='svg-24' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d='<?= getSVG('confirm');?>'/></svg>
         </button>
 

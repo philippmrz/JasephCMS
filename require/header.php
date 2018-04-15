@@ -17,8 +17,8 @@ $db = new DatabaseConnection();
     <?php
     $db = new DatabaseConnection();
     $img = $db->getImgPath($db->getUserID($_COOKIE['identifier']));
-    echo "<a href=settings.php><img id='profile' src='$img'></a>";
     ?>
+    <a href=settings.php><img id='profile' src='<?=$img?>' title='Your settings'></a>
     <a href='#'>
       <button id='logout' class='secondary-btn' onclick='logout()'>log out</button>
     </a>

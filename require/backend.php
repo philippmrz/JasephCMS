@@ -168,7 +168,7 @@
 
       $order = ($order == 'ASC') ? 'ASC' : 'DESC';
 
-      if (basename($_SERVER['PHP_SELF']) == "myposts.php") {
+      if (basename($_SERVER['PHP_SELF']) == "myposts.php" or basename($_SERVER['PHP_SELF']) == "profile.php") {
         $userID = self::getUserID($_COOKIE['identifier']);
         $sqlQuery = "SELECT POSTID, substring(TITLE, 1, 50) AS TITLE, substring(CONTENT, 1, 200) AS CONTENT, DATE, substring(DATE, 1, 10) AS DAY, substring(DATE, 12, 5) AS TIME, U.USERID AS USERID, USERNAME, VISIBILITY from $posttable P, $usertable U WHERE P.USERID = U.USERID AND P.USERID = $userID ORDER BY DATE $order";
       } else if (basename($_SERVER['PHP_SELF']) == "saved.php") {

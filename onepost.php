@@ -38,14 +38,14 @@ if (isset($_GET['del'])) {
     <?php
     if ($db->auth()) {
       ?>
-      <a class='floating-action-btn' id='' href='saved.php?id=<?= $_GET['id']?>'>
+      <a class='floating-action-btn' id='' href='saved.php?id=<?= $_GET['id']?>' title='Add this post to your saved posts'>
         <svg class='svg-24' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d='<?= getSVG('save');?>'/></svg>
       </a>
       <?php
 
       if ($db->getRole($userid) == 'ADMIN'){
         ?>
-        <a id='delete-post' class='floating-action-btn' href='onepost.php?del=1&id=<?=$_GET['id']?>'>
+        <a id='delete-post' class='floating-action-btn' href='onepost.php?del=1&id=<?=$_GET['id']?>' title='Delete this post'>
           <svg class='svg-24' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d='<?= getSVG('delete');?>'/></svg>
         </a>
         <?php
