@@ -96,10 +96,6 @@ if (isset($_POST["submit-draft"])) {
       </div>
     </div>
 
-    <div class='floating-action-btn' style='left: 5vh;'>
-      <a href='#popup1'>Open</a>
-    </div>
-
     <form id='newpost' action="" method="POST">
 
       <div id='post-sheet'>
