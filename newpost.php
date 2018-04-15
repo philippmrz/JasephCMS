@@ -61,10 +61,6 @@ if (isset($_POST["submit-draft"])) {
         <span id="preview" class="md"><p></p></span>
       </div>
 
-      <button type="submit" id="btnpost" class="floating-action-btn" name="submit-post" >
-        <svg class='svg-24' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d='<?= getSVG('confirm');?>'/></svg>
-      </button>
-
       <div id="newpost-expand" class="floating-action-btn" onclick='toggleExpand();'>
         <svg class='svg-24' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d='<?= getSVG('expand-vertical');?>'/></svg>
       </div>
@@ -90,6 +86,7 @@ if (isset($_POST["submit-draft"])) {
 
 <script>
   applyStyle();
+  addCtrlEnterListener();
   rezNewpost();
   updateMD();
 </script>

@@ -5,22 +5,28 @@
  *
  */
 
+function addClass(elem, classname) {
+    if (!elem.classList.contains(classname)) {
+        elem.classList.add(classname);
+    }
+}
+
 function rezNewpost() {
-    var submit = document.getElementById('btnpost');
     var expand = document.getElementById('newpost-expand');
     var expand_submit = document.getElementById('newpost-expand-submit');
     var expand_newdraft = document.getElementById('newpost-expand-newdraft');
     var expand_drafts = document.getElementById('newpost-expand-drafts');
     if (window.innerWidth <= 900) {
-        submit.style.visibility = 'hidden';
         expand.style.visibility = 'visible';
         applyExpand();
     } else {
-        submit.style.visibility = 'visible';
         expand.style.visibility = 'hidden';
-        expand_submit.style.visibility = 'hidden';
-        expand_newdraft.style.visibility = 'hidden';
-        expand_drafts.style.visibility = 'hidden';
+        expand_submit.style.visibility = 'visible';
+        expand_newdraft.style.visibility = 'visible';
+        expand_drafts.style.visibility = 'visible';
+        addClass(expand_submit,'expanded');
+        addClass(expand_newdraft,'expanded');
+        addClass(expand_drafts,'expanded');
     }
 }
 
@@ -34,9 +40,9 @@ function applyExpand() {
         expand_submit.style.visibility = 'visible';
         expand_newdraft.style.visibility = 'visible';
         expand_drafts.style.visibility = 'visible';
-        expand_submit.classList.add('expanded');
-        expand_newdraft.classList.add('expanded');
-        expand_drafts.classList.add('expanded');
+        addClass(expand_submit,'expanded');
+        addClass(expand_newdraft,'expanded');
+        addClass(expand_drafts,'expanded');
 
     } else {
         expand_submit.classList.remove('expanded');
@@ -77,13 +83,17 @@ function refreshContentArea() {
     target.innerHTML = output;
 }
 
+function addCtrlEnterListener() {
+    document.getElementById("contentArea").addEventListener("keyup", function(e) {
+        if(e.ctrlKey && e.keyCode == 13) {
+            document.getElementById('newpost-expand-submit').click();
+        }
+    });
+}
+
 window.addEventListener('resize', rezNewpost);
 
 window.onload = function() {
-    document.getElementById("contentArea").addEventListener("keyup", function(e) {
-        if(e.ctrlKey && e.keyCode == 13) {
-            document.getElementById("newpost").submit();
-        }
-    });
+    addCtrlEnterListener();
     rezNewpost();
 }
