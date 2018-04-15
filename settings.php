@@ -47,6 +47,30 @@
     }
   }
 
+  if(isset($_POST['oldPword']) && isset($_POST['newPword']) && isset($_POST['pChangeCommit'])){
+    $pwordmsg = [];
+    $oldPword = $_POST['oldPword'];
+    $newPword = $_POST['newPword'];
+    if ($getInfo = $db->query("SELECT PASSWORD, USERID FROM $usertable WHERE USERID='$userid'")) {
+      $row = $getInfo->fetch_assoc();
+      $dbPword = $row['PASSWORD'];
+      if (!password_verify($oldPword, $dbPword)) {
+          array_push($pwordmsg,"Old Password is incorrect");
+        }
+        else if(!empty($db->pwordRequirements($newPword))){//invalid pword
+          $pwordmsg = $db->pwordRequirements($newPword);
+        }
+        else{
+          $hashed_password = password_hash($newPword, PASSWORD_DEFAULT);
+          if ($r = $db->query("UPDATE $usertable SET PASSWORD = '$hashed_password' WHERE USERID ='$userid'")) {
+            setcookie('hashed_password', $hashed_password);
+            array_push($pwordmsg,"Successfully changed password");
+          }
+        }
+      }
+    }
+
+
   if (isset($_POST["cancelbtn"])) {
     if (!is_null($db->getTempImgPath())) {
       unlink($db->getTempImgPath());
@@ -130,6 +154,19 @@ $db->close();
         <h1 id='settings-title2'>ACCOUNT</h1>
         <p>Username</p>
         <input id="settings-username" type="text" name="newUname" <?php echo "value=\"" . $db->getUsername($userid) . "\""; ?>/>
+        <p>Change Password</p>
+        <input class="password" type="password" name="oldPword" placeholder="Old Password"/><br>
+        <input class="password" type="password" name="newPword" placeholder="New Password"/><br>
+        <input class='secondary-btn' type="submit" name="pChangeCommit" value="Commit"><br>
+        <p>
+          <?php
+          if (!empty($pwordmsg)) {
+            foreach ($pwordmsg as $text) {
+              echo "<font size=\"2px\" color=\"red\"><i>" . $text . "</font></i><br>";
+            }
+          }
+          ?>
+        </p>
         <p>Avatar</p>
         <input type="hidden" value="1000000" name="FILE_SIZE_MAX">
         <input type="file" name="picFile" accept=".jpg, .jpeg, .png, .gif"><br>
