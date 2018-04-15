@@ -16,13 +16,14 @@
 }
 
 #jumbotron * {
-  color: #000;
+  color: var(--color);
 }
 
 #jumbotron-btn {
   border: none;
   box-shadow: var(--accent-color-dark) 0px 3px 0px 0px,
   #00000041 0px 3px 6px;
+  color: var(--bg-color);
 }
 
 #jumbotron-btn:hover {
