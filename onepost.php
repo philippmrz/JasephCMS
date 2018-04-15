@@ -20,7 +20,8 @@ if (isset($_GET['del'])) {
 <html>
 <head>
   <?php require 'require/head.php';?>
-  <link rel="stylesheet" href="style/onepost.css" id="pagestyle">
+  <script>applyStyle();</script>
+  <link rel="stylesheet" href="style/onepost.css">
 </head>
 <body>
 

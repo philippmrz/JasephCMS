@@ -7,7 +7,7 @@ $msg = $db->register();
 <html>
 <head>
   <?php require 'require/head.php';?>
-  <link rel="stylesheet" href="style/login.css" id="pagestyle">
+  <link rel="stylesheet" href="style/login.css">
 </head>
 <body>
 

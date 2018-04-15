@@ -80,7 +80,7 @@ if (isset($_POST["confbtn"])) {
 <head>
   <?php require 'require/head.php';?>
   <script>applyStyle();</script>
-  <link rel="stylesheet" href="style/userlist.css" id="pagestyle">
+  <link rel="stylesheet" href="style/userlist.css">
   <script src="script/userlist.js"></script>
 </head>
 

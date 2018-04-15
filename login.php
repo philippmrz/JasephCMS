@@ -8,7 +8,7 @@ $msg = $db->login();
 <head>
   <?php require 'require/head.php';?>
   <script>applyStyle();</script>
-  <link rel="stylesheet" href="style/login.css" id="pagestyle">
+  <link rel="stylesheet" href="style/login.css">
 </head>
 <body>
 

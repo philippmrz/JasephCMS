@@ -31,7 +31,8 @@ if (isset($_POST["submit-draft"])) {
 <html>
 <head>
   <?php require 'require/head.php';?>
-  <link rel="stylesheet" href="style/newpost.css" id="pagestyle">
+  <script>applyStyle();</script>
+  <link rel="stylesheet" href="style/newpost.css">
   <script src="script/newpost.js"></script>
 </head>
 <body>

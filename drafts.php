@@ -12,7 +12,7 @@ if (!$db->auth()) {
 <head>
   <?php require 'require/head.php';?>
   <script>applyStyle();</script>
-  <link rel="stylesheet" href="style/index.css" id="pagestyle">
+  <link rel="stylesheet" href="style/index.css">
 </head>
 <body>
 
