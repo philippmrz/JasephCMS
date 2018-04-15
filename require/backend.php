@@ -350,15 +350,12 @@ RETURN;
     }
 
     function getIdentifier($userid) {
-      echo 'getident<br>';
       require('credentials.php');
       $getIdentifier = @parent::query("SELECT IDENTIFIER FROM $usertable WHERE USERID = '$userid'");
       $row = $getIdentifier->fetch_assoc();
       if ($row['IDENTIFIER']) {
-        echo $row['IDENTIFIER'] . '<br>';
         return $row['IDENTIFIER'];
       } else { // user doesn't have identifier yet
-        echo 'creating new ident<br>';
         self::createIdentifier($userid);
         self::getIdentifier($userid);
       }
