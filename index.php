@@ -1,3 +1,8 @@
+<?php
+require_once('require/backend.php');
+$db = new DatabaseConnection();
+$db->auth();
+?>
 <!doctype html>
 <html>
 <head>
@@ -16,11 +21,9 @@
         <p>Register to start blogging and to access more features.</p><br>
         <a id='jumbotron-btn' href='register' class='primary-btn'>register</a>
       </div>
-    <?php endif; ?>
+    <?php endif;
 
-    <?php
-      $db = new DatabaseConnection();
-      echo $db->postsAusgeben(isset($_GET['sort']) ? $_GET['sort'] : 'DESC');
+    echo $db->postsAusgeben(isset($_GET['sort']) ? $_GET['sort'] : 'DESC');
 
     if($db->auth()): ?>
       <a title='Sort chronologically or reverse chronologically' class='floating-action-btn' href='index.php?sort=<?= invertSortOrder()?>'>
