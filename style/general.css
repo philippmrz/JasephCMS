@@ -123,8 +123,8 @@ select {
 
 .floating-action-btn {
   position: fixed;
-  right: 3vw;;
-  bottom: 11vh;
+  right: 3vw;
+  bottom: 6vh;
   border-radius: 50%;
   width: 70px;
   height: 70px;
