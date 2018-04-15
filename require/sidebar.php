@@ -1,6 +1,7 @@
 <?php
 $db = new DatabaseConnection();
 if ($db->auth()):
+  $userid = $db->getUserID($_COOKIE['identifier']);
 ?>
 <div id='sidebar'>
   <a class='sidebar-elem' href='index' id='front-page'
@@ -11,13 +12,13 @@ if ($db->auth()):
     <?= (strpos($_SERVER['REQUEST_URI'], "/saved")) ? "status='active'" : ""?>>
     saved posts
   </a>
-  <a class='sidebar-elem' href='myposts' id='my-posts'
-    <?= (strpos($_SERVER['REQUEST_URI'], "/myposts")) ? "status='active'" : ""?>>
-    my posts
+  <a class='sidebar-elem' href='profile?id=<?=$userid?>' id='profile'
+    <?= (strpos($_SERVER['REQUEST_URI'], "/profile")) ? "status='active'" : ""?>>
+    my profile
   </a>
-  <a class='sidebar-elem' href='settings' id='settings'
-    <?= (strpos($_SERVER['REQUEST_URI'], "/settings")) ? "status='active'" : ""?>>
-    settings
+  <a class='sidebar-elem' href='drafts' id='drafts'
+    <?= (strpos($_SERVER['REQUEST_URI'], "/drafts")) ? "status='active'" : ""?>>
+    my drafts
   </a>
   <a class='sidebar-elem' href='newpost' id='new-post'
     <?= (strpos($_SERVER['REQUEST_URI'], "/newpost")) ? "status='active'" : ""?>>
@@ -37,13 +38,13 @@ if ($db->auth()):
       <?= (strpos($_SERVER['REQUEST_URI'], "/saved")) ? "status='active'" : ""?>>
       <svg class='svg-24' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d='<?= getSVG('saved');?>'/></svg>
     </a>
-    <a class='navbar-elem' href='myposts'
-      <?= (strpos($_SERVER['REQUEST_URI'], "/myposts")) ? "status='active'" : ""?>>
-      <svg class='svg-24' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d='<?= getSVG('myposts');?>'/></svg>
+    <a class='navbar-elem' href='profile'
+      <?= (strpos($_SERVER['REQUEST_URI'], "/profile")) ? "status='active'" : ""?>>
+      <svg class='svg-24' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d='<?= getSVG('profile');?>'/></svg>
     </a>
-    <a class='navbar-elem' href='settings'
-      <?= (strpos($_SERVER['REQUEST_URI'], "/settings")) ? "status='active'" : ""?>>
-      <svg class='svg-24' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d='<?= getSVG('settings');?>'/></svg>
+    <a class='navbar-elem' href='drafts'
+      <?= (strpos($_SERVER['REQUEST_URI'], "/drafts")) ? "status='active'" : ""?>>
+      <svg class='svg-24' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d='<?= getSVG('drafts');?>'/></svg>
     </a>
     <a class='navbar-elem' href='newpost'
       <?= (strpos($_SERVER['REQUEST_URI'], "/newpost")) ? "status='active'" : ""?>>
