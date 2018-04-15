@@ -24,15 +24,6 @@ if(isset($_POST["picSubmit"]) && isset($_FILES["picFile"])){
   }
 }
 
-//show image
-if (!is_null($db->getTempImgPath())) {
-  $tempimg = $db->getTempImgPath();
-} else {
-  $tempimg = $db->getImgPath($userid);
-}
-
-$displayimg = $tempimg;;
-
 if(isset($_POST["remove"])){
   $tempPath = $db->getTempImgPath();
   $path = $db->getImgPath($db->getUserID($_COOKIE['identifier']));
@@ -45,6 +36,14 @@ if(isset($_POST["remove"])){
     $deletePath = $db->query("UPDATE $imgtable SET PATH = 'assets/default-avatar.png' WHERE USERID='$userid'");
   }
 }
+
+//show image
+if (!is_null($db->getTempImgPath())) {
+  $tempimg = $db->getTempImgPath();
+} else {
+  $tempimg = $db->getImgPath($userid);
+}
+$displayimg = $tempimg;;
 
 $pwordmsg = [];
 session_start();
