@@ -12,7 +12,12 @@ $db = new DatabaseConnection();
 $userid = $db->getUserID($_COOKIE['identifier']);
 
 //get admin
-$admin = $db->getRole($userid);
+  if($db->getRole($userid) == 'ADMIN'){
+    $admin = true;
+  }
+  else{
+    $admin = false;
+  }
 
 $visibility = $db->getVisibility();
 
