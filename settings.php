@@ -1,131 +1,137 @@
 <?php
-  require_once('require/backend.php');
+require_once('require/backend.php');
 
-  $db = new DatabaseConnection();
-
-  if (!$db->auth()):
+$db = new DatabaseConnection();
+if (!$db->auth()) {
   header("Location: index");
-  endif;
-  require 'require/credentials.php';
+}
+require 'require/credentials.php';
 
-  $db = new DatabaseConnection();
+$db = new DatabaseConnection();
 
-  $userid = $db->getUserID($_COOKIE['identifier']);
+$userid = $db->getUserID($_COOKIE['identifier']);
 
-  //get admin
-  $admin = $db->getRole($userid);
+//get admin
+$admin = $db->getRole($userid);
 
-  $visibility = $db->getVisibility();
+$visibility = $db->getVisibility();
 
-  if(isset($_POST["picSubmit"]) && isset($_FILES["picFile"])){
-    if ($db->checkImg()) {
-      $db->createImgPath();
+if(isset($_POST["picSubmit"]) && isset($_FILES["picFile"])){
+  if ($db->checkImg()) {
+    $db->createImgPath();
+  } else {
+    $msg = $db->checkImg();
+  }
+}
+
+//show image
+if (!is_null($db->getTempImgPath())) {
+  $tempimg = $db->getTempImgPath();
+} else {
+  $tempimg = $db->getImgPath($userid);
+}
+
+$displayimg = $tempimg;;
+
+if(isset($_POST["remove"])){
+  $tempPath = $db->getTempImgPath();
+  $path = $db->getImgPath($db->getUserID($_COOKIE['identifier']));
+  if(!is_null($tempPath)){
+    unlink($tempPath);
+    $deletetempPath = $db->query("UPDATE $imgtable SET TEMP_PATH = null WHERE USERID='$userid'");
+  }
+  if($path != "assets/default-avatar.png"){
+    unlink($path);
+    $deletePath = $db->query("UPDATE $imgtable SET PATH = 'assets/default-avatar.png' WHERE USERID='$userid'");
+  }
+}
+
+$pwordmsg = [];
+session_start();
+
+if (isset($_POST['oldPword']) && isset($_POST['newPword']) && isset($_POST['pChangeCommit'])) {
+  $oldPword = $_POST['oldPword'];
+  $newPword = $_POST['newPword'];
+  if ($getInfo = $db->query("SELECT PASSWORD, USERID FROM $usertable WHERE USERID='$userid'")) {
+    $row = $getInfo->fetch_assoc();
+    $dbPword = $row['PASSWORD'];
+    if (!password_verify($oldPword, $dbPword)) {
+      array_push($pwordmsg,"Old Password is incorrect.");
+    } elseif (!empty($db->pwordRequirements($newPword))) {//invalid pword
+      $pwordmsg = $db->pwordRequirements($newPword);
     } else {
-      $msg = $db->checkImg();
+      $hashed_password = password_hash($newPword, PASSWORD_DEFAULT);
+      if ($r = $db->query("UPDATE $usertable SET PASSWORD = '$hashed_password' WHERE USERID ='$userid'")) {
+        setcookie('hashed_password', $hashed_password);
+        $_SESSION['pwordsuccess'] = 1;
+        header('Location: settings');
+        exit();
+      }
+    }
+  }
+}
+
+if (isset($_SESSION['pwordsuccess']) and $_SESSION['pwordsuccess'] == 1) {
+  array_push($pwordmsg, 'Password successfully changed.');
+  unset($_SESSION['pwordsuccess']);
+}
+
+
+if (isset($_POST["cancelbtn"])) {
+  if (!is_null($db->getTempImgPath())) {
+    unlink($db->getTempImgPath());
+    $deletetempPath = $db->query("UPDATE $imgtable SET TEMP_PATH = null WHERE USERID='$userid'");
+  }
+  header("location: index");
+}
+
+if (isset($_POST["savebtn"])) {
+  $msg = [];
+  if (isset($_POST["newUname"])) {
+    $newUname = $_POST["newUname"];
+    if ($newUname != $db->getUsername($userid)) {
+      $checkExist = $db->query("SELECT USERNAME FROM $usertable WHERE UPPER(USERNAME) = UPPER('$newUname')");
+      if($checkExist){
+        if ($checkExist->num_rows > 0) {
+          array_push($msg, "Username already exists");
+        }
+      }
+      if(empty($msg)){
+        $result = $db->query("UPDATE $usertable SET USERNAME = '$newUname' WHERE USERID = $userid");
+      }
     }
   }
 
-  //show image
-  if (!is_null($db->getTempImgPath())) {
-    $tempimg = $db->getTempImgPath();
+  if (isset($_POST["visibility"])) {
+    $visibility = true;
+    $updateVis = $db->query("UPDATE $usertable SET VISIBILITY = 'VISIBLE' WHERE USERID = '$userid'");
   } else {
-    $tempimg = $db->getImgPath($userid);
+    $visibility = false;
+    $updateVis = $db->query("UPDATE $usertable SET VISIBILITY = 'INVISIBLE' WHERE USERID = '$userid'");
   }
 
-  $displayimg = $tempimg;;
-
-  if(isset($_POST["remove"])){
+  if ($tempimg != "assets/default-avatar.png") {
     $tempPath = $db->getTempImgPath();
     $path = $db->getImgPath($db->getUserID($_COOKIE['identifier']));
-    if(!is_null($tempPath)){
-      unlink($tempPath);
-      $deletetempPath = $db->query("UPDATE $imgtable SET TEMP_PATH = null WHERE USERID='$userid'");
-    }
-    if($path != "assets/default-avatar.png"){
-      unlink($path);
-      $deletePath = $db->query("UPDATE $imgtable SET PATH = 'assets/default-avatar.png' WHERE USERID='$userid'");
-    }
-  }
-
-  if(isset($_POST['oldPword']) && isset($_POST['newPword']) && isset($_POST['pChangeCommit'])){
-    $pwordmsg = [];
-    $oldPword = $_POST['oldPword'];
-    $newPword = $_POST['newPword'];
-    if ($getInfo = $db->query("SELECT PASSWORD, USERID FROM $usertable WHERE USERID='$userid'")) {
-      $row = $getInfo->fetch_assoc();
-      $dbPword = $row['PASSWORD'];
-      if (!password_verify($oldPword, $dbPword)) {
-          array_push($pwordmsg,"Old Password is incorrect");
-        }
-        else if(!empty($db->pwordRequirements($newPword))){//invalid pword
-          $pwordmsg = $db->pwordRequirements($newPword);
-        }
-        else{
-          $hashed_password = password_hash($newPword, PASSWORD_DEFAULT);
-          if ($r = $db->query("UPDATE $usertable SET PASSWORD = '$hashed_password' WHERE USERID ='$userid'")) {
-            setcookie('hashed_password', $hashed_password);
-            array_push($pwordmsg,"Successfully changed password");
-          }
-        }
-      }
-    }
-
-
-  if (isset($_POST["cancelbtn"])) {
-    if (!is_null($db->getTempImgPath())) {
-      unlink($db->getTempImgPath());
-      $deletetempPath = $db->query("UPDATE $imgtable SET TEMP_PATH = null WHERE USERID='$userid'");
-    }
-    header("location: index");
-  }
-
-  if (isset($_POST["savebtn"])) {
-    $msg = [];
-    if (isset($_POST["newUname"])) {
-      $newUname = $_POST["newUname"];
-      if ($newUname != $db->getUsername($userid)) {
-        $checkExist = $db->query("SELECT USERNAME FROM $usertable WHERE UPPER(USERNAME) = UPPER('$newUname')");
-        if($checkExist){
-          if ($checkExist->num_rows > 0) {
-            array_push($msg, "Username already exists");
-          }
-        }
-        if(empty($msg)){
-          $result = $db->query("UPDATE $usertable SET USERNAME = '$newUname' WHERE USERID = $userid");
-        }
-      }
-    }
-
-    if (isset($_POST["visibility"])) {
-      $visibility = true;
-      $updateVis = $db->query("UPDATE $usertable SET VISIBILITY = 'VISIBLE' WHERE USERID = '$userid'");
-    } else {
-      $visibility = false;
-      $updateVis = $db->query("UPDATE $usertable SET VISIBILITY = 'INVISIBLE' WHERE USERID = '$userid'");
-    }
-
-    if ($tempimg != "assets/default-avatar.png") {
-      $tempPath = $db->getTempImgPath();
-      $path = $db->getImgPath($db->getUserID($_COOKIE['identifier']));
-      $newpath = DatabaseConnection::AVATAR_DIRECTORY . '/' . substr($tempPath, strlen(DatabaseConnection::TEMP_AVATAR_DIRECTORY));
-      if (!is_null($tempPath)) {
-        if (is_null($path)) {
+    $newpath = DatabaseConnection::AVATAR_DIRECTORY . '/' . substr($tempPath, strlen(DatabaseConnection::TEMP_AVATAR_DIRECTORY));
+    if (!is_null($tempPath)) {
+      if (is_null($path)) {
+        $savePath = $db->query("UPDATE images SET PATH = '$newpath', TEMP_PATH = null WHERE USERID = '$userid'");
+      } else {
+        if ($path != "assets/default-avatar.png") {
+          unlink($path);
           $savePath = $db->query("UPDATE images SET PATH = '$newpath', TEMP_PATH = null WHERE USERID = '$userid'");
         } else {
-          if ($path != "assets/default-avatar.png") {
-            unlink($path);
-            $savePath = $db->query("UPDATE images SET PATH = '$newpath', TEMP_PATH = null WHERE USERID = '$userid'");
-          } else {
-            $savePath = $db->query("UPDATE images SET PATH = '$newpath', TEMP_PATH = null WHERE USERID = '$userid'");
-          }
+          $savePath = $db->query("UPDATE images SET PATH = '$newpath', TEMP_PATH = null WHERE USERID = '$userid'");
         }
-        rename($tempPath, $newpath);
       }
-      $displayimg = $newpath;
+      rename($tempPath, $newpath);
     }
-    sleep(1);
-    header('location: index');
+    $displayimg = $newpath;
   }
+  sleep(1);
+  header('location: index');
+}
 
 $db->close();
 ?>
@@ -135,7 +141,7 @@ $db->close();
 <head>
   <?php require 'require/head.php';?>
   <script>applyStyle();</script>
-  <link rel="stylesheet" href="style/settings.css" id="pagestyle">
+  <link rel="stylesheet" href="style/settings.css">
   <script src="script/settings.js"></script>
 </head>
 <body>

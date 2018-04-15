@@ -19,7 +19,8 @@
       'savedraft' => 'M16.5,6V17.5A4,4 0 0,1 12.5,21.5A4,4 0 0,1 8.5,17.5V5A2.5,2.5 0 0,1 11,2.5A2.5,2.5 0 0,1 13.5,5V15.5A1,1 0 0,1 12.5,16.5A1,1 0 0,1 11.5,15.5V6H10V15.5A2.5,2.5 0 0,0 12.5,18A2.5,2.5 0 0,0 15,15.5V5A4,4 0 0,0 11,1A4,4 0 0,0 7,5V17.5A5.5,5.5 0 0,0 12.5,23A5.5,5.5 0 0,0 18,17.5V6H16.5Z',
       'expand-vertical' => 'M12,16A2,2 0 0,1 14,18A2,2 0 0,1 12,20A2,2 0 0,1 10,18A2,2 0 0,1 12,16M12,10A2,2 0 0,1 14,12A2,2 0 0,1 12,14A2,2 0 0,1 10,12A2,2 0 0,1 12,10M12,4A2,2 0 0,1 14,6A2,2 0 0,1 12,8A2,2 0 0,1 10,6A2,2 0 0,1 12,4Z',
       'confirm' => 'M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z',
-      'delete' => 'M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z'
+      'delete' => 'M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z',
+      'save' => 'M15,9H5V5H15M12,19A3,3 0 0,1 9,16A3,3 0 0,1 12,13A3,3 0 0,1 15,16A3,3 0 0,1 12,19M17,3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V7L17,3Z'
     ];
     return $svg_list[$svg];
   }
@@ -363,31 +364,36 @@ RETURN;
       }
     }
 
-    function auth() {
-      require('credentials.php');
-      if (isset($_COOKIE['identifier']) and isset($_COOKIE['hashed_password'])) {
-        $identifier = $_COOKIE['identifier'];
-        $hashed_password = $_COOKIE['hashed_password'];
-        $verify = @parent::query("SELECT IDENTIFIER FROM $usertable WHERE IDENTIFIER = '$identifier' AND PASSWORD = '$hashed_password'");
-        if ($verify->num_rows > 0) {
-          return true;
-        }
-      }
+    function deleteAuthCookies() {
       foreach ($_COOKIE as $key => $val) {
         if ($key != 'theme') {
           setcookie($key, '', 1);
         }
       }
+    }
+
+    function auth() {
+      require('credentials.php');
+      if (isset($_COOKIE['identifier']) and isset($_COOKIE['hashed_password'])) {
+        $identifier = $_COOKIE['identifier'];
+        $hashed_password = $_COOKIE['hashed_password'];
+        $getDBpword = @parent::query("SELECT PASSWORD FROM $usertable WHERE IDENTIFIER = '$identifier'");
+        $DBpword = $getDBpword->fetch_assoc()['PASSWORD'];
+        if ($hashed_password == $DBpword) {
+          return true;
+        }
+      }
+      self::deleteAuthCookies();
       return false;
     }
 
     function pwordRequirements($pword){
       $msg = [];
       if (strlen($pword) < 6) {
-      array_push($msg, "Password must be at minimum length of 6 letters");
+      array_push($msg, "Password must be at minimum length of 6 letters.");
       } else {
         if (ctype_upper($pword) || ctype_lower($pword)) {
-          array_push($msg, "Password must contain at least one lowercase and one uppercase character");
+          array_push($msg, "Password must contain at least one lowercase and one uppercase character.");
         }
       }
       return $msg;
