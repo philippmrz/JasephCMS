@@ -60,6 +60,7 @@ function deleteAllCookies() {
 function logout() {
     deleteCookie("identifier");
     deleteCookie("hashed_password");
+    deleteCookie("PHPSESSID");
     location = location;
 }
 

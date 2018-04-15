@@ -308,6 +308,12 @@ RETURN;
       header('Location: index');
     }
 
+    function deleteDraft() {
+      require('credentials.php');
+      @parent::query("DELETE FROM $drafttable WHERE DRAFTID = $_GET[id]");
+      header('Location: index');
+    }
+
     function checkRole($userid, $role) {
       require('credentials.php');
       $getRole = @parent::query("SELECT ROLE FROM $usertable WHERE USERID = '$userid'");

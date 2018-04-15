@@ -10,15 +10,8 @@ if (!$db->auth()) {
 
 session_start();
 
-$newpostmsg = [];
-if(empty($_SESSION['newpostmsg'])) {
-  echo 'reset session';
-  $_SESSION['newpostmsg'] = [];
-}
-
 if (isset($_GET["draftid"])) {
   $draftid = $_GET["draftid"];
-  echo "$draftid<br>";
   $userid = $db->getUserID($_COOKIE['identifier']);
   //get draft information
   $getDraft = $db->query("SELECT * FROM $drafttable WHERE DRAFTID = '$draftid'");
@@ -26,30 +19,33 @@ if (isset($_GET["draftid"])) {
   if ($getDraft->num_rows > 0) {
     $row = $getDraft->fetch_assoc();
     //draft exists
-    echo 'exists<br>';
     //check if draft belongs to user
     if ($row['USERID'] == $userid) {
       //draft belongs to user
-      echo 'belongs to user<br>';
-      $drafttitle = $row['TITLE'];
-      $draftcontent = $row['CONTENT'];
-      array_push($newpostmsg, 'draft loaded successfully');
+      $_SESSION['drafttitle'] = $row['TITLE'];
+      $_SESSION['draftcontent'] = $row['CONTENT'];
+      $_SESSION['newpostmsg'] = 'Successfully loaded your draft!';
+      header('Location: newpost#popup1');
     } else {
       //draft does not belong to user
-      echo 'doesnt belong to user<br>';
-      array_push($_SESSION['newpostmsg'], 'draft does not belong to you');
+      $_SESSION['newpostmsg'] = 'You are not the owner of this draft.';
       header('Location: newpost#popup1');
     }
   } else {
     //draft does not exist;
-    echo 'doesnt exist<br>';
-    array_push($_SESSION['newpostmsg'], 'draft does not exist');
+    $_SESSION['newpostmsg'] = 'That draft does not exist.';
     header('Location: newpost#popup1');
   }
+  exit();
 }
 
-foreach ($_SESSION['newpostmsg'] as $val) {
-  array_push($newpostmsg, $val);
+if (isset($_SESSION['drafttitle'])) {
+  $drafttitle = $_SESSION['drafttitle'];
+  $draftcontent = $_SESSION['draftcontent'];
+}
+
+if (isset($_SESSION['newpostmsg'])) {
+  $newpostmsg = $_SESSION['newpostmsg'];
 }
 
 if (isset($_POST["submit-post"])) {
@@ -91,11 +87,9 @@ if (isset($_POST["submit-draft"])) {
         <a class="close" href="#">&times;</a>
         <div class='popup-content'>
           <?php
-          if (!empty($newpostmsg)) {
-            foreach ($newpostmsg as $val) {
-              echo "$val<br>";
-            }
-            $_SESSION['newpostmsg'] = [];
+          if (isset($newpostmsg)) {
+              echo $newpostmsg;
+            unset($_SESSION['newpostmsg']);
           }
           ?>
         </div>
@@ -117,7 +111,7 @@ if (isset($_POST["submit-draft"])) {
 
         <div id='content-wrapper'>
           <p class='char-counter' id="contentcharswrapper">10000</p>
-          <textarea id="contentArea" name="content" placeholder="Post content" spellcheck="false" maxlength="10000" oninput="refreshContentArea()" autocomplete='off' <?= (isset($draftcontent)) ? "value=$draftcontent" : '' ?> required></textarea>
+          <textarea id="contentArea" name="content" placeholder="Post content" spellcheck="false" maxlength="10000" oninput="refreshContentArea()" autocomplete='off' required><?php echo (isset($draftcontent)) ? $draftcontent : '' ?></textarea>
         </div>
 
       </div>

@@ -232,7 +232,7 @@ select {
   border-radius: 5px;
   width: 40%;
   min-width: 300px;
-  min-height: 300px;
+  min-height: 100px;
   position: relative;
   transition: all 5s ease-in-out;
 }
