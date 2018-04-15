@@ -1,9 +1,32 @@
+--
+-- Datenbank: `jaseph`
+--
+
+--
+-- Tabellenstruktur für Tabelle `draft`
+--
+
+CREATE TABLE `draft` (
+  `DRAFTID` int(11) NOT NULL,
+  `USERID` int(11) NOT NULL,
+  `TITLE` varchar(200) NOT NULL,
+  `CONTENT` mediumtext NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf16;
+
+--
+-- Tabellenstruktur für Tabelle `images`
+--
+
 CREATE TABLE `images` (
   `PICID` int(11) NOT NULL,
   `USERID` int(11) NOT NULL,
   `PATH` varchar(255) DEFAULT NULL,
   `TEMP_PATH` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Tabellenstruktur für Tabelle `post`
+--
 
 CREATE TABLE `post` (
   `POSTID` int(11) NOT NULL,
@@ -12,6 +35,19 @@ CREATE TABLE `post` (
   `TITLE` varchar(200) NOT NULL,
   `CONTENT` mediumtext NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf16;
+
+--
+-- Tabellenstruktur für Tabelle `saved`
+--
+
+CREATE TABLE `saved` (
+  `USERID` int(11) NOT NULL,
+  `POSTID` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf16;
+
+--
+-- Tabellenstruktur für Tabelle `user`
+--
 
 CREATE TABLE `user` (
   `USERID` int(11) NOT NULL,
@@ -27,21 +63,30 @@ CREATE TABLE `user` (
   `VISIBILITY` varchar(30) NOT NULL DEFAULT 'VISIBLE'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf16;
 
+--
+-- Indizes der exportierten Tabellen
+--
+
+--
+-- Indizes für die Tabelle `draft`
+--
+ALTER TABLE `draft`
+  ADD PRIMARY KEY (`DRAFTID`);
+
+--
+-- Indizes für die Tabelle `images`
+--
 ALTER TABLE `images`
   ADD PRIMARY KEY (`PICID`);
 
+--
+-- Indizes für die Tabelle `post`
+--
 ALTER TABLE `post`
   ADD PRIMARY KEY (`POSTID`);
 
+--
+-- Indizes für die Tabelle `user`
+--
 ALTER TABLE `user`
   ADD PRIMARY KEY (`USERID`);
-
-ALTER TABLE `images`
-  MODIFY `PICID` int(11) NOT NULL AUTO_INCREMENT;
-
-ALTER TABLE `post`
-  MODIFY `POSTID` int(11) NOT NULL AUTO_INCREMENT;
-
-ALTER TABLE `user`
-  MODIFY `USERID` int(11) NOT NULL AUTO_INCREMENT;
-COMMIT;
