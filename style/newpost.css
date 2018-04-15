@@ -100,4 +100,82 @@
     margin-top: 2vh;
   }
 
+  /* Smooth Floating Action Button Menu */
+
+  .floating-action-btn {
+    z-index: 2;
+  }
+
+  #expand-wrapper {
+    position: fixed;
+    right: 2vh;;
+    bottom: 9vh;
+    width: 50px;
+    height: auto;
+    display: grid;
+    grid-template-columns: auto;
+    grid-template-rows: repeat(4, 50px);
+    grid-row-gap: 10px;
+  }
+
+  #newpost-expand {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #expand-wrapper .floating-action-btn {
+    transform: translate(-25px,-25px);
+    width: 0;
+    height: 0;
+    z-index: 1;
+    visibility: hidden;
+  }
+
+  #expand-wrapper #newpost-expand-drafts a {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  #expand-wrapper #newpost-expand-drafts a svg {
+    width: 50%;
+    height: 50%;
+  }
+
+  #expand-wrapper #newpost-expand-submit {
+    transition: all 0.25s ease-in-out;
+    transition-delay: 0.5s;
+  }
+  #expand-wrapper #newpost-expand-newdraft {
+    transition: all 0.5s ease-in-out;
+    transition-delay: 0.25s;
+  }
+  #expand-wrapper #newpost-expand-drafts {
+    transition: all 0.75s ease-in-out;
+    transition-delay: 0;
+  }
+
+  #expand-wrapper #newpost-expand-submit.expanded {
+    transition: all 0.25s ease-in-out;
+    transform: translate(0,-60px);
+    width: 50px;
+    height: 50px;
+  }
+
+  #expand-wrapper #newpost-expand-newdraft.expanded {
+    transition: all 0.5s ease-in-out;
+    transform: translate(0,-120px);
+    width: 50px;
+    height: 50px;
+  }
+
+  #expand-wrapper #newpost-expand-drafts.expanded {
+    transition: all 0.75s ease-in-out;
+    transform: translate(0,-180px);
+    width: 50px;
+    height: 50px;
+  }
+
 }

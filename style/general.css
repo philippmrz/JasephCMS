@@ -379,4 +379,9 @@ input[type='submit'] {
   #btn-holder > * {
     margin-left: 10px;
   }
+
+  .floating-action-btn {
+    width: 50px;
+    height: 50px;
+  }
 }

@@ -35,28 +35,28 @@ if ($db->auth()):
   <?php if ($db->auth()):?>
     <a class='navbar-elem' href='saved'
       <?= (strpos($_SERVER['REQUEST_URI'], "/saved")) ? "status='active'" : ""?>>
-      <svg class='svg-24' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d='<?php echo getSVG('saved');?>'/></svg>
+      <svg class='svg-24' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d='<?= getSVG('saved');?>'/></svg>
     </a>
     <a class='navbar-elem' href='myposts'
       <?= (strpos($_SERVER['REQUEST_URI'], "/myposts")) ? "status='active'" : ""?>>
-      <svg class='svg-24' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d='<?php echo getSVG('myposts');?>'/></svg>
+      <svg class='svg-24' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d='<?= getSVG('myposts');?>'/></svg>
     </a>
     <a class='navbar-elem' href='settings'
       <?= (strpos($_SERVER['REQUEST_URI'], "/settings")) ? "status='active'" : ""?>>
-      <svg class='svg-24' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d='<?php echo getSVG('settings');?>'/></svg>
+      <svg class='svg-24' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d='<?= getSVG('settings');?>'/></svg>
     </a>
     <a class='navbar-elem' href='newpost'
       <?= (strpos($_SERVER['REQUEST_URI'], "/newpost")) ? "status='active'" : ""?>>
-      <svg class='svg-24' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d='<?php echo getSVG('newpost');?>'/></svg>
+      <svg class='svg-24' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d='<?= getSVG('newpost');?>'/></svg>
     </a>
   <?php else:?>
     <a class='navbar-elem' href='login'
       <?= (strpos($_SERVER['REQUEST_URI'], "/login")) ? "status='active'" : ""?>>
-      <svg class='svg-24' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d='<?php echo getSVG('login');?>'/></svg>
+      <svg class='svg-24' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d='<?= getSVG('login');?>'/></svg>
     </a>
     <a class='navbar-elem' href='register'
       <?= (strpos($_SERVER['REQUEST_URI'], "/register")) ? "status='active'" : ""?>>
-      <svg class='svg-24' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d='<?php echo getSVG('register');?>'/></svg>
+      <svg class='svg-24' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d='<?= getSVG('register');?>'/></svg>
     </a>
   <?php endif;?>
 </div>

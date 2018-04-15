@@ -1,4 +1,5 @@
-<?php require_once('require/backend.php');
+<?php
+require_once('require/backend.php');
 require('require/credentials.php');
 
 $db = new DatabaseConnection();
@@ -7,16 +8,22 @@ if (!$db->auth()) {
   header('Location: index');
 }
 
-if (isset($_POST["title"])) {
-
-  $userid = $db->getUserID($_COOKIE['identifier']);
-
-  $title = $db->escape_string($_POST["title"]);
-  $content = $db->escape_string($_POST["content"]);
-
-  $insert = $db->query("INSERT INTO $posttable (USERID, TITLE, CONTENT) VALUES ('$userid', '$title', '$content')");
+if (isset($_POST["submit-post"])) {
+  $db->createPost(
+    $db->getUserID($_COOKIE['identifier']), //userid
+    $db->escape_string($_POST["title"]), //title
+    $db->escape_string($_POST["content"]) //content
+  );
   header("Location: index");
+}
 
+if (isset($_POST["submit-draft"])) {
+  $db->createDraft(
+    $db->getUserID($_COOKIE['identifier']), //userid
+    $db->escape_string($_POST["title"]), //title
+    $db->escape_string($_POST["content"]) //content
+  );
+  header("Location: drafts");
 }
 ?>
 
@@ -53,12 +60,37 @@ if (isset($_POST["title"])) {
         <span id="preview" class="md"><p></p></span>
       </div>
 
-      <button type="submit" id="btnpost" class="floating-action-btn">&#10003;</button>
+      <button type="submit" id="btnpost" class="floating-action-btn" name="submit-post" >
+        <svg class='svg-24' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d='<?= getSVG('confirm');?>'/></svg>
+      </button>
+
+      <div id="newpost-expand" class="floating-action-btn" onclick='toggleExpand();'>
+        <svg class='svg-24' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d='<?= getSVG('expand-vertical');?>'/></svg>
+      </div>
+
+      <div id='expand-wrapper'>
+
+        <div id="newpost-expand-drafts" class="floating-action-btn">
+          <a href='drafts'><svg class='svg-24' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d='<?= getSVG('drafts');?>'/></svg></a>
+        </div>
+
+        <button type="submit" id="newpost-expand-newdraft" class="floating-action-btn" name="submit-draft">
+          <svg class='svg-24' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d='<?= getSVG('savedraft');?>'/></svg>
+        </button>
+
+        <button type="submit" id="newpost-expand-submit" class="floating-action-btn" name="submit-post">
+          <svg class='svg-24' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d='<?= getSVG('confirm');?>'/></svg>
+        </button>
+
+      </div>
     </form>
   </div>
 </div>
 
-<script>applyStyle();</script>
-<script>updateMD();</script>
+<script>
+  applyStyle();
+  rezNewpost();
+  updateMD();
+</script>
 </body>
 </html>

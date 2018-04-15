@@ -2,16 +2,15 @@
 
 $db = new DatabaseConnection();
 if(!$db->auth()) {
-  header('Location: ');
+  header('Location: index');
 }
 
-if (isset($_COOKIE['identifier'])) {
-  $userid = $db->getUserID($_COOKIE['identifier']);
-}
+$userid = $db->getUserID($_COOKIE['identifier']);
+
 
 if (isset($_GET['del'])) {
-  if ($_GET['del'] == 1 && $db->getRole($userid) == 'ADMIN') {
-    $db->deletePost();
+  if ($_GET['del'] == 1) {
+    $db->deleteDraft();
   }
 }
 
@@ -29,20 +28,12 @@ if (isset($_GET['del'])) {
   <?php require 'require/sidebar.php'; ?>
   <div id='content'>
 
-  <a class='floating-action-btn' id='' href='saved.php?id=<?= $_GET['id']?>'>
-    saved
-  </a>
-
-  <?php
-  if (isset($userid)) {
-    if ($db->getRole($userid) == 'ADMIN'): ?>
-    <a id='delete-post' class='floating-action-btn' href='onepost.php?del=1&id=<?=$_GET['id']?>'>
+  <?php if (isset($userid)):?>
+    <a id='delete-draft' class='floating-action-btn' href='onedraft.php?del=1&id=<?=$_GET['id']?>'>
       <svg class='svg-24' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d='<?= getSVG('delete');?>'/></svg>
     </a>
-  <?php endif;
-  }
-  ?>
-  <?= $db->einenPostAusgeben(); ?>
+  <?php endif;?>
+  <?= $db->einenDraftAusgeben(); ?>
   </div>
 </div>
 

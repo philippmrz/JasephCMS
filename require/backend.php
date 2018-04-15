@@ -14,7 +14,12 @@
       'myposts' => 'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z',
       'settings' => 'M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.23.09.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z',
       'login' => 'M7,14A2,2 0 0,1 5,12A2,2 0 0,1 7,10A2,2 0 0,1 9,12A2,2 0 0,1 7,14M12.65,10C11.83,7.67 9.61,6 7,6A6,6 0 0,0 1,12A6,6 0 0,0 7,18C9.61,18 11.83,16.33 12.65,14H17V18H21V14H23V10H12.65Z',
-      'register' => 'M15,14C12.33,14 7,15.33 7,18V20H23V18C23,15.33 17.67,14 15,14M6,10V7H4V10H1V12H4V15H6V12H9V10M15,12A4,4 0 0,0 19,8A4,4 0 0,0 15,4A4,4 0 0,0 11,8A4,4 0 0,0 15,12Z'
+      'register' => 'M15,14C12.33,14 7,15.33 7,18V20H23V18C23,15.33 17.67,14 15,14M6,10V7H4V10H1V12H4V15H6V12H9V10M15,12A4,4 0 0,0 19,8A4,4 0 0,0 15,4A4,4 0 0,0 11,8A4,4 0 0,0 15,12Z',
+      'drafts' => 'M12,2A7,7 0 0,0 5,9C5,11.38 6.19,13.47 8,14.74V17A1,1 0 0,0 9,18H15A1,1 0 0,0 16,17V14.74C17.81,13.47 19,11.38 19,9A7,7 0 0,0 12,2M9,21A1,1 0 0,0 10,22H14A1,1 0 0,0 15,21V20H9V21Z',
+      'savedraft' => 'M16.5,6V17.5A4,4 0 0,1 12.5,21.5A4,4 0 0,1 8.5,17.5V5A2.5,2.5 0 0,1 11,2.5A2.5,2.5 0 0,1 13.5,5V15.5A1,1 0 0,1 12.5,16.5A1,1 0 0,1 11.5,15.5V6H10V15.5A2.5,2.5 0 0,0 12.5,18A2.5,2.5 0 0,0 15,15.5V5A4,4 0 0,0 11,1A4,4 0 0,0 7,5V17.5A5.5,5.5 0 0,0 12.5,23A5.5,5.5 0 0,0 18,17.5V6H16.5Z',
+      'expand-vertical' => 'M12,16A2,2 0 0,1 14,18A2,2 0 0,1 12,20A2,2 0 0,1 10,18A2,2 0 0,1 12,16M12,10A2,2 0 0,1 14,12A2,2 0 0,1 12,14A2,2 0 0,1 10,12A2,2 0 0,1 12,10M12,4A2,2 0 0,1 14,6A2,2 0 0,1 12,8A2,2 0 0,1 10,6A2,2 0 0,1 12,4Z',
+      'confirm' => 'M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z',
+      'delete' => 'M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z'
     ];
     return $svg_list[$svg];
   }
@@ -138,6 +143,15 @@
       }
     }
 
+    function createPost($userid, $title, $content) {
+      require('credentials.php');
+      return @parent::query("INSERT INTO $posttable (USERID, TITLE, CONTENT) VALUES ('$userid', '$title', '$content')");
+    }
+
+    function createDraft($userid, $title, $content) {
+      require('credentials.php');
+      return @parent::query("INSERT INTO $drafttable (USERID, TITLE, CONTENT) VALUES ('$userid', '$title', '$content')");
+    }
 
     function addToSavedPosts($postid) {
       require('credentials.php');
@@ -211,6 +225,60 @@ MYSQL;
           </p>
           <p id='date'>
             on $row[DAY] at $row[TIME]
+          </p>
+        </div>
+        <span id='post-text' class='md'>$row[CONTENT]</span>
+      </div>
+RETURN;
+    }
+
+    function draftsAusgeben() {
+      require('credentials.php');
+      $userid = self::getUserID($_COOKIE['identifier']);
+      $sqlQuery = "SELECT DRAFTID, substring(TITLE, 1, 50) AS TITLE, CONTENT, U.USERID AS USERID, USERNAME from $drafttable D, $usertable U WHERE U.USERID = D.USERID AND U.USERID = '$userid'";
+      $r = @parent::query($sqlQuery);
+      $return = "";
+      if (!$r) {
+        return 'No drafts saved yet.';
+      }
+      while ($row = $r->fetch_assoc()){
+        $img = self::getImgPath($row['USERID']);
+        $uname = $row['USERNAME'];
+        $return .= <<<MYSQL
+        <a class='post' href='onedraft.php?id=$row[DRAFTID]'>
+            <img class='thumbnail' src='$img'>
+
+            <div class='post-without-tn'>
+              <div class='post-info'>
+                <p class='title'>$row[TITLE]</p>
+                <div class='date-uname'>
+                  <p class='username'>
+                    $uname
+                  </p>
+                </div>
+              </div>
+              <span class='post-text md'>$row[CONTENT]</span>
+            </div>
+        </a>
+        <hr>
+MYSQL;
+      }
+      return $return;
+    }
+
+    function einenDraftAusgeben() {
+      require('credentials.php');
+
+      $r = @parent::query("SELECT TITLE, CONTENT, USERNAME, U.USERID AS USERID from $drafttable D, $usertable U WHERE D.USERID = U.USERID AND DRAFTID = $_GET[id]");
+
+      $row = $r->fetch_assoc();
+      $uname = $row['USERNAME'];
+      return <<<RETURN
+      <div id='post'>
+        <p id='title'>$row[TITLE]</p>
+        <div id='post-info'>
+          <p id='username-top'>
+            draft by $uname
           </p>
         </div>
         <span id='post-text' class='md'>$row[CONTENT]</span>
