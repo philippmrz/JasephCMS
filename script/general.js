@@ -95,11 +95,11 @@ function setHackerMode() {
     document.documentElement.style.setProperty('--bg-color', '#202124');
     document.documentElement.style.setProperty('--color', '#e6e6e6');
     document.documentElement.style.setProperty('--table-accent-color', '#313235');
-    document.documentElement.style.setProperty('--title-color', 'rgba(255, 255, 255, 0.6)');
+    document.documentElement.style.setProperty('--title-color', '#999');
     document.documentElement.style.setProperty('--accent-color', '#20c20e');
-    document.documentElement.style.setProperty('--accent-color-light', '#8fe086');
-    document.documentElement.style.setProperty('--accent-color-verylight', '#77ff88');
-    document.documentElement.style.setProperty('--accent-color-dark', '#009900');
+    document.documentElement.style.setProperty('--accent-color-light', '#73d469');
+    document.documentElement.style.setProperty('--accent-color-verylight', '#acffa3');
+    document.documentElement.style.setProperty('--accent-color-dark', '#090');
     var x = document.querySelector('#mask');
     if (x) {
         x.setAttribute('src', 'assets/mask_white.png');
@@ -109,8 +109,8 @@ function setHackerMode() {
 function setNormalMode() {
     document.documentElement.style.setProperty('--bg-color', '#fff');
     document.documentElement.style.setProperty('--color', '#202124');
-    document.documentElement.style.setProperty('--table-accent-color', '#cccccc');
-    document.documentElement.style.setProperty('--title-color', 'rgba(0, 0, 0, 0.6)');
+    document.documentElement.style.setProperty('--table-accent-color', '#ccc');
+    document.documentElement.style.setProperty('--title-color', '#333');
     document.documentElement.style.setProperty('--accent-color', '#ff7614');
     document.documentElement.style.setProperty('--accent-color-light', '#ff9950');
     document.documentElement.style.setProperty('--accent-color-verylight', '#ffbe90');

@@ -10,7 +10,8 @@
 }
 
 #status-sheet #status-text {
-  background: #e2e2e2;
+  background: var(--table-accent-color);
+  color: var(--color);
   border-radius: 4px;
   padding: 5px;
   min-height: 50%;

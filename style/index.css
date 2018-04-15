@@ -1,5 +1,5 @@
 :root {
-  --title-color: rgba(0, 0, 0, 0.6);
+  --title-color: #333;
 }
 
 #jumbotron {
@@ -13,6 +13,10 @@
   margin-top: 6vh;
   background: linear-gradient(to right, var(--accent-color-light), var(--accent-color-verylight));
   border-radius: 5px;
+}
+
+#jumbotron * {
+  color: #000;
 }
 
 #jumbotron-btn {

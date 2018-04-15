@@ -28,12 +28,13 @@ body, html {
 #grid-wrap {
   display: grid;
   grid-template-columns: 150px auto;
-  grid-template-rows: 12vh 88vh;
+  grid-template-rows: minmax(55px,12vh) 88vh;
   height: 100vh;
 }
 
 #header {
   grid-area: 1 / 1 / 2 / 3;
+  min-height: 55px;
 }
 
 #sidebar {
@@ -96,6 +97,10 @@ button {
 
 input[type='submit'] {
   cursor: pointer;
+}
+
+select {
+  background-color: var(--bg-color);
 }
 
 .switch {
@@ -170,8 +175,8 @@ input[type='submit'] {
 
 .floating-action-btn {
   position: fixed;
-  right: 2vh;;
-  bottom: 9vh;
+  right: 3vw;;
+  bottom: 11vh;
   border-radius: 50%;
   width: 70px;
   height: 70px;
@@ -338,7 +343,7 @@ input[type='submit'] {
 @media (max-width: 900px) {
  #grid-wrap {
     grid-template-columns: auto;
-    grid-template-rows: 10vh auto 7vh;
+    grid-template-rows: minmax(55px, 10vh) auto minmax(40px, 7vh);
   }
 
   #header {
@@ -381,6 +386,8 @@ input[type='submit'] {
   }
 
   .floating-action-btn {
+    right: 2vw;
+    bottom: 9vh;
     width: 50px;
     height: 50px;
   }
