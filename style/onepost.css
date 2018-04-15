@@ -46,8 +46,11 @@
   font-size: 0.8em;
 }
 
-#delete-post {
+#delete-post, #delete-draft {
   bottom: 20vh;
+}
+
+#save-post, #use-draft {
 }
 
 /* Mobile */

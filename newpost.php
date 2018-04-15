@@ -8,6 +8,50 @@ if (!$db->auth()) {
   header('Location: index');
 }
 
+session_start();
+
+$newpostmsg = [];
+if(empty($_SESSION['newpostmsg'])) {
+  echo 'reset session';
+  $_SESSION['newpostmsg'] = [];
+}
+
+if (isset($_GET["draftid"])) {
+  $draftid = $_GET["draftid"];
+  echo "$draftid<br>";
+  $userid = $db->getUserID($_COOKIE['identifier']);
+  //get draft information
+  $getDraft = $db->query("SELECT * FROM $drafttable WHERE DRAFTID = '$draftid'");
+  //check if draft exists
+  if ($getDraft->num_rows > 0) {
+    $row = $getDraft->fetch_assoc();
+    //draft exists
+    echo 'exists<br>';
+    //check if draft belongs to user
+    if ($row['USERID'] == $userid) {
+      //draft belongs to user
+      echo 'belongs to user<br>';
+      $drafttitle = $row['TITLE'];
+      $draftcontent = $row['CONTENT'];
+      array_push($newpostmsg, 'draft loaded successfully');
+    } else {
+      //draft does not belong to user
+      echo 'doesnt belong to user<br>';
+      array_push($_SESSION['newpostmsg'], 'draft does not belong to you');
+      header('Location: newpost#popup1');
+    }
+  } else {
+    //draft does not exist;
+    echo 'doesnt exist<br>';
+    array_push($_SESSION['newpostmsg'], 'draft does not exist');
+    header('Location: newpost#popup1');
+  }
+}
+
+foreach ($_SESSION['newpostmsg'] as $val) {
+  array_push($newpostmsg, $val);
+}
+
 if (isset($_POST["submit-post"])) {
   $db->createPost(
     $db->getUserID($_COOKIE['identifier']), //userid
@@ -41,18 +85,39 @@ if (isset($_POST["submit-draft"])) {
   <?php require 'require/header.php';?>
   <?php require 'require/sidebar.php'; ?>
   <div id='content'>
+
+    <div id='popup1' class='overlay'>
+      <div class='popup'>
+        <a class="close" href="#">&times;</a>
+        <div class='popup-content'>
+          <?php
+          if (!empty($newpostmsg)) {
+            foreach ($newpostmsg as $val) {
+              echo "$val<br>";
+            }
+            $_SESSION['newpostmsg'] = [];
+          }
+          ?>
+        </div>
+      </div>
+    </div>
+
+    <div class='floating-action-btn' style='left: 5vh;'>
+      <a href='#popup1'>Open</a>
+    </div>
+
     <form id='newpost' action="" method="POST">
 
       <div id='post-sheet'>
 
         <div id='title-wrapper'>
           <p class='char-counter' id="titlecharswrapper">200</p>
-          <input id="titleField" name="title" type="text" placeholder="Title" maxlength="200" oninput="updateCharsLeft(200, 'title')" autocomplete='off' required autofocus>
+          <input id="titleField" name="title" type="text" placeholder="Title" maxlength="200" oninput="updateCharsLeft(200, 'title')" autocomplete='off' <?= (isset($drafttitle)) ? "value=$drafttitle" : '' ?> required autofocus>
         </div>
 
         <div id='content-wrapper'>
           <p class='char-counter' id="contentcharswrapper">10000</p>
-          <textarea id="contentArea" name="content" placeholder="Post content" spellcheck="false" maxlength="10000" oninput="refreshContentArea()" autocomplete='off' required></textarea>
+          <textarea id="contentArea" name="content" placeholder="Post content" spellcheck="false" maxlength="10000" oninput="refreshContentArea()" autocomplete='off' <?= (isset($draftcontent)) ? "value=$draftcontent" : '' ?> required></textarea>
         </div>
 
       </div>

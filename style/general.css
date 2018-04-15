@@ -103,58 +103,6 @@ select {
   background-color: var(--bg-color);
 }
 
-.switch {
-    position: relative;
-    width: 55px;
-    margin: 5px;
-    display: inline-block;
-}
-
-.switch-checkbox {
-    display: none;
-}
-
-.switch-label {
-    display: block;
-    overflow: hidden;
-    cursor: pointer;
-    height: 20px;
-    padding: 0;
-    line-height: 20px;
-    border: 0px solid #FFFFFF;
-    border-radius: 30px;
-    background-color: #9E9E9E;
-}
-
-.switch-label:before {
-    content: "";
-    display: block;
-    width: 30px;
-    margin: -5px;
-    background: #FFFFFF;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    right: 31px;
-    border-radius: 30px;
-    box-shadow: 0 6px 12px 0px #757575;
-    transition: all 0.2s ease-in;
-}
-.switch-checkbox:checked + .switch-label {
-    background-color: var(--accent-color-light);
-}
-.switch-checkbox:checked + .switch-label, .switch-checkbox:checked + .switch-label:before {
-   border-color: var(--accent-color);
-}
-.switch-checkbox:checked + .switch-label .switch-inner {
-    margin-left: 0;
-}
-.switch-checkbox:checked + .switch-label:before {
-    right: 0px;
-    background-color: var(--accent-color);
-    box-shadow: 3px 6px 18px 0px rgba(0, 0, 0, 0.2);
-}
-
 /* Default buttons */
 .primary-btn {
   background-color: var(--accent-color);
@@ -200,6 +148,113 @@ select {
 
 .floating-action-btn svg[rotate='true'] {
   transform: scale(1, -1);
+}
+
+/* Custom CSS Switch */
+
+.switch {
+    position: relative;
+    width: 55px;
+    margin: 5px;
+    display: inline-block;
+}
+
+.switch-checkbox {
+    display: none;
+}
+
+.switch-label {
+    display: block;
+    overflow: hidden;
+    cursor: pointer;
+    height: 20px;
+    padding: 0;
+    line-height: 20px;
+    border: 0px solid #FFFFFF;
+    border-radius: 30px;
+    background-color: #9E9E9E;
+}
+
+.switch-label:before {
+    content: "";
+    display: block;
+    width: 30px;
+    margin: -5px;
+    background: #FFFFFF;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 31px;
+    border-radius: 30px;
+    box-shadow: 0 6px 12px 0px #757575;
+    transition: all 0.2s ease-in;
+}
+
+.switch-checkbox:checked + .switch-label {
+    background-color: var(--accent-color-light);
+}
+
+.switch-checkbox:checked + .switch-label, .switch-checkbox:checked + .switch-label:before {
+   border-color: var(--accent-color);
+}
+
+.switch-checkbox:checked + .switch-label .switch-inner {
+    margin-left: 0;
+}
+
+.switch-checkbox:checked + .switch-label:before {
+    right: 0px;
+    background-color: var(--accent-color);
+    box-shadow: 3px 6px 18px 0px rgba(0, 0, 0, 0.2);
+}
+
+/* Popup CSS */
+
+.overlay {
+  position: fixed;
+  top: 0; bottom: 0; left: 0; right: 0;
+  background: rgba(0, 0, 0, 0.5);
+  transition: opacity 250ms;
+  visibility: hidden;
+  opacity: 0;
+  z-index: 3;
+}
+
+.overlay:target { /* Fires when it is being targeted through URL#<overlayID> */
+  visibility: visible;
+  opacity: 1;
+}
+
+.popup {
+  margin: 70px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 5px;
+  width: 40%;
+  min-width: 300px;
+  min-height: 300px;
+  position: relative;
+  transition: all 5s ease-in-out;
+}
+
+.popup .close {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  transition: all 200ms;
+  font-size: 30px;
+  font-weight: bold;
+  text-decoration: none;
+  color: #333;
+}
+
+.popup .close:hover {
+  color: #06D85F;
+}
+
+.popup .popup-content {
+  max-height: 30%;
+  overflow: auto;
 }
 
 /* Transforms */
@@ -276,6 +331,8 @@ select {
   background-color: var(--accent-color);
 }
 
+/* Markdown CSS */
+
 .md {
 
 }
@@ -301,6 +358,8 @@ select {
 }
 
 /* Mobile */
+
+/* Navbar CSS */
 
 #navbar {
   width: 100%;

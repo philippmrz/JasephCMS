@@ -91,6 +91,11 @@
   transition: none;
 }
 
+#expand-wrapper #newpost-expand-drafts svg {
+  width: 50%;
+  height: 50%;
+}
+
 #expand-wrapper #newpost-expand-drafts a {
   width: 100%;
   height: 100%;

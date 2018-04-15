@@ -26,11 +26,6 @@ $msg = $db->login();
 
       <input class='primary-btn' id="authbtn" type="submit" name="logbtn" value="Sign In"/><br>
 
-      <div id='remember-me'>
-        <p>Remember me</p>
-        <input type="checkbox" name="remember_me"/><br>
-      </div>
-
       <?php
       if (!empty($msg)) {
         foreach ($msg as $text) {

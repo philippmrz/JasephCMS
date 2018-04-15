@@ -28,11 +28,14 @@ if (isset($_GET['del'])) {
   <?php require 'require/sidebar.php'; ?>
   <div id='content'>
 
-  <?php if (isset($userid)):?>
-    <a id='delete-draft' class='floating-action-btn' href='onedraft.php?del=1&id=<?=$_GET['id']?>'>
-      <svg class='svg-24' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d='<?= getSVG('delete');?>'/></svg>
-    </a>
-  <?php endif;?>
+  <a id='delete-draft' class='floating-action-btn' href='onedraft.php?del=1&id=<?=$_GET['id']?>'>
+    <svg class='svg-24' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d='<?= getSVG('delete');?>'/></svg>
+  </a>
+
+  <a id='use-draft' class='floating-action-btn' href='newpost?draftid=<?= $_GET['id']?>'>
+    <svg class='svg-24' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d='<?= getSVG('newpost');?>'/></svg>
+  </a>
+
   <?= $db->einenDraftAusgeben(); ?>
   </div>
 </div>
