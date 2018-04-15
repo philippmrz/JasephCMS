@@ -99,6 +99,18 @@
   #content-wrapper {
     margin-top: 2vh;
   }
+  
+  #expand-wrapper {
+    visibility: hidden;
+  }
+
+  #newpost-expand {
+    visibility: hidden;
+  }
+
+  #expand-wrapper .floating-action-btn {
+    visibility: hidden;
+  }
 
   /* Smooth Floating Action Button Menu */
 
@@ -116,12 +128,14 @@
     grid-template-columns: auto;
     grid-template-rows: repeat(4, 50px);
     grid-row-gap: 10px;
+    visibility: visible;
   }
 
   #newpost-expand {
     display: flex;
     justify-content: center;
     align-items: center;
+    visibility: visible;
   }
 
   #expand-wrapper .floating-action-btn {
