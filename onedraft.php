@@ -1,7 +1,7 @@
 <?php require_once 'require/backend.php';
 
 $db = new DatabaseConnection();
-if(!$db->auth()) {
+if(!$db->auth() or !isset($_GET['id'])) {
   header('Location: index');
 }
 

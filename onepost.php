@@ -1,6 +1,11 @@
 <?php require_once 'require/backend.php';
 
 $db = new DatabaseConnection();
+
+if(!isset($_GET['id'])) {
+  header('Location: index');
+}
+
 if(!$db->auth()) {
   header('Location: ');
 }
@@ -30,20 +35,24 @@ if (isset($_GET['del'])) {
   <?php require 'require/sidebar.php'; ?>
   <div id='content'>
 
-  <a class='floating-action-btn' id='' href='saved.php?id=<?= $_GET['id']?>'>
-    saved
-  </a>
+    <?php
+    if ($db->auth()) {
+      ?>
+      <a class='floating-action-btn' id='' href='saved.php?id=<?= $_GET['id']?>'>
+        <svg class='svg-24' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d='<?= getSVG('save');?>'/></svg>
+      </a>
+      <?php
 
-  <?php
-  if (isset($userid)) {
-    if ($db->getRole($userid) == 'ADMIN'): ?>
-    <a id='delete-post' class='floating-action-btn' href='onepost.php?del=1&id=<?=$_GET['id']?>'>
-      <svg class='svg-24' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d='<?= getSVG('delete');?>'/></svg>
-    </a>
-  <?php endif;
-  }
-  ?>
-  <?= $db->einenPostAusgeben(); ?>
+      if ($db->getRole($userid) == 'ADMIN'){
+        ?>
+        <a id='delete-post' class='floating-action-btn' href='onepost.php?del=1&id=<?=$_GET['id']?>'>
+          <svg class='svg-24' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d='<?= getSVG('delete');?>'/></svg>
+        </a>
+        <?php
+      }
+    }
+    ?>
+    <?= $db->einenPostAusgeben(); ?>
   </div>
 </div>
 
