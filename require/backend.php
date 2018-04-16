@@ -103,7 +103,6 @@
       $msg = [];
       if (!isset($_FILES["picFile"]) or!file_exists($_FILES["picFile"]["tmp_name"])) {
         array_push($msg, 'No image selected.');
-        return $msg;
       }
       $file = $_FILES["picFile"]["tmp_name"];
       $imgsize = getimagesize($file);
@@ -111,9 +110,8 @@
       $height = $imgsize[1];
       if ($width / $height != 1) {
         array_push($msg, 'Image must have ratio of 1:1.');
-        return $msg;
       }
-      return true;
+      return $msg;
     }
 
     function createImgPath() {
