@@ -151,6 +151,7 @@ window.addEventListener('resize', rez);
 showdown.setOption('strikethrough', true);
 showdown.setOption('tables', true);
 showdown.setOption('smoothLivePreview', true);
+showdown.setOption('noHeaderId', true);
 
 function updateMD() {
     elements = document.getElementsByClassName('md');
