@@ -17,7 +17,7 @@ $admin = ($db->getRole($userid) == 'ADMIN') ? true : false;
 $visibility = $db->getVisibility();
 
 if(isset($_POST["picSubmit"]) && isset($_FILES["picFile"])){
-  if ($db->checkImg()) {
+  if (empty($db->checkImg())) {
     $db->createImgPath();
   } else {
     $msg = $db->checkImg();
