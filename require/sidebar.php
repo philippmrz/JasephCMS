@@ -1,11 +1,11 @@
 <?php
 $db = new DatabaseConnection();
 if ($db->auth()):
-  $userid = $db->getCurUser();
+    $userid = $db->getCurUser();
 ?>
 <div id='sidebar'>
   <a class='sidebar-elem' href='index' id='front-page'
-    <?= (strpos($_SERVER['REQUEST_URI'], '/index') !== false or $_SERVER['REQUEST_URI'] == '') ? "status='active'" : ""?>>
+    <?= (strpos($_SERVER['REQUEST_URI'], '/index') !== false or $_SERVER['REQUEST_URI'] == '' or $_SERVER['REQUEST_URI'] == '/') ? "status='active'" : ""?>>
     frontpage
   </a>
   <a class='sidebar-elem' href='saved' id='saved'
