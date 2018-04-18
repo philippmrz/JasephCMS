@@ -103,6 +103,14 @@ select {
   background-color: var(--bg-color);
 }
 
+/* Site wide CSS */
+
+.anon {
+  font-size: 0.8rem;
+  font-style: italic;
+  color: #666;
+}
+
 /* Default buttons */
 .primary-btn {
   background-color: var(--accent-color);
@@ -310,7 +318,7 @@ select {
 
 .sidebar-elem {
   text-transform: uppercase;
-  box-shadow:  #ababab72 6px 0px 4px 0px, rgb(218, 220, 224) 0px -1px 0px 0px inset;
+  box-shadow:  rgba(0,0,0,0.3) -8px 0px 12px -6px inset;
   background-color: var(--bg-color);
   font-family: 'Open Sans', sans-serif;
   display: flex;
@@ -319,16 +327,24 @@ select {
   color: var(--color);
   font-size: 16px;
   letter-spacing: .4px;
-  font-weight: 300;
+  font-weight: 900;
 }
 
 .sidebar-elem:hover {
-  background-color: var(--accent-color-light);
+  background: linear-gradient(to bottom right, var(--accent-color-light), var(--accent-color-verylight));
 }
 
 .sidebar-elem[status='active'] {
   box-shadow: none;
-  background-color: var(--accent-color);
+  background: linear-gradient(to bottom right, var(--accent-color), var(--accent-color-light));
+}
+
+.sidebar-elem[status='active'] + .sidebar-elem {
+  box-shadow:  rgba(0,0,0,0.3) -8px 8px 12px -6px inset;
+}
+
+.sidebar-elem + .sidebar-elem[status='active'] {
+  box-shadow: rgba(0,0,0,0.3) -6px 6px 12px 6px;
 }
 
 /* Markdown CSS */

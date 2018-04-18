@@ -32,7 +32,12 @@ $since = $rowInfo['DAY'];
 $visible = $rowInfo['VISIBILITY'] == 'VISIBLE' ? true : false;
 
 if ($visible or $isself or $admin) {
-  $getPosts = $db->query("SELECT POSTID, TITLE, substring(DATE, 1, 10) AS DAY, substring(DATE, 12, 5) AS TIME FROM $posttable WHERE USERID = $profileID");
+  if (isset($_GET['sort'])) {
+    $order = ($_GET['sort'] == 'ASC') ? 'ASC' : 'DESC';
+  } else {
+    $order = 'DESC';
+  }
+  $getPosts = $db->query("SELECT POSTID, TITLE, substring(DATE, 1, 10) AS DAY, substring(DATE, 12, 5) AS TIME FROM $posttable WHERE USERID = $profileID ORDER BY DATE $order");
   $amtPosts = $getPosts->num_rows;
 }
 
@@ -61,7 +66,7 @@ if ($visible or $isself or $admin) {
             <?php
             if (!$visible and ($isself or $admin)) {
               ?>
-              <span id='profile-info-anon'>(anonymous)</span>
+              <span class='anon'>(anonymous)</span>
               <?php
             }
             ?>
@@ -108,6 +113,11 @@ RETURN;
         ?>
       </div>
     </div>
+    <?php if($db->auth()): ?>
+      <a title='Sort chronologically or reverse chronologically' class='floating-action-btn' href='profile.php?id=<?= $profileID?>&sort=<?= invertSortOrder()?>'>
+        <?= getSortSVG() ?>
+      </a>
+    <?php endif; ?>
     <?php
     else:
     ?>

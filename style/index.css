@@ -99,10 +99,15 @@ hr {
   align-items: center;
 }
 
-.username{
+.username {
   margin-right: 12.5px;
   color: var(--accent-color);
   letter-spacing: 1.5px;
+}
+
+.username a {
+  padding: 0;
+  margin: 0;
 }
 
 .post-text {
@@ -133,6 +138,10 @@ hr {
   .post-text {
     max-height: 22vh;
     max-width: 100%;
+  }
+
+  .anon {
+    display: block;
   }
 
   .date {
