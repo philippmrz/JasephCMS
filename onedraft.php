@@ -5,7 +5,7 @@ if(!$db->auth() or !isset($_GET['id'])) {
   header('Location: index');
 }
 
-$userid = $db->getUserID($_COOKIE['identifier']);
+$userid = $db->getCurUser();
 
 
 if (isset($_GET['del'])) {

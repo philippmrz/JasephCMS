@@ -8,7 +8,7 @@ if (!$db->auth()) {
   header('location: index.php');
 }
 
-$userid = $db->getUserID($_COOKIE['identifier']);
+$userid = $db->getCurUser();
 
 //check for admin
 if ($db->getRole($userid) != 'ADMIN') {

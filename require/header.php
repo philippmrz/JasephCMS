@@ -16,7 +16,7 @@ $db = new DatabaseConnection();
     <?php else:?>
     <?php
     $db = new DatabaseConnection();
-    $img = $db->getImgPath($db->getUserID($_COOKIE['identifier']));
+    $img = $db->getImgPath($db->getCurUser());
     ?>
     <a href=settings.php><img id='profile' src='<?=$img?>' title='Your settings'></a>
     <a href='#'>

@@ -6,7 +6,7 @@ $db = new DatabaseConnection();
 $admin = false;
 
 if ($db->auth()) {
-  $curuserid = $db->getUserID($_COOKIE['identifier']);
+  $curuserid = $db->getCurUser();
   $admin = ($db->getRole($curuserid) == 'ADMIN') ? true : false;
 }
 

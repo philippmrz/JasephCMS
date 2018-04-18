@@ -1,7 +1,7 @@
 <?php
 $db = new DatabaseConnection();
 if ($db->auth()):
-  $userid = $db->getUserID($_COOKIE['identifier']);
+  $userid = $db->getCurUser();
 ?>
 <div id='sidebar'>
   <a class='sidebar-elem' href='index' id='front-page'
@@ -13,7 +13,7 @@ if ($db->auth()):
     saved posts
   </a>
   <a class='sidebar-elem' href='profile?id=<?=$userid?>' id='profile'
-    <?= (strpos($_SERVER['REQUEST_URI'], "/profile")) ? "status='active'" : ""?>>
+    <?= (strpos($_SERVER['REQUEST_URI'], "/profile?id=$userid")) ? "status='active'" : ""?>>
     my profile
   </a>
   <a class='sidebar-elem' href='drafts' id='drafts'

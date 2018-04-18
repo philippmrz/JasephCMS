@@ -5,6 +5,7 @@
     return (isset($_GET['sort']) and $_GET['sort'] == 'ASC') ? "DESC" : "ASC";
   }
 
+  // Returns SVG with name $svg from $svg_list
   function getSVG($svg) {
     $svg_list = [
       'sort' => 'M3 18h6v-2H3v2zM3 6v2h18V6H3zm0 7h12v-2H3v2z',
@@ -25,6 +26,7 @@
     return $svg_list[$svg];
   }
 
+  // Returns the sort SVG to be used for sort floating action button
   function getSortSVG() {
     $rotate = (isset($_GET['sort']) and $_GET['sort'] == 'ASC') ? 'true' : 'false';
     $path = getSVG('sort');
@@ -32,6 +34,7 @@
     return $svg;
   }
 
+  // Returns a random string (0-9;a-Z;!;$;.) with length $length
   function randomString($length) {
       $characters = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!$.";
       $c_length = strlen($characters);
@@ -42,17 +45,25 @@
       return $string;
   }
 
+ // Subtracts a date from the current time and returns string: 'x (unit[s]) ago'
+ // Example: '5 minutes ago'
+  function convertDate($date) {
+    $from = new DateTime($date);
+    $diff = $from->diff(new DateTime(date('Y-m-d H:i:s')));
+    return ($diff->y == 0 ? ($diff->m == 0 ? ($diff->d == 0 ? ($diff->h == 0 ? ($diff->i == 0 ? 'under a minute' : $diff->i . ' ' . ($diff->i == 1 ? 'minute' : 'minutes')) : $diff->h . ' ' . ($diff->h == 1 ? 'hour' : 'hours')) : $diff->d . ' ' . ($diff->d == 1 ? 'day' : 'days')) : $diff->m . ' ' . ($diff->m == 1 ? 'month' : 'months')) : $diff->y . ' ' . ($diff->y == 1 ? 'year' : 'years')) . ' ago';
+  }
 
 
-  // instanciate with $var = new DatabaseConnection
+  // Instantiate with $var = new DatabaseConnection
   // No need to create a new mysqli connection, everything is handled from the class
-  // just move your function to this class and call it with $var->yourFunction();
+  // Just move your function to this class and call it with $var->yourFunction();
   class DatabaseConnection extends mysqli {
 
+    // Path to avatar and temp avatar directories
     const AVATAR_DIRECTORY = "assets/avatar";
     const TEMP_AVATAR_DIRECTORY = "assets/avatar/temp";
 
-    // constructor, this gets called every time a new instance of DatabaseConnection is created
+    // Constructor, this gets called every time a new instance of DatabaseConnection is created
     function __construct() {
       require('credentials.php');
       $instance = @parent::__construct($db_servername, $db_username, $db_password, $db_name);
@@ -60,9 +71,13 @@
       if ($this->connect_error) {
         die($this->connect_errno . $this->connect_error);
       }
+
+      // Creates directory for avatar storage
       if (!is_dir(self::AVATAR_DIRECTORY)) {
         mkdir(self::AVATAR_DIRECTORY, 0777, true);
       }
+
+      // Creates directory for temp avatar storage
       if (!is_dir(self::TEMP_AVATAR_DIRECTORY)) {
         mkdir(self::TEMP_AVATAR_DIRECTORY, 0777, true);
       }
@@ -70,7 +85,7 @@
 
     function getVisibility() {
       require('credentials.php');
-      $userid = self::getUserID($_COOKIE['identifier']);
+      $userid = self::getCurUser();
       $getVisibility = @parent::query("SELECT VISIBILITY FROM $usertable WHERE USERID = $userid");
       $row = $getVisibility->fetch_assoc();
       if ($row['VISIBILITY'] == 'VISIBLE') {
@@ -82,7 +97,7 @@
 
     function getTempImgPath() {
       require('credentials.php');
-      $userID = self::getUserID($_COOKIE['identifier']);
+      $userID = self::getCurUser();
       $getTempImgPath = @parent::query("SELECT TEMP_PATH FROM $imgtable WHERE USERID = '$userID'");
       $row = $getTempImgPath->fetch_assoc();
       return $row['TEMP_PATH'];
@@ -118,7 +133,7 @@
       require('credentials.php');
       $filename = $_FILES["picFile"]["name"];
       $extension = pathinfo($filename, PATHINFO_EXTENSION);
-      $userID = self::getUserID($_COOKIE['identifier']);
+      $userID = self::getCurUser();
       $tempPathTarget = self::TEMP_AVATAR_DIRECTORY . '/av_' . $userID . '.' . $extension;
       $pathTarget = self::AVATAR_DIRECTORY . '/av_' . $userID . '.' . $extension;
       $checkRows = @parent::query("SELECT * FROM $imgtable WHERE USERID = '$userID'");
@@ -154,7 +169,7 @@
 
     function addToSavedPosts($postid) {
       require('credentials.php');
-      $userid = self::getUserID($_COOKIE['identifier']);
+      $userid = self::getCurUser();
       $getSaved = @parent::query("SELECT POSTID FROM saved WHERE POSTID = '$postid' AND USERID = '$userid'");
       if ($getSaved->num_rows == 0) {
         @parent::query("INSERT INTO saved (USERID,POSTID) VALUES ($userid,'$postid')");
@@ -167,13 +182,13 @@
       $order = ($order == 'ASC') ? 'ASC' : 'DESC';
 
       if (basename($_SERVER['PHP_SELF']) == "myposts.php" or basename($_SERVER['PHP_SELF']) == "profile.php") {
-        $userID = self::getUserID($_COOKIE['identifier']);
+        $userID = self::getCurUser();
         $sqlQuery = "SELECT POSTID, substring(TITLE, 1, 50) AS TITLE, substring(CONTENT, 1, 200) AS CONTENT, DATE, substring(DATE, 1, 10) AS DAY, substring(DATE, 12, 5) AS TIME, U.USERID AS USERID, USERNAME, VISIBILITY from $posttable P, $usertable U WHERE P.USERID = U.USERID AND P.USERID = $userID ORDER BY DATE $order";
       } else if (basename($_SERVER['PHP_SELF']) == "saved.php") {
-        $userID = self::getUserID($_COOKIE['identifier']);
+        $userID = self::getCurUser();
         $sqlQuery = "SELECT P.POSTID, substring(TITLE, 1, 50) AS TITLE, substring(CONTENT, 1, 200) AS CONTENT, DATE, substring(DATE, 1, 10) AS DAY, substring(DATE, 12, 5) AS TIME, U.USERID, USERNAME, VISIBILITY from $posttable P, $usertable U, saved S WHERE P.USERID = U.USERID AND P.POSTID=S.POSTID AND S.USERID=$userID ORDER BY DATE ASC";
       } else {
-        $sqlQuery = "SELECT POSTID, substring(TITLE, 1, 50) AS TITLE, CONTENT, DATE, substring(DATE, 1, 10) AS DAY, substring(DATE, 12, 5) AS TIME, U.USERID AS USERID, USERNAME, VISIBILITY from $posttable P, $usertable U WHERE U.USERID = P.USERID ORDER BY DATE $order";
+        $sqlQuery = "SELECT POSTID, substring(TITLE, 1, 50) AS TITLE, CONTENT, DATE, U.USERID AS USERID, USERNAME, VISIBILITY from $posttable P, $usertable U WHERE U.USERID = P.USERID ORDER BY DATE $order";
       }
       $r = @parent::query($sqlQuery);
       $return = "";
@@ -181,8 +196,18 @@
         return 'No posts saved yet.';
       }
       while ($row = $r->fetch_assoc()){
-        $img = ($row['VISIBILITY'] == 'VISIBLE' ? self::getImgPath($row['USERID']) : 'assets/default-avatar.png');
-        $uname = ($row['VISIBILITY'] == 'VISIBLE' ? $row['USERNAME'] : 'Anonymous');
+        if ($row['VISIBILITY'] == 'VISIBLE' or self::checkSelf($row['USERID']) or self::getRole(self::getCurUser()) == 'ADMIN') {
+          if ($row['VISIBILITY'] == 'VISIBLE') {
+            $uname = $row['USERNAME'];
+          } else {
+            $uname = $row['USERNAME'] . "<span class='anon'>(anonymous)</span>";
+          }
+          $img = self::getImgPath($row['USERID']);
+        } else {
+          $uname = 'Anonymous';
+          $img = 'assets/default-avatar.png';
+        }
+        $date = convertDate($row['DATE']);
         $return .= <<<MYSQL
         <a class='post' href='onepost.php?id=$row[POSTID]'>
             <img class='thumbnail' src='$img'>
@@ -195,7 +220,7 @@
                     $uname
                   </p>
                   <p class='date'>
-                    on $row[DAY] at $row[TIME]
+                    $date
                   </p>
                 </div>
               </div>
@@ -214,7 +239,15 @@ MYSQL;
       $r = @parent::query("SELECT TITLE, CONTENT, substring(DATE, 1, 10) AS DAY, substring(DATE, 12, 5) AS TIME, USERNAME, U.USERID AS USERID, VISIBILITY from $posttable P, $usertable U WHERE P.USERID = U.USERID AND POSTID = $_GET[id]");
 
       $row = $r->fetch_assoc();
-      $uname = ($row['VISIBILITY'] == 'VISIBLE' ? $row['USERNAME'] : 'Anonymous');
+      if ($row['VISIBILITY'] == 'VISIBLE' or self::checkSelf($row['USERID']) or self::getRole(self::getCurUser()) == 'ADMIN') {
+        if ($row['VISIBILITY'] == 'VISIBLE') {
+          $uname = "<a href='profile?id=$row[USERID]'>$row[USERNAME]</a>";
+        } else {
+          $uname = "<a href='profile?id=$row[USERID]'>$row[USERNAME] <span class='anon'>(anonymous)</span></a>";
+        }
+      } else {
+        $uname = 'Anonymous';
+      }
       return <<<RETURN
       <div id='post'>
         <p id='title'>$row[TITLE]</p>
@@ -233,7 +266,7 @@ RETURN;
 
     function draftsAusgeben() {
       require('credentials.php');
-      $userid = self::getUserID($_COOKIE['identifier']);
+      $userid = self::getCurUser();
       $sqlQuery = "SELECT DRAFTID, substring(TITLE, 1, 50) AS TITLE, CONTENT, U.USERID AS USERID, USERNAME from $drafttable D, $usertable U WHERE U.USERID = D.USERID AND U.USERID = '$userid'";
       $r = @parent::query($sqlQuery);
       $return = "";
@@ -285,6 +318,15 @@ MYSQL;
 RETURN;
     }
 
+    function getCurUser() {
+      require('credentials.php');
+      if (isset($_COOKIE['identifier'])) {
+        return self::getUserID($_COOKIE['identifier']);
+      } else {
+        return false;
+      }
+    }
+
     function getRole($userid) {
       require('credentials.php');
       return @parent::query("SELECT ROLE FROM $usertable WHERE USERID = '$userid'")->fetch_assoc()['ROLE'];
@@ -321,7 +363,7 @@ RETURN;
 
     function checkSelf($userid) {
       require('credentials.php');
-      return ($userid == self::getUserID($_COOKIE['identifier'])) ? true : false;
+      return ($userid == self::getCurUser()) ? true : false;
     }
 
     function updateRole($userid, $role) {

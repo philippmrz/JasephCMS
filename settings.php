@@ -9,7 +9,7 @@ require 'require/credentials.php';
 
 $db = new DatabaseConnection();
 
-$userid = $db->getUserID($_COOKIE['identifier']);
+$userid = $db->getCurUser();
 
 //get admin
 $admin = ($db->getRole($userid) == 'ADMIN') ? true : false;
@@ -26,7 +26,7 @@ if(isset($_POST["picSubmit"]) && isset($_FILES["picFile"])){
 
 if(isset($_POST["remove"])){
   $tempPath = $db->getTempImgPath();
-  $path = $db->getImgPath($db->getUserID($_COOKIE['identifier']));
+  $path = $db->getImgPath($db->getCurUser());
   if(!is_null($tempPath)){
     unlink($tempPath);
     $deletetempPath = $db->query("UPDATE $imgtable SET TEMP_PATH = null WHERE USERID='$userid'");
@@ -111,7 +111,7 @@ if (isset($_POST["savebtn"])) {
 
   if ($tempimg != "assets/default-avatar.png") {
     $tempPath = $db->getTempImgPath();
-    $path = $db->getImgPath($db->getUserID($_COOKIE['identifier']));
+    $path = $db->getImgPath($db->getCurUser());
     $newpath = DatabaseConnection::AVATAR_DIRECTORY . '/' . substr($tempPath, strlen(DatabaseConnection::TEMP_AVATAR_DIRECTORY));
     if (!is_null($tempPath)) {
       if (is_null($path)) {

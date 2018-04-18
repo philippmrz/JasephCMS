@@ -12,7 +12,7 @@ session_start();
 
 if (isset($_GET["draftid"])) {
   $draftid = $_GET["draftid"];
-  $userid = $db->getUserID($_COOKIE['identifier']);
+  $userid = $db->getCurUser();
   //get draft information
   $getDraft = $db->query("SELECT * FROM $drafttable WHERE DRAFTID = '$draftid'");
   //check if draft exists
@@ -50,7 +50,7 @@ if (isset($_SESSION['newpostmsg'])) {
 
 if (isset($_POST["submit-post"])) {
   $db->createPost(
-    $db->getUserID($_COOKIE['identifier']), //userid
+    $db->getCurUser(), //userid
     $db->escape_string($_POST["title"]), //title
     $db->escape_string($_POST["content"]) //content
   );
@@ -59,7 +59,7 @@ if (isset($_POST["submit-post"])) {
 
 if (isset($_POST["submit-draft"])) {
   $db->createDraft(
-    $db->getUserID($_COOKIE['identifier']), //userid
+    $db->getCurUser(), //userid
     $db->escape_string($_POST["title"]), //title
     $db->escape_string($_POST["content"]) //content
   );

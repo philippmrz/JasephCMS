@@ -11,7 +11,7 @@ if(!$db->auth()) {
 }
 
 if (isset($_COOKIE['identifier'])) {
-  $userid = $db->getUserID($_COOKIE['identifier']);
+  $userid = $db->getCurUser();
 }
 
 if (isset($_GET['del'])) {
