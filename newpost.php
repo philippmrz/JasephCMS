@@ -110,6 +110,13 @@ if (isset($_POST["submit-draft"])) {
           <textarea id="contentArea" name="content" placeholder="Post content" spellcheck="false" maxlength="10000" oninput="refreshContentArea()" autocomplete='off' required><?php echo (isset($draftcontent)) ? $draftcontent : '' ?></textarea>
         </div>
 
+        <?php
+        if(isset($drafttitle) or isset($draftcontent)) {
+          unset($_SESSION['drafttitle']);
+          unset($_SESSION['draftcontent']);
+        }
+        ?>
+
       </div>
 
       <div id='preview-sheet'>
