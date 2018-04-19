@@ -1,7 +1,7 @@
 <?php
 $db = new DatabaseConnection();
 if ($db->auth()):
-    $userid = $db->getCurUser();
+  $userid = $db->getCurUser();
 ?>
 <div id='sidebar'>
   <a class='sidebar-elem' href='index' id='front-page'
@@ -30,7 +30,7 @@ if ($db->auth()):
 <!-- Mobile only-->
 <div id='navbar'>
   <a class='navbar-elem' href='index'
-    <?= (strpos($_SERVER['REQUEST_URI'], '/index') !== false or $_SERVER['REQUEST_URI'] == '') ? "status='active'" : ""?>>
+    <?= (strpos($_SERVER['REQUEST_URI'], '/index') !== false or $_SERVER['REQUEST_URI'] == '' or $_SERVER['REQUEST_URI'] == '/') ? "status='active'" : ""?>>
     <svg class='svg-24' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d='<?php echo getSVG('home');?>'/></svg>
   </a>
   <?php if ($db->auth()):?>
@@ -38,8 +38,8 @@ if ($db->auth()):
       <?= strpos($_SERVER['REQUEST_URI'], '/saved') !== false ? "status='active'" : ""?>>
       <svg class='svg-24' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d='<?= getSVG('saved');?>'/></svg>
     </a>
-    <a class='navbar-elem' href='profile'
-      <?= strpos($_SERVER['REQUEST_URI'], '/profile') !== false ? "status='active'" : ""?>>
+    <a class='navbar-elem' href='profile?id=<?=$userid?>'
+      <?= strpos($_SERVER['REQUEST_URI'], "/profile?id=$userid") !== false ? "status='active'" : ""?>>
       <svg class='svg-24' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d='<?= getSVG('profile');?>'/></svg>
     </a>
     <a class='navbar-elem' href='drafts'
