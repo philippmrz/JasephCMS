@@ -112,7 +112,7 @@ if (isset($_POST["savebtn"])) {
   if ($tempimg != "assets/default-avatar.png") {
     $tempPath = $db->getTempImgPath();
     $path = $db->getImgPath($db->getCurUser());
-    $newpath = DatabaseConnection::AVATAR_DIRECTORY . '/' . substr($tempPath, strlen(DatabaseConnection::TEMP_AVATAR_DIRECTORY));
+    $newpath = DatabaseConnection::AVATAR_DIRECTORY . substr($tempPath, strlen(DatabaseConnection::TEMP_AVATAR_DIRECTORY));
     if (!is_null($tempPath)) {
       if (is_null($path)) {
         $savePath = $db->query("UPDATE images SET PATH = '$newpath', TEMP_PATH = null WHERE USERID = '$userid'");
@@ -153,15 +153,16 @@ $db->close();
       <form method="POST" action="" enctype="multipart/form-data">
         <div class='btn-wrapper'>
           <input class="secondary-btn" type="submit" name="cancelbtn" value="Cancel"/>
-          <input class="secondary-btn" type="submit" name="savebtn" value="Save Changes"/>
+          <input class="primary-btn" type="submit" name="savebtn" value="Save Changes"/>
         </div>
-        <hr>
+        <div class="settings-main">
         <h1 id='settings-title2'>ACCOUNT</h1>
         <p>Username</p>
-        <input id="settings-username" type="text" name="newUname" <?php echo "value=\"" . $db->getUsername($userid) . "\""; ?>/>
+        <input id="settings-username" type="text" name="newUname" maxlength="20" value="<?=$db->getUsername($userid)?>"/>
+        <hr>
         <p>Change Password</p>
-        <input class="password" type="password" name="oldPword" placeholder="Old Password"/><br>
-        <input class="password" type="password" name="newPword" placeholder="New Password"/><br>
+        <input class="settings-password" type="password" name="oldPword" placeholder="Old Password"/><br>
+        <input class="settings-password" type="password" name="newPword" placeholder="New Password"/><br>
         <input class='secondary-btn' type="submit" name="pChangeCommit" value="Commit"><br>
         <p>
           <?php
@@ -172,14 +173,18 @@ $db->close();
           }
           ?>
         </p>
-        <p>Avatar</p>
-        <input type="hidden" value="1000000" name="FILE_SIZE_MAX">
-        <input type="file" name="picFile" accept=".jpg, .jpeg, .png, .gif"><br>
-        <input class='secondary-btn' type="submit" name="picSubmit" value="Upload"><br>
-        <input class='secondary-btn' type="submit" name="remove" value="Remove"><br>
-
-        <img id='settings-avatar' src=<?php echo "'$displayimg'";?> height="128" width="128"/>
         <hr>
+        <p>Avatar</p>
+        <div id="settings-avatar">
+        <input type="hidden" value="1000000" name="FILE_SIZE_MAX"/>
+        <input id='settings-avatar-upload' type="file" name="picFile" accept=".jpg, .jpeg, .png, .gif"/>
+        <input id='settings-avatar-submit' class='secondary-btn' type="submit" name="picSubmit" value="Upload"/>
+        <input id='settings-avatar-remove' class='secondary-btn' type="submit" name="remove" value="Remove"/>
+
+        <img src="<?=$displayimg?>" height="128" width="128"/>
+        </div>
+        </div>
+        <div class="settings-main">
         <h1 id='settings-title2'>PROFILE VISIBILITY</h1>
         <div id='settings-visibility'>
           <?php
@@ -191,12 +196,13 @@ $db->close();
           </div>
           <p id='settings-visibility-info'></p>
         </div>
+        </div>
         <?php
         if ($admin): ?>
-        <hr>
+        <div class="settings-main">
         <h1 id='settings-title2'>ADMINISTRATION</h1>
         <a href='userlist'>List of Users</a>
-
+        </div>
         <?php endif;?>
         <p>
           <?php
@@ -207,10 +213,9 @@ $db->close();
           }
           ?>
         </p>
-        <hr>
         <div class='btn-wrapper'>
           <input class="secondary-btn" type="submit" name="cancelbtn" value="Cancel"/>
-          <input class="secondary-btn" type="submit" name="savebtn" value="Save Changes"/>
+          <input class="primary-btn" type="submit" name="savebtn" value="Save Changes"/>
         </div>
       </form>
     </div>

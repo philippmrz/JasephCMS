@@ -59,6 +59,11 @@ if ($visible or $isself or $admin) {
     ?>
     <div id='profile-sheet'>
       <div id='profile-info'>
+        <?php if ($isself) {?>
+        <a id='profile-settings' href='settings' title='Go to your settings'>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d='<?= getSVG('settings');?>'/></svg>
+        </a>
+        <?php }?>
         <img id='profile-avatar' src='<?=$db->getImgPath($profileID)?>'/>
         <div id='profile-info-no-av'>
           <h1 id='profile-info-name'>

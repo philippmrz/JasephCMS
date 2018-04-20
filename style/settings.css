@@ -1,6 +1,21 @@
 #settings-sheet {
   width: 60%;
   margin: 0 auto 50px auto;
+  background: var(--bg-color);
+  box-shadow: 0 0 6px 3px rgba(0, 0, 0, 0.12);
+  border-radius: 5px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding: 10px;
+}
+
+.settings-main {
+  background: var(--bg-color);
+  box-shadow: 0 0 6px 3px rgba(0, 0, 0, 0.12);
+  padding: 10px;
+  border-radius: 5px;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 #settings-title {
@@ -22,11 +37,41 @@
   max-width: 400px;
 }
 
+.settings-password {
+  width: 100%;
+  max-width: 400px;
+  margin-bottom: 10px;
+}
+
 #settings-avatar {
+  display: grid;
+  margin: auto;
+  width: 30%;
+  min-width: 210px;
+  grid-template-rows: 35px auto 35px;
+  grid-template-columns: 50% 50%;
+  grid-row-gap: 5px;
+  grid-column-gap: 5px;
+}
+
+#settings-avatar img {
+  grid-area: 2 / 1 / 2 / 3;
   display: block;
   border: 1px solid #e2e2e2;
   border-radius: 4px;
-  margin: 1vh 5%;
+  margin: auto;
+}
+
+#settings-avatar-upload {
+  grid-area: 1 / 1 / 1 / 3;
+}
+
+#settings-avatar-submit {
+  grid-area: 3 / 1 / 3 / 1;
+}
+
+#settings-avatar-remove {
+  grid-area: 3 / 2 / 3 / 2;
 }
 
 hr {
@@ -42,6 +87,11 @@ hr {
   }
 
   #settings-avatar {
-    margin: 1vh auto;
+    width: 100%;
+    grid-template-rows: 27px auto 27px;
+  }
+
+  #settings-title2 {
+    text-align: center;
   }
 }

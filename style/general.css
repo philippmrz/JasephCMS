@@ -257,7 +257,7 @@ select {
 }
 
 .popup .close:hover {
-  color: #06D85F;
+  color: var(--accent-color);
 }
 
 .popup .popup-content {
