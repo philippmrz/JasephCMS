@@ -1,6 +1,6 @@
 <?php
 require_once('require/backend.php');
-require('require/credentials.php')
+require('require/credentials.php');
 $db = new DatabaseConnection();
 
 if (isset($_GET['id'])) {
