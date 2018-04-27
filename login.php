@@ -3,6 +3,7 @@ require_once('require/backend.php');
 $db = new DatabaseConnection();
 $msg = $db->login();
 ?>
+
 <!doctype html>
 <html>
 <head>
@@ -40,7 +41,9 @@ $msg = $db->login();
   </div>
 </div>
 
-<script>applyStyle();</script>
+<script>
+  applyStyle();
+</script>
 
 </body>
 </html>

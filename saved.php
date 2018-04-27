@@ -12,6 +12,7 @@ if (isset($_GET['id'])) {
 }
 ?>
 
+<!doctype html>
 <html>
 <head>
   <?php require 'require/head.php';?>

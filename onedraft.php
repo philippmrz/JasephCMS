@@ -15,6 +15,7 @@ if (isset($_GET['del'])) {
 }
 
 ?>
+
 <!doctype html>
 <html>
 <head>
@@ -40,7 +41,9 @@ if (isset($_GET['del'])) {
   </div>
 </div>
 
-<script>applyStyle();</script>
-<script>updateMD();</script>
+<script>
+  applyStyle();
+  updateMD();
+</script>
 </body>
 </html>

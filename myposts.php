@@ -23,7 +23,9 @@
   </div>
 </div>
 
-<script>applyStyle();</script>
-<script>updateMD();</script>
+<script>
+  applyStyle();
+  updateMD();
+</script>
 </body>
 </html>

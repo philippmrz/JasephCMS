@@ -76,14 +76,12 @@ if (isset($_POST["confbtn"])) {
 
 <!doctype html>
 <html>
-
 <head>
   <?php require 'require/head.php';?>
   <script>applyStyle();</script>
   <link rel="stylesheet" href="style/userlist.css">
   <script src="script/userlist.js"></script>
 </head>
-
 <body>
   <div id='grid-wrap'>
     <?php require 'require/header.php';?>

@@ -42,6 +42,8 @@ if ($visible or $isself or $admin) {
 }
 
 ?>
+
+<!doctype html>
 <html>
 <head>
   <?php require 'require/head.php';?>
@@ -135,7 +137,9 @@ RETURN;
   </div>
 </div>
 
-<script>applyStyle();</script>
-<script>updateMD();</script>
+<script>
+  applyStyle();
+  updateMD();
+</script>
 </body>
 </html>

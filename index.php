@@ -4,6 +4,7 @@ $db = new DatabaseConnection();
 $db->auth();
 ?>
 
+<!doctype html>
 <html>
 <head>
   <?php require 'require/head.php';?>
