@@ -110,6 +110,7 @@ if (isset($_POST["savebtn"])) {
   }
 
   if ($tempimg != "assets/default-avatar.png") {
+    $imgChanged = true;
     $tempPath = $db->getTempImgPath();
     $path = $db->getImgPath($db->getCurUser());
     $newpath = DatabaseConnection::AVATAR_DIRECTORY . substr($tempPath, strlen(DatabaseConnection::TEMP_AVATAR_DIRECTORY));
@@ -129,7 +130,11 @@ if (isset($_POST["savebtn"])) {
     $displayimg = $newpath;
   }
   sleep(1);
-  header('location: index');
+  if ($imgChanged) {
+    header('Location: index#imgchange');
+  } else {
+    header('Location: index');
+  }
 }
 
 $db->close();
@@ -222,7 +227,9 @@ $db->close();
   </div>
 </div>
 
-<script>applyStyle();</script>
-<script>vis();</script>
+<script>
+  applyStyle();
+  vis();
+</script>
 </body>
 </html>

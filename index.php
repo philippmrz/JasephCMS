@@ -3,7 +3,7 @@ require_once('require/backend.php');
 $db = new DatabaseConnection();
 $db->auth();
 ?>
-<!doctype html>
+
 <html>
 <head>
   <?php require 'require/head.php';?>
@@ -16,6 +16,17 @@ $db->auth();
   <?php require 'require/header.php';?>
   <?php require 'require/sidebar.php'; ?>
   <div id='content'>
+
+    <div id='imgchange' class='overlay'>
+      <div class='popup'>
+        <a class="close" href="#">&times;</a>
+        <div class='popup-content'>
+          Changed profile image.<br>
+          You may need to force a refresh to make the change visible in your browser.<br>
+          (Usually CTRL + F5)
+        </div>
+      </div>
+    </div>
     <?php if (!$db->auth()): ?>
       <div id='jumbotron'>
         <p>Register to start blogging and to access more features.</p><br>
@@ -33,7 +44,9 @@ $db->auth();
   </div>
 </div>
 
-<script>applyStyle();</script>
-<script>updateMD();</script>
+<script>
+  applyStyle();
+  updateMD();
+</script>
 </body>
 </html>
