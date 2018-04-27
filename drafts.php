@@ -1,5 +1,6 @@
 <?php
 require_once('require/backend.php');
+require('require/credentials.php');
 $db = new DatabaseConnection();
 
 if (!$db->auth()) {
@@ -21,8 +22,16 @@ if (!$db->auth()) {
   <?php require 'require/sidebar.php'; ?>
   <div id='content'>
     <?php
-    $db = new DatabaseConnection();
-    echo $db->draftsAusgeben();
+    $userid = $db->getCurUser();
+    if ($getDrafts = $db->query("SELECT DRAFTID FROM $drafttable WHERE USERID = $userid")) {
+      if ($getDrafts->num_rows > 0) {
+        echo $db->draftsAusgeben();
+      } else {
+        echo 'You haven\'t saved any drafts yet';
+      }
+    } else {
+      echo 'query error';
+    }
     ?>
   </div>
 </div>
