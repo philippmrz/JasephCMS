@@ -102,7 +102,7 @@ if (isset($_POST["submit-draft"])) {
 
         <div id='title-wrapper'>
           <p class='char-counter' id="titlecharswrapper">200</p>
-          <input id="titleField" name="title" type="text" placeholder="Title" maxlength="200" oninput="updateCharsLeft(200, 'title')" autocomplete='off' <?= (isset($drafttitle)) ? "value=$drafttitle" : '' ?> required autofocus>
+          <input id="titleField" name="title" type="text" placeholder="Title" maxlength="200" oninput="updateCharsLeft(200, 'title')" autocomplete='off' <?= (isset($drafttitle)) ? "value='$drafttitle'" : '' ?> required autofocus>
         </div>
 
         <div id='content-wrapper'>
