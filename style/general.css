@@ -27,7 +27,7 @@ body, html {
 /* Grid configs */
 #grid-wrap {
   display: grid;
-  grid-template-columns: 150px auto;
+  grid-template-columns: 200px auto;
   grid-template-rows: minmax(55px,12vh) 88vh;
   height: 100vh;
 }
@@ -312,8 +312,21 @@ select {
 
 /* Sidebar CSS */
 #sidebar {
-  display: grid;
-  grid-auto-rows: auto;
+  width: 100%;
+  height: 100%;
+  box-shadow:  rgba(0,0,0,0.3) -8px 0px 12px -6px inset;
+}
+
+#sidebar .category {
+  width: 100%;
+  height: 50px;
+  margin: 10px 0;
+  padding: 10px 0;
+  border: solid #e2e2e2;
+  border-width: 1px 0 1px 0;
+  font-weight: bold;
+  text-align: center;
+  align-items: center;
 }
 
 .sidebar-elem {
@@ -322,12 +335,13 @@ select {
   background-color: var(--bg-color);
   font-family: 'Open Sans', sans-serif;
   display: flex;
-  justify-content: center;
   align-items: center;
+  padding: 0 0 0 10px;
   color: var(--color);
   font-size: 16px;
   letter-spacing: .4px;
-  font-weight: 900;
+  font-weight: 400;
+  min-height: 50px;
 }
 
 .sidebar-elem:hover {
@@ -345,6 +359,17 @@ select {
 
 .sidebar-elem + .sidebar-elem[status='active'] {
   box-shadow: rgba(0,0,0,0.3) -6px 6px 12px 6px;
+}
+
+.sidebar-elem svg {
+  width: 30px;
+  height: 30px;
+  margin-right: 15px;
+  fill: var(--color);
+}
+
+.sidebar-elem span {
+
 }
 
 /* Markdown CSS */
