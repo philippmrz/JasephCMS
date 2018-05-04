@@ -5,6 +5,36 @@
  *
  */
 
+ function setCookie(cname, val, time) { // for time use new Date(years, months, days, hours, minutes, seconds, milliseconds);
+     var now = new Date();
+     if (time != null) {
+         var expiry = new Date(now.getTime() + time);
+         document.cookie = cname + "=" + val + "; expires=" + expiry.toUTCString() + "; path=";
+     } else {
+         document.cookie = cname + "=" + val + "; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=";
+     }
+ }
+
+ function getCookie(cname) {
+     var name = cname + "=";
+     var decodedCookie = decodeURIComponent(document.cookie);
+     var ca = decodedCookie.split(';');
+     for (var i = 0; i < ca.length; i++) {
+         var c = ca[i];
+         while (c.charAt(0) == ' ') {
+             c = c.substring(1);
+         }
+         if (c.indexOf(name) == 0) {
+             return c.substring(name.length, c.length);
+         }
+     }
+     return null;
+ }
+
+ function deleteCookie(cname) {
+   document.cookie = cname + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT; path=';
+ }
+
 function logout() {
     deleteCookie("identifier");
     deleteCookie("hashed_password");
