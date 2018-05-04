@@ -289,6 +289,26 @@ select {
   max-height: 50px;
 }
 
+#svg-logo {
+  height: 50px;
+}
+
+#svg-logo-inner {
+  fill: var(--color);
+}
+
+#svg-logo-outer {
+  fill: var(--accent-color);
+}
+
+#svg-jaseph {
+  height: 50px;
+}
+
+#svg-jaseph path {
+  fill: var(--color);
+}
+
 #btn-holder {
   display: flex;
   justify-content: space-around;
@@ -470,8 +490,8 @@ select {
     grid-area: 2 / 1 / 2 / 1;
   }
 
-  #head-logo {
-    max-height: 40px;
+  #svg-logo {
+    height: 60px;
   }
 
   .primary-btn {

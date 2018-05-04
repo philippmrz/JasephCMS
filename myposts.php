@@ -1,3 +1,11 @@
+<?php
+$db = new DatabaseConnection();
+if (!$db->auth()) {
+  header("Location: index");
+}
+
+?>
+
 <!doctype html>
 <html>
 <head>
@@ -12,7 +20,6 @@
   <?php require 'require/sidebar.php'; ?>
   <div id='content'>
     <?php
-      $db = new DatabaseConnection();
       echo $db->postsAusgeben(isset($_GET['sort']) ? $_GET['sort'] : 'DESC');
 
     if($db->auth()): ?>

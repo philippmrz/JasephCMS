@@ -17,7 +17,6 @@ $db = new DatabaseConnection();
   <?php require 'require/header.php';?>
   <?php require 'require/sidebar.php'; ?>
   <div id='content'>
-    
   </div>
 </div>
 
