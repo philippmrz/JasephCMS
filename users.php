@@ -1,7 +1,6 @@
 <?php
 require_once('require/backend.php');
 require('require/credentials.php');
-$db = new DatabaseConnection();
 ?>
 
 <!doctype html>

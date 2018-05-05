@@ -1,5 +1,4 @@
 <?php
-$db = new DatabaseConnection();
 if ($db->auth()):
   $userid = $db->getCurUser();
 ?>

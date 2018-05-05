@@ -101,7 +101,7 @@ function hslToRgb(h, s, l) {
         g = hue2rgb(p, q, h);
         b = hue2rgb(p, q, h - 1/3);
     }
-    return [ r * 255, g * 255, b * 255 ];
+    return [ Math.round(r * 255), Math.round(g * 255), Math.round(b * 255) ];
 }
 
 function rgbToHex(r, g, b) {
@@ -154,37 +154,45 @@ function swapStyle() {
     } else {
         setCookie('theme', 'hacker');
     }
+    applyPalette();
     applyStyle();
 }
 
+function applyPalette() {
+  if (getCookie("theme") == "hacker") {
+    if (!getCookie('color-hacker')) {
+      setCookie('color-hacker', '#20c20e');
+    }
+    setPalette(calculatePalette(getCookie('color-hacker')));
+  } else {
+    if (!getCookie('color')) {
+      setCookie('color', '#ff7614');
+    }
+    setPalette(calculatePalette(getCookie('color')));
+  }
+}
+
 function applyStyle() {
+    var x = document.getElementById('color-slider');
     if (getCookie("theme") == "hacker") {
         document.documentElement.style.setProperty('--bg-color', '#202124');
         document.documentElement.style.setProperty('--color', '#e6e6e6');
         document.documentElement.style.setProperty('--table-accent-color', '#313235');
         document.documentElement.style.setProperty('--title-color', '#999');
-        var x = document.querySelector('#mask');
         if (x) {
-            x.setAttribute('src', 'assets/mask_white.png');
+          x.value = hexToHsl(getCookie('color-hacker'))[0] * 360;
         }
-        if (!getCookie('color-hacker')) {
-          setCookie('color-hacker', '#20c20e');
-        }
-        setPalette(calculatePalette(getCookie('color-hacker')));
     } else {
         document.documentElement.style.setProperty('--bg-color', '#fff');
         document.documentElement.style.setProperty('--color', '#202124');
         document.documentElement.style.setProperty('--table-accent-color', '#ccc');
         document.documentElement.style.setProperty('--title-color', '#333');
-        var x = document.querySelector('#mask');
         if (x) {
-            x.setAttribute('src', 'assets/mask.png');
+          x.value = hexToHsl(getCookie('color'))[0] * 360;
         }
-        if (!getCookie('color')) {
-          setCookie('color', '#ff7614');
-        }
-        setPalette(calculatePalette(getCookie('color')));
     }
+    applyPalette();
+    updateSliderBG();
     rez();
 }
 
@@ -203,9 +211,33 @@ function rez() {
     }
 }
 
+// Header Mask JS
+
+function toggleDesignMenu() {
+  document.getElementById('design-menu').classList.toggle('show');
+}
+
+function updateSliderBG() {
+  var x = document.getElementById('color-slider');
+  if (x) {
+    x.style.background = 'hsl(' + x.value + ', 100%, 50%)';
+  }
+}
+
+function yuh() {
+  var x = document.getElementById('color-slider').value;
+  updateSliderBG();
+  if (getCookie('theme') == 'hacker') {
+    setCookie('color-hacker', hslToHex(x/360, 1, 0.5));
+  } else {
+    setCookie('color', hslToHex(x/360, 1, 0.5));
+  }
+  applyPalette();
+}
+
 window.addEventListener('resize', rez);
 
-//MARKDOWN formatting using Showdown
+// MARKDOWN formatting using Showdown
 showdown.setOption('strikethrough', true);
 showdown.setOption('tables', true);
 showdown.setOption('smoothLivePreview', true);

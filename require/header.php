@@ -1,6 +1,5 @@
 <?php
 require_once('backend.php');
-$db = new DatabaseConnection();
 ?>
 
 <div id='header'>
@@ -32,6 +31,18 @@ $db = new DatabaseConnection();
       <button id='logout' class='secondary-btn' onclick='logout()'>log out</button>
     </a>
     <?php endif;?>
-    <img id='mask' src='assets/mask.png' onclick='swapStyle()' title='Change page theme'>
+    <div id='design-wrapper'>
+      <svg id='palette' viewBox="0 0 24 24" onclick='toggleDesignMenu()' title='Customize the page theme'>
+        <path d="<?= getSVG('palette')?>" />
+      </svg>
+      <div id='design-menu' class='dropdown'>
+        <svg id='mask' viewBox="0 0 81 35" onclick='swapStyle()' title='Swap between light and dark theme'>
+          <path d="<?= getSVG('mask')?>" />
+        </svg>
+        <div id='design-color'>
+          <input id='color-slider' type='range' oninput='yuh()' min='0' max='360'/>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

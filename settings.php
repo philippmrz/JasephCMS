@@ -1,7 +1,6 @@
 <?php
 require_once('require/backend.php');
 
-$db = new DatabaseConnection();
 if (!$db->auth()) {
   header("Location: index");
 }

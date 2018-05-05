@@ -2,8 +2,6 @@
 require_once('require/backend.php');
 require('require/credentials.php');
 
-$db = new DatabaseConnection();
-
 if (!$db->auth()) {
   header('location: index.php');
 }

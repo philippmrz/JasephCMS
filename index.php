@@ -1,7 +1,5 @@
 <?php
 require_once('require/backend.php');
-$db = new DatabaseConnection();
-$db->auth();
 ?>
 
 <!doctype html>
@@ -17,7 +15,6 @@ $db->auth();
   <?php require 'require/header.php';?>
   <?php require 'require/sidebar.php'; ?>
   <div id='content'>
-
     <div id='imgchange' class='overlay'>
       <div class='popup'>
         <a class="close" href="#">&times;</a>

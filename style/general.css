@@ -325,9 +325,76 @@ select {
   border-radius: 4px;
 }
 
+#design-wrapper {
+  height: 54px;
+  width: 70px;
+  text-align: center;
+}
+
+#design-menu {
+  position: relative;
+  width: 70px;
+  height: 200px;
+  top: 10px;
+  border-radius: 4px;
+  border-style: 1px solid #e2e2e2;
+  box-shadow: 0 0 6px 3px rgba(0, 0, 0, 0.12);
+  padding: 10px;
+  text-align: center;
+  background: var(--bg-color);
+  overflow: hidden;
+  outline: none;
+}
+
+#color-slider {
+  -webkit-appearance: none;
+  margin-top: 70px;
+  width: 150px;
+  height: 20px;
+  border-radius: 10px;
+  transform: rotate(90deg) translateY(50px);
+  transform-origin: center center;
+  background: rgba(0, 0, 0, 0.2);
+  outline: none;
+  border: 0;
+  transition: background 0.05s;
+}
+
+#color-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: var(--color);
+  cursor: pointer;
+  outline: none;
+}
+
+.dropdown {
+  position: absolute;
+  display: none;
+}
+
+.show {
+  display: block;
+}
+
 #mask {
   height: 20px;
   cursor: pointer;
+}
+
+#mask path {
+  fill: var(--color);
+}
+
+#palette {
+  width: 50px;
+  cursor: pointer;
+}
+
+#palette path {
+  fill: var(--color);
 }
 
 /* Sidebar CSS */
