@@ -197,16 +197,10 @@ function applyStyle() {
 }
 
 function rez() {
-    var x = document.querySelector('#svg-jaseph');
-    if (x) {
-        if (window.innerWidth <= 900) {
-            var y = document.getElementById('navbar');
-            if (y) {
-              y.style.gridTemplateColumns = 'repeat(' + y.childElementCount + ', 1fr)';
-            }
-            x.style.display = 'none';
-        } else {
-            x.style.display = 'inline';
+    if (window.innerWidth <= 900) {
+        var y = document.getElementById('navbar');
+        if (y) {
+            y.style.gridTemplateColumns = 'repeat(' + y.childElementCount + ', 1fr)';
         }
     }
 }

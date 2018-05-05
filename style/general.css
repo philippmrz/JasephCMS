@@ -561,6 +561,10 @@ select {
     height: 60px;
   }
 
+  #svg-jaseph {
+    display: none;
+  }
+
   .primary-btn {
     padding: 6px 11px;
   }
