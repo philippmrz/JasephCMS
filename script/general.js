@@ -42,6 +42,15 @@ function logout() {
     location = location;
 }
 
+function escapeHtml(unsafe) {
+    return unsafe
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+ }
+
 // Color Magic
 
 function hexToRgb(hex) { //Requires '#'

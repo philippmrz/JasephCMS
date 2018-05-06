@@ -3,11 +3,16 @@ require_once('require/backend.php');
 require('require/credentials.php');
 $db = new DatabaseConnection();
 
+if(!$db->auth()) {
+  header('Location: index');
+}
+
 if (isset($_GET['id'])) {
+  $GETid = $db->escape_string($_GET['id']); //sanitize GET request
   if (isset($_GET['rem'])) {
-    $db->removeSavedPost($_GET['id']);
+    $db->removeSavedPost($GETid);
   } else {
-    $db->addToSavedPosts($_GET['id']);
+    $db->addToSavedPosts($GETid);
   }
 }
 ?>

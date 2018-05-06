@@ -11,6 +11,12 @@ function addClass(elem, classname) {
     }
 }
 
+function removeClass(elem, classname) {
+    if (elem.classList.contains(classname)) {
+        elem.classList.remove(classname);
+    }
+}
+
 function rezNewpost() {
     var expand = document.getElementById('newpost-expand');
     var expand_submit = document.getElementById('newpost-expand-submit');
@@ -45,9 +51,9 @@ function applyExpand() {
         addClass(expand_drafts,'expanded');
 
     } else {
-        expand_submit.classList.remove('expanded');
-        expand_newdraft.classList.remove('expanded');
-        expand_drafts.classList.remove('expanded');
+        removeClass(expand_submit,'expanded');
+        removeClass(expand_newdraft,'expanded');
+        removeClass(expand_drafts,'expanded');
         expand_submit.style.visibility = 'hidden';
         expand_newdraft.style.visibility = 'hidden';
         expand_drafts.style.visibility = 'hidden';
@@ -55,28 +61,23 @@ function applyExpand() {
 }
 
 function toggleExpand() {
-    if (on) {
-        on = false;
-    } else {
-        on = true;
-    }
-    console.log(on);
+    on = !on;
     applyExpand();
 }
 
- function updateCharsLeft(maxAmt, type) {
-    if(type == "title") {
-        var cur = document.getElementById("titleField").value.length;
-        document.getElementById("titlecharswrapper").innerHTML = maxAmt - cur;
-    } else if(type == "content") {
-        var cur = document.getElementById("contentArea").value.length;
-        document.getElementById("contentcharswrapper").innerHTML = maxAmt - cur;
-    }
+var maxAmtTitle = 200;
+var maxAmtContent = 10000;
+
+ function updateCharsLeft() {
+    var cur = document.getElementById("titleField").value.length;
+    document.getElementById("titlecharswrapper").innerHTML = maxAmtTitle - cur;
+    var cur = document.getElementById("contentArea").value.length;
+    document.getElementById("contentcharswrapper").innerHTML = maxAmtContent - cur;
 }
 
 function refreshContentArea() {
-    updateCharsLeft(10000, 'contentArea');
-    var text = document.getElementById('contentArea').value;
+    updateCharsLeft();
+    var text = escapeHtml(document.getElementById('contentArea').value);
     var target = document.getElementById('preview');
     var converter = new showdown.Converter();
     var output = converter.makeHtml(text);

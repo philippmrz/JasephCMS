@@ -1,12 +1,14 @@
 <?php require_once 'require/backend.php';
 
 $db = new DatabaseConnection();
+
 if(!$db->auth() or !isset($_GET['id'])) {
   header('Location: index');
+} else {
+  $GETid = $db->escape_string($_GET['id']);
 }
 
 $userid = $db->getCurUser();
-
 
 if (isset($_GET['del'])) {
   if ($_GET['del'] == 1) {
@@ -37,7 +39,7 @@ if (isset($_GET['del'])) {
     <svg class='svg-24' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d='<?= getSVG('newpost');?>'/></svg>
   </a>
 
-  <?= $db->einenDraftAusgeben(); ?>
+  <?= $db->einenDraftAusgeben($GETid); ?>
   </div>
 </div>
 

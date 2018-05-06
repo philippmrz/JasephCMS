@@ -242,13 +242,15 @@
           $img = 'assets/default-avatar.png';
         }
         $date = convertDate($row['DATE']);
+        $title = htmlspecialchars($row['TITLE']);
+        $content = htmlspecialchars($row['CONTENT']);
         $return .= <<<MYSQL
         <a class='post' href='onepost.php?id=$row[POSTID]'>
             <img class='thumbnail' src='$img'>
 
             <div class='post-without-tn'>
               <div class='post-info'>
-                <p class='title'>$row[TITLE]</p>
+                <p class='title'>$title</p>
                 <div class='date-uname'>
                   <p class='username'>
                     $uname
@@ -258,7 +260,7 @@
                   </p>
                 </div>
               </div>
-              <span class='post-text md'>$row[CONTENT]</span>
+              <span class='post-text md'>$content</span>
             </div>
         </a>
         <hr>
@@ -267,10 +269,10 @@ MYSQL;
       return $return;
     }
 
-    function einenPostAusgeben() {
+    function einenPostAusgeben($id) {
       require('credentials.php');
 
-      $r = @parent::query("SELECT TITLE, CONTENT, substring(DATE, 1, 10) AS DAY, substring(DATE, 12, 5) AS TIME, USERNAME, U.USERID AS USERID, VISIBILITY from $posttable P, $usertable U WHERE P.USERID = U.USERID AND POSTID = $_GET[id]");
+      $r = @parent::query("SELECT TITLE, CONTENT, substring(DATE, 1, 10) AS DAY, substring(DATE, 12, 5) AS TIME, USERNAME, U.USERID AS USERID, VISIBILITY from $posttable P, $usertable U WHERE P.USERID = U.USERID AND POSTID = $id");
 
       $row = $r->fetch_assoc();
       if ($row['VISIBILITY'] == 'VISIBLE' or self::checkSelf($row['USERID']) or self::getRole(self::getCurUser()) == 'ADMIN') {
@@ -282,9 +284,11 @@ MYSQL;
       } else {
         $uname = 'Anonymous';
       }
+      $title = htmlspecialchars($row['TITLE']);
+      $content = htmlspecialchars($row['CONTENT']);
       return <<<RETURN
       <div id='post'>
-        <p id='title'>$row[TITLE]</p>
+        <p id='title'>$title</p>
         <div id='post-info'>
           <p id='username-top'>
             posted by $uname
@@ -293,7 +297,7 @@ MYSQL;
             on $row[DAY] at $row[TIME]
           </p>
         </div>
-        <span id='post-text' class='md'>$row[CONTENT]</span>
+        <span id='post-text' class='md'>$content</span>
       </div>
 RETURN;
     }
@@ -322,20 +326,22 @@ RETURN;
       while ($row = $r->fetch_assoc()){
         $img = self::getImgPath($row['USERID']);
         $uname = $row['USERNAME'];
+        $title = htmlspecialchars($row['TITLE']);
+        $content = htmlspecialchars($row['CONTENT']);
         $return .= <<<MYSQL
         <a class='post' href='onedraft.php?id=$row[DRAFTID]'>
             <img class='thumbnail' src='$img'>
 
             <div class='post-without-tn'>
               <div class='post-info'>
-                <p class='title'>$row[TITLE]</p>
+                <p class='title'>$title</p>
                 <div class='date-uname'>
                   <p class='username'>
                     $uname
                   </p>
                 </div>
               </div>
-              <span class='post-text md'>$row[CONTENT]</span>
+              <span class='post-text md'>$content</span>
             </div>
         </a>
         <hr>
@@ -344,22 +350,24 @@ MYSQL;
       return $return;
     }
 
-    function einenDraftAusgeben() {
+    function einenDraftAusgeben($id) {
       require('credentials.php');
 
-      $r = @parent::query("SELECT TITLE, CONTENT, USERNAME, U.USERID AS USERID from $drafttable D, $usertable U WHERE D.USERID = U.USERID AND DRAFTID = $_GET[id]");
+      $r = @parent::query("SELECT TITLE, CONTENT, USERNAME, U.USERID AS USERID from $drafttable D, $usertable U WHERE D.USERID = U.USERID AND DRAFTID = $id");
 
       $row = $r->fetch_assoc();
       $uname = $row['USERNAME'];
+      $title = htmlspecialchars($row['TITLE']);
+      $content = htmlspecialchars($row['CONTENT']);
       return <<<RETURN
       <div id='post'>
-        <p id='title'>$row[TITLE]</p>
+        <p id='title'>$title</p>
         <div id='post-info'>
           <p id='username-top'>
             draft by $uname
           </p>
         </div>
-        <span id='post-text' class='md'>$row[CONTENT]</span>
+        <span id='post-text' class='md'>$content</span>
       </div>
 RETURN;
     }
@@ -467,7 +475,8 @@ RETURN;
         $identifier = $_COOKIE['identifier'];
         $hashed_password = $_COOKIE['hashed_password'];
         $getDBpword = @parent::query("SELECT PASSWORD FROM $usertable WHERE IDENTIFIER = '$identifier'");
-        $DBpword = $getDBpword->fetch_assoc()['PASSWORD'];
+        $row = $getDBpword->fetch_assoc();
+        $DBpword = $row['PASSWORD'];
         if ($hashed_password == $DBpword) {
           return true;
         }
@@ -475,14 +484,33 @@ RETURN;
       return false;
     }
 
-    function pwordRequirements($pword){
+    function unameRequirements($uname) {
+      $msg = [];
+      if (strlen($uname) == 0 or ctype_space($uname) or $uname = '') {
+        array_push($msg, "Username cannot be empty or only whitespace.");
+      }
+      if (strlen($uname) > 20) {
+        array_push($msg, "Username must be at most 20 characters long.");
+      }
+      $checkExist = @parent::query("SELECT USERNAME FROM $usertable WHERE UPPER(USERNAME) = UPPER('$newUname')");
+      if ($checkExist) {
+        if ($checkExist->num_rows > 0) {
+          array_push($msg, "Username already exists.");
+        }
+      }
+      return $msg;
+    }
+
+    function pwordRequirements($pword) {
       $msg = [];
       if (strlen($pword) < 6) {
-      array_push($msg, "Password must be at minimum length of 6 letters.");
-      } else {
-        if (ctype_upper($pword) || ctype_lower($pword)) {
-          array_push($msg, "Password must contain at least one lowercase and one uppercase character.");
-        }
+        array_push($msg, "Password must be at least 6 characters long.");
+      }
+      if (!(preg_match('/[A-Z]/', $pword) && preg_match('/[a-z]/', $pword))) {
+        array_push($msg, "Password must contain at least one lowercase <b>and</b> one uppercase character.");
+      }
+      if (!(preg_match('/[A-Za-z]/', $pword) && preg_match('/[0-9]/', $pword))) {
+        array_push($msg, "Password must contain at least one letter <i>(a-z)</i> <b>and</b> one number <i>(0-9)</i>.");
       }
       return $msg;
     }
@@ -526,21 +554,15 @@ RETURN;
         $pword = $_POST["password"];
         $pwordval = $_POST["passwordval"];
 
-        $msg = self::pwordRequirements($pword);
-
-        $r = @parent::query("SELECT USERNAME FROM $usertable WHERE UPPER(USERNAME) = UPPER('$uname')");
-        if($r){
-          if ($r->num_rows > 0) {
-            array_push($msg, "Username already exists");
-          }
-        }
+        $pwordmsg = self::pwordRequirements($pword);
+        $unamemsg = self::unameRequirements($uname);
 
         if ($pword != $pwordval) {
           array_push($msg, "Passwords must match");
         }
 
         //no error|valid = true
-        if (empty($msg)) {
+        if (empty($unamemsg) && empty($pwordmsg)) {
           $hashed_password = password_hash($pword, PASSWORD_DEFAULT);
           if ($r = @parent::query("INSERT INTO $usertable (USERNAME,PASSWORD) VALUES ('$uname','$hashed_password')")) {
             $userid = @parent::query("SELECT USERID FROM $usertable WHERE USERNAME = '$uname'")->fetch_assoc()['USERID'];
@@ -552,9 +574,10 @@ RETURN;
           } else {
             array_push($msg, "Query error");
           }
+        } else {
+          return array_merge($unamemsg, $pwordmsg);
         }
       }
-      return $msg;
     }
   }
 

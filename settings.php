@@ -88,13 +88,9 @@ if (isset($_POST["savebtn"])) {
   if (isset($_POST["newUname"])) {
     $newUname = $_POST["newUname"];
     if ($newUname != $db->getUsername($userid)) {
-      $checkExist = $db->query("SELECT USERNAME FROM $usertable WHERE UPPER(USERNAME) = UPPER('$newUname')");
-      if($checkExist){
-        if ($checkExist->num_rows > 0) {
-          array_push($msg, "Username already exists");
-        }
-      }
-      if(empty($msg)){
+      if (!empty($db->unameRequirements($newUname))) {
+        $unamemsg = $db->unameRequirements($newUname);
+      } else {
         $result = $db->query("UPDATE $usertable SET USERNAME = '$newUname' WHERE USERID = $userid");
       }
     }
@@ -109,11 +105,11 @@ if (isset($_POST["savebtn"])) {
   }
 
   if ($tempimg != "assets/default-avatar.png") {
-    $imgChanged = true;
     $tempPath = $db->getTempImgPath();
     $path = $db->getImgPath($db->getCurUser());
     $newpath = DatabaseConnection::AVATAR_DIRECTORY . substr($tempPath, strlen(DatabaseConnection::TEMP_AVATAR_DIRECTORY));
     if (!is_null($tempPath)) {
+      $imgChanged = true;
       if (is_null($path)) {
         $savePath = $db->query("UPDATE images SET PATH = '$newpath', TEMP_PATH = null WHERE USERID = '$userid'");
       } else {
@@ -128,15 +124,12 @@ if (isset($_POST["savebtn"])) {
     }
     $displayimg = $newpath;
   }
-  sleep(1);
   if ($imgChanged) {
     header('Location: index#imgchange');
   } else {
     header('Location: index');
   }
 }
-
-$db->close();
 ?>
 
 <!doctype html>

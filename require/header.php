@@ -26,7 +26,7 @@ require_once('backend.php');
     <?php
     $img = $db->getImgPath($db->getCurUser());
     ?>
-    <a href=settings.php><img id='profile' src='<?=$img?>' title='Your settings'></a>
+    <a href=settings><img id='profile' src='<?=$img?>' title='Your settings'></a>
     <a href='#'>
       <button id='logout' class='secondary-btn' onclick='logout()'>log out</button>
     </a>

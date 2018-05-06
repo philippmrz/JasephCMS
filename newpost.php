@@ -11,7 +11,7 @@ if (!$db->auth()) {
 session_start();
 
 if (isset($_GET["draftid"])) {
-  $draftid = $_GET["draftid"];
+  $draftid = $db->escape_string($_GET["draftid"]);
   $userid = $db->getCurUser();
   //get draft information
   $getDraft = $db->query("SELECT * FROM $drafttable WHERE DRAFTID = '$draftid'");
@@ -102,7 +102,7 @@ if (isset($_POST["submit-draft"])) {
 
         <div id='title-wrapper'>
           <p class='char-counter' id="titlecharswrapper">200</p>
-          <input id="titleField" name="title" type="text" placeholder="Title" maxlength="200" oninput="updateCharsLeft(200, 'title')" autocomplete='off' <?= (isset($drafttitle)) ? "value='$drafttitle'" : '' ?> required autofocus>
+          <input id="titleField" name="title" type="text" placeholder="Title" maxlength="200" oninput="updateCharsLeft()" autocomplete='off' <?= (isset($drafttitle)) ? "value='$drafttitle'" : '' ?> required autofocus>
         </div>
 
         <div id='content-wrapper'>
@@ -149,6 +149,7 @@ if (isset($_POST["submit-draft"])) {
 <script>
   applyStyle();
   addCtrlEnterListener();
+  refreshContentArea();
   rezNewpost();
   updateMD();
 </script>

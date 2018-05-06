@@ -24,6 +24,8 @@ if (!isset($_GET['id'])) {
 
 if (isset($curuserid)) {
   $isself = ($curuserid == $profileID) ? true : false;
+} else {
+  $isself = false;
 }
 
 $getInfo = $db->query("SELECT substring(REGISTERED, 1, 10) AS DAY, VISIBILITY FROM $usertable WHERE USERID = $profileID");

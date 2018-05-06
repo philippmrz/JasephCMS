@@ -4,6 +4,8 @@ $db = new DatabaseConnection();
 
 if(!isset($_GET['id'])) {
   header('Location: index');
+} else {
+  $GETid = $db->escape_string($_GET['id']);
 }
 
 if(!$db->auth()) {
@@ -38,7 +40,7 @@ if (isset($_GET['del'])) {
 
     <?php
     if ($db->auth()) {
-      if ($db->getSaved($_GET['id'])) {
+      if ($db->getSaved($GETid)) {
         ?>
         <a id='remove-saved' class='floating-action-btn' href='saved.php?rem=1&id=<?= $_GET['id']?>' title='Remove this post from your saved posts'>
           <svg class='svg-24' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d='<?= getSVG('saved-check');?>'/></svg>
@@ -60,7 +62,7 @@ if (isset($_GET['del'])) {
       }
     }
     ?>
-    <?= $db->einenPostAusgeben(); ?>
+    <?= $db->einenPostAusgeben($GETid); ?>
   </div>
 </div>
 
