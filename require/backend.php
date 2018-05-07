@@ -232,9 +232,9 @@
       while ($row = $r->fetch_assoc()){
         if ($row['VISIBILITY'] == 'VISIBLE' or self::checkSelf($row['USERID']) or self::getRole(self::getCurUser()) == 'ADMIN') {
           if ($row['VISIBILITY'] == 'VISIBLE') {
-            $uname = $row['USERNAME'];
+            $uname = htmlspecialchars($row['USERNAME']);
           } else {
-            $uname = $row['USERNAME'] . "<span class='anon'>(anonymous)</span>";
+            $uname = htmlspecialchars($row['USERNAME']) . "<span class='anon'>(anonymous)</span>";
           }
           $img = self::getImgPath($row['USERID']);
         } else {
@@ -275,11 +275,12 @@ MYSQL;
       $r = @parent::query("SELECT TITLE, CONTENT, substring(DATE, 1, 10) AS DAY, substring(DATE, 12, 5) AS TIME, USERNAME, U.USERID AS USERID, VISIBILITY from $posttable P, $usertable U WHERE P.USERID = U.USERID AND POSTID = $id");
 
       $row = $r->fetch_assoc();
+      $uname = htmlspecialchars($row['USERNAME']);
       if ($row['VISIBILITY'] == 'VISIBLE' or self::checkSelf($row['USERID']) or self::getRole(self::getCurUser()) == 'ADMIN') {
         if ($row['VISIBILITY'] == 'VISIBLE') {
-          $uname = "<a href='profile?id=$row[USERID]'>$row[USERNAME]</a>";
+          $uname = "<a href='profile?id=$row[USERID]'>$uname</a>";
         } else {
-          $uname = "<a href='profile?id=$row[USERID]'>$row[USERNAME] <span class='anon'>(anonymous)</span></a>";
+          $uname = "<a href='profile?id=$row[USERID]'>$uname <span class='anon'>(anonymous)</span></a>";
         }
       } else {
         $uname = 'Anonymous';
@@ -325,7 +326,7 @@ RETURN;
       }
       while ($row = $r->fetch_assoc()){
         $img = self::getImgPath($row['USERID']);
-        $uname = $row['USERNAME'];
+        $uname = htmlspecialchars($row['USERNAME']);
         $title = htmlspecialchars($row['TITLE']);
         $content = htmlspecialchars($row['CONTENT']);
         $return .= <<<MYSQL
@@ -356,7 +357,7 @@ MYSQL;
       $r = @parent::query("SELECT TITLE, CONTENT, USERNAME, U.USERID AS USERID from $drafttable D, $usertable U WHERE D.USERID = U.USERID AND DRAFTID = $id");
 
       $row = $r->fetch_assoc();
-      $uname = $row['USERNAME'];
+      $uname = htmlspecialchars($row['USERNAME']);
       $title = htmlspecialchars($row['TITLE']);
       $content = htmlspecialchars($row['CONTENT']);
       return <<<RETURN
@@ -485,6 +486,7 @@ RETURN;
     }
 
     function unameRequirements($uname) {
+      require('credentials.php');
       $msg = [];
       if (strlen($uname) == 0 or ctype_space($uname) or $uname == '') {
         array_push($msg, "Username cannot be empty or only whitespace.");
@@ -495,10 +497,12 @@ RETURN;
       if (!preg_match('/^[a-zA-Z0-9_]*$/', $uname)) {
         array_push($msg, "Username can only contain alphanumeric characters (a-z, 0-9, _).");
       }
-      $checkExist = @parent::query("SELECT USERNAME FROM $usertable WHERE UPPER(USERNAME) = UPPER('$newUname')");
-      if ($checkExist) {
-        if ($checkExist->num_rows > 0) {
-          array_push($msg, "Username already exists.");
+      if ($uname != self::getUsername(self::getCurUser())) {
+        $checkExist = @parent::query("SELECT USERNAME FROM $usertable WHERE UPPER(USERNAME) = UPPER('$uname')");
+        if ($checkExist) {
+          if ($checkExist->num_rows > 0) {
+            array_push($msg, "Username already exists.");
+          }
         }
       }
       return $msg;
@@ -522,8 +526,8 @@ RETURN;
       require('credentials.php');
       $msg = [];
       if (isset($_POST["logbtn"])) {
-        $uname = $_POST['uname'];
-        $pword = $_POST['password'];
+        $uname = @parent::escape_string($_POST['uname']);
+        $pword = @parent::escape_string($_POST['password']);
         if (!empty($uname) && !empty($pword)) {
           if ($getInfo = @parent::query("SELECT PASSWORD, USERID FROM $usertable WHERE USERNAME='$uname'")) {
             $row = $getInfo->fetch_assoc();
@@ -553,9 +557,9 @@ RETURN;
       require('credentials.php');
       $msg = [];
       if (isset($_POST["regbtn"])) {
-        $uname = $_POST["username"];
-        $pword = $_POST["password"];
-        $pwordval = $_POST["passwordval"];
+        $uname = @parent::escape_string($_POST["username"]);
+        $pword = @parent::escape_string($_POST["password"]);
+        $pwordval = @parent::escape_string($_POST["passwordval"]);
 
         $pwordmsg = self::pwordRequirements($pword);
         $unamemsg = self::unameRequirements($uname);

@@ -28,7 +28,7 @@ $msg = $db->register();
       <?php
       if (!empty($msg)) {
         foreach ($msg as $text) {
-          echo "<font size=\"2px\" color=\"red\"><i>" . $text . "</font></i><br>";
+          echo "<span class='info-msg'>$text</span>";
         }
       }
       ?>

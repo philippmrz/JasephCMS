@@ -131,7 +131,7 @@ if (isset($_POST["confbtn"])) {
                 <tr>
                 <?php
                 foreach ($row as $elem) {
-                  echo"<td>".$elem."</td>";
+                  echo"<td>".htmlspecialchars($elem)."</td>";
                 }
                 ?>
 

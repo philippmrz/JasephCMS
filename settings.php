@@ -80,18 +80,19 @@ if (isset($_POST["cancelbtn"])) {
     unlink($db->getTempImgPath());
     $deletetempPath = $db->query("UPDATE $imgtable SET TEMP_PATH = null WHERE USERID='$userid'");
   }
-  header("location: index");
+  header("location: settings");
 }
 
 if (isset($_POST["savebtn"])) {
-  $msg = [];
+  $unamemsg = [];
   if (isset($_POST["newUname"])) {
-    $newUname = $_POST["newUname"];
+    $newUname = $db->escape_string($_POST["newUname"]);
     if ($newUname != $db->getUsername($userid)) {
       if (!empty($db->unameRequirements($newUname))) {
         $unamemsg = $db->unameRequirements($newUname);
       } else {
         $result = $db->query("UPDATE $usertable SET USERNAME = '$newUname' WHERE USERID = $userid");
+        array_push($unamemsg, "Successfully changed username.");
       }
     }
   }
@@ -121,13 +122,8 @@ if (isset($_POST["savebtn"])) {
         }
       }
       rename($tempPath, $newpath);
+      $displayimg = $newpath;
     }
-    $displayimg = $newpath;
-  }
-  if ($imgChanged) {
-    header('Location: index#imgchange');
-  } else {
-    header('Location: index');
   }
 }
 ?>
@@ -156,6 +152,14 @@ if (isset($_POST["savebtn"])) {
         <h1 id='settings-title2'>ACCOUNT</h1>
         <p>Username</p>
         <input id="settings-username" type="text" name="newUname" maxlength="20" value="<?=$db->getUsername($userid)?>"/>
+        <p>
+          <?php
+          if (!empty($unamemsg)) {
+            foreach ($unamemsg as $text) {
+              echo "<span class='info-msg'>$text</span><br>";
+            }
+          }
+          ?>
         <hr>
         <p>Change Password</p>
         <input class="settings-password" type="password" name="oldPword" placeholder="Old Password"/><br>
@@ -165,7 +169,7 @@ if (isset($_POST["savebtn"])) {
           <?php
           if (!empty($pwordmsg)) {
             foreach ($pwordmsg as $text) {
-              echo "<font size=\"2px\" color=\"red\"><i>" . $text . "</font></i><br>";
+              echo "<span class='info-msg'>$text</span><br>";
             }
           }
           ?>

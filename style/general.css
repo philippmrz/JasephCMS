@@ -111,6 +111,16 @@ select {
   color: #666;
 }
 
+.info-msg {
+  font-style: italic;
+  color: red;
+  font-size: 0.8rem;
+}
+
+.info-msg * {
+  color: red;
+}
+
 /* Default buttons */
 .primary-btn {
   background-color: var(--accent-color);
