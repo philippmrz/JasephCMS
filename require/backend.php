@@ -486,11 +486,14 @@ RETURN;
 
     function unameRequirements($uname) {
       $msg = [];
-      if (strlen($uname) == 0 or ctype_space($uname) or $uname = '') {
+      if (strlen($uname) == 0 or ctype_space($uname) or $uname == '') {
         array_push($msg, "Username cannot be empty or only whitespace.");
       }
       if (strlen($uname) > 20) {
         array_push($msg, "Username must be at most 20 characters long.");
+      }
+      if (!preg_match('/^[a-zA-Z0-9_]*$/', $uname)) {
+        array_push($msg, "Username can only contain alphanumeric characters (a-z, 0-9, _).");
       }
       $checkExist = @parent::query("SELECT USERNAME FROM $usertable WHERE UPPER(USERNAME) = UPPER('$newUname')");
       if ($checkExist) {

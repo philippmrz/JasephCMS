@@ -99,10 +99,11 @@ if ($visible or $isself or $admin) {
           if ($amtPosts > 0) {
             $return = '';
             while ($row = $getPosts->fetch_assoc()) {
+              $title = htmlspecialchars($row['TITLE']);
               $return .= <<<RETURN
               <a class='profile-post' href='onepost.php?id=$row[POSTID]'>
                 <div class='profile-post-title'>
-                  $row[TITLE]
+                  $title
                 </div>
                 <div class='profile-post-date'>
                   <span class='profile-post-day'>
