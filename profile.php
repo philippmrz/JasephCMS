@@ -101,7 +101,7 @@ if ($visible or $isself or $admin) {
             while ($row = $getPosts->fetch_assoc()) {
               $title = htmlspecialchars($row['TITLE']);
               $return .= <<<RETURN
-              <a class='profile-post' href='onepost.php?id=$row[POSTID]'>
+              <a class='profile-post' href='onepost?id=$row[POSTID]'>
                 <div class='profile-post-title'>
                   $title
                 </div>
@@ -124,7 +124,7 @@ RETURN;
       </div>
     </div>
     <?php if($db->auth()): ?>
-      <a title='Sort chronologically or reverse chronologically' class='floating-action-btn' href='profile.php?id=<?= $profileID?>&sort=<?= invertSortOrder()?>'>
+      <a title='Sort chronologically or reverse chronologically' class='floating-action-btn' href='profile?id=<?= $profileID?>&sort=<?= invertSortOrder()?>'>
         <?= getSortSVG() ?>
       </a>
     <?php endif; ?>

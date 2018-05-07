@@ -42,20 +42,20 @@ if (isset($_GET['del'])) {
     if ($db->auth()) {
       if ($db->getSaved($GETid)) {
         ?>
-        <a id='remove-saved' class='floating-action-btn' href='saved.php?rem=1&id=<?= $_GET['id']?>' title='Remove this post from your saved posts'>
+        <a id='remove-saved' class='floating-action-btn' href='saved?rem=1&id=<?= $_GET['id']?>' title='Remove this post from your saved posts'>
           <svg class='svg-24' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d='<?= getSVG('saved-check');?>'/></svg>
         </a>
         <?php
       } else {
         ?>
-        <a class='floating-action-btn' href='saved.php?id=<?= $_GET['id']?>' title='Add this post to your saved posts'>
+        <a class='floating-action-btn' href='saved?id=<?= $_GET['id']?>' title='Add this post to your saved posts'>
           <svg class='svg-24' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d='<?= getSVG('saved-add');?>'/></svg>
         </a>
         <?php
       }
       if ($db->getRole($userid) == 'ADMIN'){
         ?>
-        <a id='delete-post' class='floating-action-btn' href='onepost.php?del=1&id=<?=$_GET['id']?>' title='Delete this post'>
+        <a id='delete-post' class='floating-action-btn' href='onepost?del=1&id=<?=$_GET['id']?>' title='Delete this post'>
           <svg class='svg-24' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d='<?= getSVG('delete');?>'/></svg>
         </a>
         <?php

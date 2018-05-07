@@ -35,7 +35,7 @@ $msg = $db->login();
       }
       ?>
 
-      <p id="sub">No Account yet? Click <a href="register.php">here</a> to register</p>
+      <p id="sub">No Account yet? Click <a href="register">here</a> to register</p>
 
     </form>
   </div>

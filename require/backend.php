@@ -245,7 +245,7 @@
         $title = htmlspecialchars($row['TITLE']);
         $content = htmlspecialchars($row['CONTENT']);
         $return .= <<<MYSQL
-        <a class='post' href='onepost.php?id=$row[POSTID]'>
+        <a class='post' href='onepost?id=$row[POSTID]'>
             <img class='thumbnail' src='$img'>
 
             <div class='post-without-tn'>
@@ -275,16 +275,25 @@ MYSQL;
       $r = @parent::query("SELECT TITLE, CONTENT, substring(DATE, 1, 10) AS DAY, substring(DATE, 12, 5) AS TIME, USERNAME, U.USERID AS USERID, VISIBILITY from $posttable P, $usertable U WHERE P.USERID = U.USERID AND POSTID = $id");
 
       $row = $r->fetch_assoc();
+
       $uname = htmlspecialchars($row['USERNAME']);
-      if ($row['VISIBILITY'] == 'VISIBLE' or self::checkSelf($row['USERID']) or self::getRole(self::getCurUser()) == 'ADMIN') {
-        if ($row['VISIBILITY'] == 'VISIBLE') {
-          $uname = "<a href='profile?id=$row[USERID]'>$uname</a>";
+
+      if ($row['VISIBILITY'] == 'VISIBLE') {
+        if (self::checkSelf($row['USERID'])) {
+          $uname = "<a href='profile?id=$row[USERID]'>you</a>";
         } else {
-          $uname = "<a href='profile?id=$row[USERID]'>$uname <span class='anon'>(anonymous)</span></a>";
+          $uname = "<a href='profile?id=$row[USERID]'>$uname</a>";
         }
       } else {
-        $uname = 'Anonymous';
+        if (self::checkSelf($row['USERID'])) {
+          $uname = "<a href='profile?id=$row[USERID]'>you <span class='anon'>(anonymous)</span></a>";
+        } elseif (self::getRole(self::getCurUser()) == 'ADMIN') {
+          $uname = "<a href='profile?id=$row[USERID]'>$uname <span class='anon'>(anonymous)</span></a>";
+        } else {
+          $uname = 'Anonymous';
+        }
       }
+
       $title = htmlspecialchars($row['TITLE']);
       $content = htmlspecialchars($row['CONTENT']);
       return <<<RETURN
@@ -330,7 +339,7 @@ RETURN;
         $title = htmlspecialchars($row['TITLE']);
         $content = htmlspecialchars($row['CONTENT']);
         $return .= <<<MYSQL
-        <a class='post' href='onedraft.php?id=$row[DRAFTID]'>
+        <a class='post' href='onedraft?id=$row[DRAFTID]'>
             <img class='thumbnail' src='$img'>
 
             <div class='post-without-tn'>
@@ -355,9 +364,13 @@ MYSQL;
       require('credentials.php');
 
       $r = @parent::query("SELECT TITLE, CONTENT, USERNAME, U.USERID AS USERID from $drafttable D, $usertable U WHERE D.USERID = U.USERID AND DRAFTID = $id");
-
       $row = $r->fetch_assoc();
-      $uname = htmlspecialchars($row['USERNAME']);
+      $userid = $row['USERID'];
+      if ($userid == self::getCurUser()) {
+        $uname = 'you';
+      } else {
+        $uname = htmlspecialchars($row['USERNAME']);
+      }
       $title = htmlspecialchars($row['TITLE']);
       $content = htmlspecialchars($row['CONTENT']);
       return <<<RETURN
@@ -365,7 +378,7 @@ MYSQL;
         <p id='title'>$title</p>
         <div id='post-info'>
           <p id='username-top'>
-            draft by $uname
+            draft by <a href='profile?id=$userid'>$uname</a>
           </p>
         </div>
         <span id='post-text' class='md'>$content</span>

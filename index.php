@@ -35,7 +35,7 @@ require_once('require/backend.php');
     echo $db->postsAusgeben(isset($_GET['sort']) ? $_GET['sort'] : 'DESC');
 
     if($db->auth()): ?>
-      <a title='Sort chronologically or reverse chronologically' class='floating-action-btn' href='index.php?sort=<?= invertSortOrder()?>'>
+      <a title='Sort chronologically or reverse chronologically' class='floating-action-btn' href='index?sort=<?= invertSortOrder()?>'>
         <?= getSortSVG() ?>
       </a>
     <?php endif; ?>

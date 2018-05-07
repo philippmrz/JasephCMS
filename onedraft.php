@@ -1,5 +1,5 @@
 <?php require_once 'require/backend.php';
-
+require 'require/credentials.php';
 $db = new DatabaseConnection();
 
 if(!$db->auth() or !isset($_GET['id'])) {
@@ -8,7 +8,11 @@ if(!$db->auth() or !isset($_GET['id'])) {
   $GETid = $db->escape_string($_GET['id']);
 }
 
-$userid = $db->getCurUser();
+$getOwner = $db->query("SELECT USERID FROM $drafttable WHERE DRAFTID = $GETid");
+$owner = $getOwner->fetch_assoc()['USERID'];
+if (($owner != $db->getCurUser()) and $db->getRole($db->getCurUser()) != 'ADMIN') {
+  header('Location: index');
+}
 
 if (isset($_GET['del'])) {
   if ($_GET['del'] == 1) {
@@ -31,7 +35,7 @@ if (isset($_GET['del'])) {
   <?php require 'require/sidebar.php'; ?>
   <div id='content'>
 
-  <a id='delete-draft' class='floating-action-btn' href='onedraft.php?del=1&id=<?=$_GET['id']?>' title='Delete this draft'>
+  <a id='delete-draft' class='floating-action-btn' href='onedraft?del=1&id=<?=$_GET['id']?>' title='Delete this draft'>
     <svg class='svg-24' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d='<?= getSVG('delete');?>'/></svg>
   </a>
 

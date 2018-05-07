@@ -3,18 +3,18 @@ require_once('require/backend.php');
 require('require/credentials.php');
 
 if (!$db->auth()) {
-  header('location: index.php');
+  header('location: index');
 }
 
 $userid = $db->getCurUser();
 
 //check for admin
 if ($db->getRole($userid) != 'ADMIN') {
-  header('location: index.php');
+  header('location: index');
 }
 
 if (isset($_POST["canclbtn"])) {
-  header("location: settings.php");
+  header("location: settings");
 }
 
 if (isset($_POST["confbtn"])) {
