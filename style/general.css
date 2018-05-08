@@ -300,7 +300,7 @@ select {
 }
 
 #svg-logo {
-  height: 50px;
+  height: 40px;
 }
 
 #svg-logo-inner {
@@ -312,7 +312,7 @@ select {
 }
 
 #svg-jaseph {
-  height: 50px;
+  height: 40px;
 }
 
 #svg-jaseph path {
@@ -553,6 +553,16 @@ select {
     grid-area: 1 / 1 / 1 / 1;
   }
 
+  #btn-holder {
+    display: grid;
+    grid-template-rows: auto;
+    grid-template-columns: auto auto auto;
+  }
+
+  #btn-holder > * {
+    margin-left: 2vw;
+  }
+
   #sidebar, #sidebar * {
     display: none;
   }
@@ -568,7 +578,7 @@ select {
   }
 
   #svg-logo {
-    height: 60px;
+    height: 50px;
   }
 
   #svg-jaseph {
@@ -580,10 +590,6 @@ select {
   }
   .secondary-btn {
     padding: 4px 9px;
-  }
-
-  #btn-holder > * {
-    margin-left: 10px;
   }
 
   .floating-action-btn {

@@ -4,11 +4,11 @@ require_once('backend.php');
 
 <div id='header'>
   <a id='logo-wrapper' href='index' title='Go to main page'>
-    <svg id='svg-logo' viewBox="0 0 120 200">
+    <svg id='svg-logo' viewBox="0 0 120 170">
       <path id='svg-logo-inner' d="<?= getSVG('logo-inner')?>" />
       <path id='svg-logo-outer' d="<?= getSVG('logo-outer')?>" />
     </svg>
-    <svg id='svg-jaseph' viewBox=" 130 0 500 200">
+    <svg id='svg-jaseph' viewBox=" 130 0 500 170">
       <path d="<?= getSVG('jaseph')?>" />
     </svg>
     <!--<img id='head-logo'>-->

@@ -113,7 +113,7 @@ if (isset($_POST["confbtn"])) {
                 <tr>
                   <?php
                   foreach ($heads as $elem) {
-                    echo "<th>".$elem."</th>";
+                    echo "<th>$elem</th>";
                   }
                   ?>
 
