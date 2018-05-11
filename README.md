@@ -17,6 +17,7 @@ $db_password   = <db user password>;
 $db_name     = 'jaseph';
 $usertable  = 'user';
 $posttable  = 'post';
+$drafttable = 'draft';
 $imgtable   = 'images';
 ?>
 ```
@@ -39,6 +40,7 @@ $db_password   = <db user password>;
 $db_name     = 'jaseph';
 $usertable  = 'user';
 $posttable  = 'post';
+$drafttable = 'draft';
 $imgtable   = 'images';
 ?>
 ```
