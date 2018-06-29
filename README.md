@@ -6,6 +6,7 @@ This CMS is still in an early stage and does not include **any** security measur
 
 ### Installation with docker
 * Clone repository to local machine.
+* Enter MySQL root password inside docker-compose.yml
 * Run `docker-compose up` (if necessary with root permissions) inside `docker/` directory.
 * Create file with name `credentials.php` inside `require/` with content:
 
@@ -21,7 +22,7 @@ $drafttable = 'draft';
 $imgtable   = 'images';
 ?>
 ```
-* Fill in your `$db_username` and `$db_password`.
+* Fill in your `$db_username` and `$db_password` from the docker-compose file earlier.
 * `$db_servername` must be `db`
 * Visit `localhost` with port `8000`
 
