@@ -245,6 +245,7 @@ showdown.setOption('strikethrough', true);
 showdown.setOption('tables', true);
 showdown.setOption('smoothLivePreview', true);
 showdown.setOption('noHeaderId', true);
+showdown.setOption('simplifiedAutoLink', true);
 
 function updateMD() {
     elements = document.getElementsByClassName('md');

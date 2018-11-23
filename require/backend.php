@@ -80,7 +80,7 @@
 
     // Constructor, this gets called every time a new instance of DatabaseConnection is created
     function __construct() {
-      require('credentials.php');
+      require('require/credentials.php');
       $instance = @parent::__construct($db_servername, $db_username, $db_password, $db_name);
 
       if ($this->connect_error) {
