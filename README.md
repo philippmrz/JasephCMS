@@ -1,4 +1,4 @@
-<img src=https://rawgit.com/phmrz/JasephCMS/master/assets/jaseph_normal.png width=250px>
+<img src=https://cdn.jsdelivr.net/gh/phmrz/JasephCMS@master/assets/jaseph_normal.png width=250px>
 
 Jaseph Content Management System created by <a href=https://github.com/phmrz>phmrz</a>, <a href=https://github.com/Kaeks>Kaeks</a> and <a href=https://github.com/Zaby0>Zaby0</a>.
 
